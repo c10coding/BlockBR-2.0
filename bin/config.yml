@@ -1,0 +1,45 @@
+#MYSQL DATA
+Host: "51.81.5.51"
+Port: 3306
+Database: "serverpro_db"
+Username: "root"
+Password: "0GlWRDr9jYOS05g"
+
+#Reward types can be the following:
+# - Crates, Money, Items, MoneyI (Money and Items), and MoneyC
+# NOT CASE SENSITIVE
+
+RewardType: Crates
+
+TierList:
+- Grass
+- Log
+#- Stone
+#- Coal
+#- Iron
+#- Redstone
+#- Lapis Lazuli
+#- Nether Quartz
+#- Gold
+#- Obsidian
+#- Diamond
+#- Emerald
+
+
+Tiers:
+
+  Grass:
+    Properties:
+      Multiplier: 2.0
+      Threshold: 750
+      Reward: 
+        RewardType: Money
+        
+  Log:
+    Properties:
+      Multiplier: 2.0
+      Threshold: 750
+      Reward: 
+        RewardType: Money        
+        
+        
