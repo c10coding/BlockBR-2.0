@@ -3,3 +3,15 @@ version: 2.0
 main: me.caleb.BlockBR.Main
 author: Caleb Owens
 api-version: 1.13
+
+commands:
+  blockbr:
+    description: Regular commands
+    permission: blockbr.use
+    aliases: [bbr]
+    default: true
+  blockbra:
+    description: Admin commands
+    permission: blockbr.admin
+    aliases: [bbra]
+    defaut: op

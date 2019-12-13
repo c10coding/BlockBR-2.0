@@ -1,5 +1,7 @@
 package me.caleb.BlockBR.admin;
 
+import org.bukkit.Bukkit;
+
 import me.caleb.BlockBR.Main;
 
 public class Tier {
@@ -11,7 +13,7 @@ public class Tier {
 		this.plugin = plugin;
 	}
 	
-	public void tierAdd() {
+	public void tierAdd(String tierName) {
 		
 	}
 	
@@ -36,7 +38,7 @@ public class Tier {
 	}
 	
 	public String getRewardType(String tier) {
-		rewardType = plugin.getConfig().getString(tier+"Propeties.Reward.RewardType");
+		rewardType = plugin.getConfig().getString("Tiers." + tier+".Properties.Reward.RewardType");
 		return rewardType;
 	}
 	

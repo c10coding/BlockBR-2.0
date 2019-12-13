@@ -30,6 +30,7 @@ Tiers:
 
   Grass:
     Properties:
+      Material: Material.GRASS_BLOCK
       Multiplier: 2.0
       Threshold: 750
       Reward: 
@@ -37,6 +38,7 @@ Tiers:
         
   Log:
     Properties:
+      Material: Material.OAK_LOG
       Multiplier: 2.0
       Threshold: 750
       Reward: 
