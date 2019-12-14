@@ -28,20 +28,13 @@ TierList:
 
 Tiers:
 
-  Grass:
-    Properties:
-      Material: Material.GRASS_BLOCK
-      Multiplier: 2.0
-      Threshold: 750
-      Reward: 
-        RewardType: Money
-        
-  Log:
-    Properties:
-      Material: Material.OAK_LOG
-      Multiplier: 2.0
-      Threshold: 750
-      Reward: 
-        RewardType: Money        
+  #Grass:
+    #Properties:
+      #Material: Material.GRASS_BLOCK
+      #Multiplier: 2.0
+      #Threshold: 750
+      #Reward: 
+        #RewardType: Money
+          
         
         

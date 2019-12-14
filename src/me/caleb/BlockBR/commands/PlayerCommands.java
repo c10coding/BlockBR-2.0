@@ -31,10 +31,20 @@ public class PlayerCommands implements CommandExecutor{
 				Chat.sendConsoleMessage("You must be a player!");
 			}else {
 				//Args[1] should be the tierName
-				if(args[0].equalsIgnoreCase("add") && !args[1].isEmpty()) {
-					Tier t = new Tier(plugin);
-					t.tierAdd(args[1]);
+				if(player.hasPermission("blockbr.admin")) {
+					//0 is tier, 1 is add or remove, 2 is tiername
+					if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("add") && !args[2].isEmpty()) {
+						Tier t = new Tier(plugin);
+						t.tierAdd(args[2], player);
+						t.configWork(args[2], args[1]);
+					}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
+						Tier t = new Tier(plugin);
+						t.tierRemove(args[2], player);
+						t.configWork(args[2], args[1]);
+					}
+					
 				}
+				
 			}
 			
 		}catch(ArrayIndexOutOfBoundsException e) {
