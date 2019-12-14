@@ -3,6 +3,7 @@ package me.caleb.BlockBR.admin;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,7 +38,8 @@ public class Tier {
 			return;
 		}
 		
-		Chat.sendPlayerMessage(p, "The tier has been added to the database!");
+		Chat.sendPlayerMessage(p, "The new tier has been created!");
+		Chat.sendConsoleMessage("The new tier " + tierName.toUpperCase() + " has been added to the database!");
 	}
 	
 	/*
@@ -50,14 +52,17 @@ public class Tier {
 		try {
 			String query = "ALTER TABLE `blockbr2` DROP " + tierName;
 			PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
+			
 			stmt.executeUpdate();
 		}catch(SQLException e) {
 			Chat.sendPlayerMessage(p, "There has been an error while removing the tier");
-			Chat.sendPlayerMessage(p, "Are you sure there is a tier named &6&l" + tierName + " &rin the database?");
+			Chat.sendPlayerMessage(p, "Are you sure there is a tier named &6&l" + tierName.toUpperCase() + " &rin the database?");
+			Chat.sendConsoleMessage("Are you sure there is a tier named &6&l" + tierName.toUpperCase() + " &rin the database?");
 			return;
 		}
 		
-		Chat.sendPlayerMessage(p, "The tier has been removed");		
+		Chat.sendPlayerMessage(p, "The tier has been removed");	
+		Chat.sendConsoleMessage("The tier " + tierName.toUpperCase() + " has been removed?");
 	}
 	
 	/*
@@ -69,6 +74,10 @@ public class Tier {
 		FileConfiguration config = plugin.getConfig();
 		action = action.toLowerCase();
 		
+		//Removes the tier from the "TierList" list
+		
+		
+		//Removes the tier from the "Tiers" section
 		switch(action) {
 		
 			case "add":
@@ -76,6 +85,10 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.Threshold", 500);
 				config.set("Tiers." + tierName + ".Properties.Reward.RewardType", "Crates");
+				
+				List<String> tierList = (List<String>) config.getList("TierList");
+				tierList.add(tierName);
+				
 				break;
 			case "remove":
 				config.set("Tiers." + tierName + ".Properties.Material",null);
@@ -85,17 +98,25 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Reward", null);
 				config.set("Tiers." + tierName + ".Properties", null);
 				config.set("Tiers." + tierName, null);
+				config.getList("TierList").remove(tierName);
 				break;
-			case "edit":
+			default:
 				break;
-				
 		}
 		
 		plugin.saveConfig();
 		
 	}
 	
-	public void tierEdit() {
+	public void tierEdit(String name, String property, String v) {
+		
+		switch(property) {
+		case "mult":
+			double value = Double.parseDouble(v);
+			if(value < 0) {
+				
+			}
+		}
 		
 	}
 	

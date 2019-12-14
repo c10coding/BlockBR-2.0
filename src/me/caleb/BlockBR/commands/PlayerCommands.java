@@ -25,6 +25,7 @@ public class PlayerCommands implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		player = (Player) sender;
+		Tier t = new Tier(plugin);
 		try {
 			
 			if(!(sender instanceof Player)) {
@@ -34,12 +35,13 @@ public class PlayerCommands implements CommandExecutor{
 				if(player.hasPermission("blockbr.admin")) {
 					//0 is tier, 1 is add or remove, 2 is tiername
 					if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("add") && !args[2].isEmpty()) {
-						Tier t = new Tier(plugin);
 						t.tierAdd(args[2], player);
 						t.configWork(args[2], args[1]);
 					}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
-						Tier t = new Tier(plugin);
 						t.tierRemove(args[2], player);
+						t.configWork(args[2], args[1]);
+					}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
+						t.tierEdit(args[2], args[3], args[4]);
 						t.configWork(args[2], args[1]);
 					}
 					
