@@ -21,7 +21,6 @@ public class Tier {
 	private Main plugin;
 	private String rewardType = null;
 	
-	
 	public Tier(Main plugin) {
 		this.plugin = plugin;
 	}
@@ -74,6 +73,7 @@ public class Tier {
 	 * of anything within the config
 	 */
 	public void configWork(String tierName, String action) {
+		
 		
 		FileConfiguration config = plugin.getConfig();
 		action = action.toLowerCase();	

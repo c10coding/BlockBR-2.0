@@ -26,9 +26,6 @@ public class Main extends JavaPlugin{
 	private int port;
 	public static Economy economy = null;
 	
-	private File customConfigFile;
-    private FileConfiguration customConfig;
-	
 	@Override
 	public void onEnable() {
 		
@@ -114,37 +111,6 @@ public class Main extends JavaPlugin{
         }
 			
 	}
-	/*
-	public void createRewardsConfig() {
-		customConfigFile = new File(getDataFolder(), "rewards.yml");
-		
-		if(!customConfigFile.exists()) {
-			customConfigFile.getParentFile().mkdir();
-			saveResource("rewards.yml",false);
-		}
-		
-		customConfig= new YamlConfiguration();
-		
-		try {
-			try {
-				customConfig.load(customConfigFile);
-			} catch (InvalidConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public FileConfiguration getRewardsConfig() {
-        return this.customConfig;
-    }*/
-	
 	
 
 }

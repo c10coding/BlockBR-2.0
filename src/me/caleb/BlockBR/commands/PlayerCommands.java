@@ -48,9 +48,9 @@ public class PlayerCommands implements CommandExecutor{
 						t.configWork(args[2], args[1]);
 					//Crates
 					//bbr rewardadd (tier) (rewardType) (Crate)
-					}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && !args[2].isEmpty() && !args[3].isEmpty()) {
+					}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
 						r.rewardAdd(player, args[1], args[2], args[3]);
-						player.sendMessage("we here");
+						Chat.sendPlayerMessage(player, "test");
 					}
 					
 				}
