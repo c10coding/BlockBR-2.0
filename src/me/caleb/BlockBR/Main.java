@@ -40,7 +40,7 @@ public class Main extends JavaPlugin{
 		
 		mysqlSetup();
 		loadConfig();
-		createRewardsConfig();
+		//createRewardsConfig();
 		
 		new BlockBroke(this);
 		new PlayerCommands(this);
@@ -114,7 +114,7 @@ public class Main extends JavaPlugin{
         }
 			
 	}
-	
+	/*
 	public void createRewardsConfig() {
 		customConfigFile = new File(getDataFolder(), "rewards.yml");
 		
@@ -141,9 +141,9 @@ public class Main extends JavaPlugin{
 		}
 	}
 	
-	public FileConfiguration getCustomConfig() {
+	public FileConfiguration getRewardsConfig() {
         return this.customConfig;
-    }
+    }*/
 	
 	
 

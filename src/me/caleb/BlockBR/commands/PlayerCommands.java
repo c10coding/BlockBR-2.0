@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
+import me.caleb.BlockBR.admin.Rewards;
 import me.caleb.BlockBR.admin.Tier;
 import me.caleb.BlockBR.utils.Chat;
 
@@ -26,6 +27,8 @@ public class PlayerCommands implements CommandExecutor{
 		
 		player = (Player) sender;
 		Tier t = new Tier(plugin);
+		Rewards r = new Rewards(plugin);
+		
 		try {
 			
 			if(!(sender instanceof Player)) {
@@ -41,8 +44,13 @@ public class PlayerCommands implements CommandExecutor{
 						t.tierRemove(args[2], player);
 						t.configWork(args[2], args[1]);
 					}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
-						t.tierEdit(args[2], args[3], args[4]);
+						t.tierEdit(args[2], args[3], args[4], player);
 						t.configWork(args[2], args[1]);
+					//Crates
+					//bbr rewardadd (tier) (rewardType) (Crate)
+					}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && !args[2].isEmpty() && !args[3].isEmpty()) {
+						r.rewardAdd(player, args[1], args[2], args[3]);
+						player.sendMessage("we here");
 					}
 					
 				}

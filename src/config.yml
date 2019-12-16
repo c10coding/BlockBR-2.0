@@ -5,11 +5,17 @@ Database: "serverpro_db"
 Username: "root"
 Password: "0GlWRDr9jYOS05g"
 
-#Reward types can be the following:
+#MineType
+#Choices are Group (default), OnebyOne, All
+# Group by group: There are 3 groups of tiers.
+# OneByOne: You can do one tier at a time
+# All: You can do all the tiers at once
+
+MineType: Group
+
+# Reward types can be the following:
 # - Crates, Money, Items, MoneyI (Money and Items), and MoneyC
 # NOT CASE SENSITIVE
-
-RewardType: Crates
 
 TierList:
 - Grass
@@ -28,13 +34,19 @@ TierList:
 
 Tiers:
 
-  #Grass:
-    #Properties:
-      #Material: Material.GRASS_BLOCK
-      #Multiplier: 2.0
-      #Threshold: 750
-      #Reward: 
+  Grass:
+    Properties:
+      Material: Material.GRASS_BLOCK
+      Multiplier: 2.0
+      Threshold: 750
+      Rewards: 
         #RewardType: Money
+        Money: 0
+        Crate: CrateNameGoesHere
+        Item: 
+        - name:(ItemName) amount:amount Enchants: Damage_all   
+        Command:
+        - give %player% apple 64      
           
         
         

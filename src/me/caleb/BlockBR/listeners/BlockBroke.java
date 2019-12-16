@@ -28,7 +28,7 @@ public class BlockBroke implements Listener{
 		String playerName = player.getName();
 		GetData gd = new GetData(plugin);
 		
-		Chat.sendPlayerMessage(player, playerName);
+		//Chat.sendPlayerMessage(player, playerName);
 		
 		//The region plugins cancel the block breaking. If it's cancelled, e.isCancelled is true
 		if(e.isCancelled()) {
