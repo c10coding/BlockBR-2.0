@@ -1,37 +1,25 @@
-#MineType
-#Choices are Group (default), OnebyOne, All
-# Group by group: There are 3 groups of tiers.
-# OneByOne: You can do one tier at a time
-# All: You can do all the tiers at once
-
-
-
-# Reward types can be the following:
-# Crates, Money, Items, MoneyI (Money and Items), and MoneyC
-# NOT CASE SENSITIVE
-
-MineType: Group
-
-#MYSQL DATA
+# MYSQL DATA
 Host: "51.81.5.51"
 Port: 3306
 Database: "serverpro_db"
 Username: "root"
 Password: "0GlWRDr9jYOS05g"
 
+# MineType
+# Choices are Group (default), OnebyOne, All
+# Group by group: There are 3 groups of tiers.
+# OneByOne: You can do one tier at a time
+# All: You can do all the tiers at once
+
+MineType: Group
+
+# Reward types can be the following:
+# Crates, Money, Items, MoneyI (Money and Items), and MoneyC
+# NOT CASE SENSITIVE
+
 TierList:
 - Grass
-- Log
-#- Stone
-#- Coal
-#- Iron
-#- Redstone
-#- Lapis Lazuli
-#- Nether Quartz
-#- Gold
-#- Obsidian
-#- Diamond
-#- Emerald
+
 
 
 Tiers:
@@ -42,7 +30,7 @@ Tiers:
       Multiplier: 2.0
       Threshold: 750
       Rewards: 
-        #If you do not want a reward, enter the value as "false"
+        #RewardType: Money
         Money: 0
         Crate: CrateNameGoesHere
         Item: 

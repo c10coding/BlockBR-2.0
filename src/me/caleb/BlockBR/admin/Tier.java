@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.sampled.BooleanControl.Type;
@@ -20,9 +21,11 @@ public class Tier {
 
 	private Main plugin;
 	private String rewardType = null;
+	private FileConfiguration config = null;
 	
 	public Tier(Main plugin) {
 		this.plugin = plugin;
+		config = plugin.getConfig();
 	}
 	/*
 	 * Method crates a column within the database with the tier name
@@ -75,7 +78,6 @@ public class Tier {
 	public void configWork(String tierName, String action) {
 		
 		
-		FileConfiguration config = plugin.getConfig();
 		action = action.toLowerCase();	
 		
 		//Removes the tier from the "Tiers" section
@@ -85,7 +87,16 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Material","Material.GRASS_BLOCK");
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.Threshold", 500);
-				config.set("Tiers." + tierName + ".Properties.Reward.RewardType", "Crates");
+				config.set("Tiers." + tierName + ".Properties.Rewards.Money", 0);
+				config.set("Tiers." + tierName + ".Properties.Rewards.Crate", "CrateNameGoesHere");
+				
+				List<String> itemList = new ArrayList<String>();
+				itemList.add("name:Apple amount:64 Enchants: Damage_all 1;Protection 1");
+				config.set("Tiers." + tierName + ".Properties.Rewards.Items", itemList);
+				
+				List<String> commandList = new ArrayList<String>();
+				commandList.add("give %player% apple 64");
+				config.set("Tiers." + tierName + ".Properties.Rewards.Commands", commandList);
 				
 				List<String> tierList = (List<String>) config.getList("TierList");
 				tierList.add(tierName);
