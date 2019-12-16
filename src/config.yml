@@ -20,8 +20,6 @@ MineType: Group
 TierList:
 - Grass
 
-
-
 Tiers:
 
   Grass:
@@ -37,6 +35,3 @@ Tiers:
         - name:(ItemName) amount:amount Enchants: Damage_all   
         Command:
         - give %player% apple 64      
-          
-        
-        

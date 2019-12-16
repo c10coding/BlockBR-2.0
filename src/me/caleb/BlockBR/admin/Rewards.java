@@ -29,7 +29,7 @@ public class Rewards {
 		//bbr rewardadd (tier) (rewardType) (Crate)
 		public void rewardAdd(Player p,String tier, String rewardType, String crateName) {	
 			
-			final String PATH = "Tiers." + tier.toLowerCase() + ".Properties.Rewards.Crate";
+			final String PATH = "Tiers." + tier + ".Properties.Rewards.Crate";
 			Chat.sendPlayerMessage(p, PATH);
 			if(isTier(tier) == false) {
 				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
@@ -54,6 +54,10 @@ public class Rewards {
 		//bbr rewardadd (tier) (rewardType) (Amount of money)
 		public void rewardAdd(Player p,String tier, String rewardType, int amount) {	
 			
+			if(isTier(tier) == false) {
+				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
+				return;
+			}
 			
 		}
 		//For Items
