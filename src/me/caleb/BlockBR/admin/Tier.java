@@ -210,8 +210,19 @@ public class Tier {
 		
 	}
 	
-	public void tierRename() {
+	public void tierRename(String tier, String newTier,Player p) {
 		
+		String material = config.getString("Tiers." + newTier + ".Properties.Material");
+		
+		config.set("Tiers." + newTier + ".Properties.Material","Material.GRASS_BLOCK");
+		config.set("Tiers." + newTier + ".Properties.Multiplier", 2.0);
+		config.set("Tiers." + newTier + ".Properties.Threshold", 500);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Money", 0);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Crate", "CrateNameGoesHere");
+		
+		config.set("Tiers." + tier, newTier);
+		Chat.sendPlayerMessage(p, "The tier &5&l" + tier.toUpperCase() + " has been renamed to &5&l" + newTier.toUpperCase());
+		plugin.saveConfig();
 	}
 	
 	public void showTierList(Player p) {
