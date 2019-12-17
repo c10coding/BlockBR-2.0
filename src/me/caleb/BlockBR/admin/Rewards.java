@@ -1,7 +1,11 @@
 package me.caleb.BlockBR.admin;
 
+import java.util.Map;
+
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.utils.Chat;
@@ -17,12 +21,13 @@ public class Rewards {
 		}
 		
 		//Checks to see if the path in the config even exists before it does anything else
-		public boolean isTier(String tierName) {
+		public void isTier(String tierName,Player p) {
 			
-			if(!(config.getString("Tiers." + tierName.toLowerCase()) == null)) return true;
+			if(config.getString("Tiers." + tierName.toLowerCase()) == null) {
+				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
+				return;
+			}
 			
-			return false;
-	
 		}
 		
 		//For CrateName
@@ -30,11 +35,8 @@ public class Rewards {
 		public void rewardAdd(Player p,String tier, String rewardType, String crateName) {	
 			
 			final String PATH = "Tiers." + tier + ".Properties.Rewards.Crate";
-			Chat.sendPlayerMessage(p, PATH);
-			if(isTier(tier) == false) {
-				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
-				return;
-			}
+
+			isTier(tier,p);
 			
 			/*
 			 * CrateReloaded is not required for this plugin to fully work,
@@ -46,7 +48,8 @@ public class Rewards {
 				return;
 			}else {
 				Chat.sendPlayerMessage(p, "&bThe crate for tier &5&l" + tier.toUpperCase() + "&b has been updated to &5&l" + crateName.toUpperCase());
-				config.set(PATH, crateName);
+				config.set("Tiers." + tier + ".Properties.Rewards.Crate", crateName);
+				plugin.saveConfig();
 			}
 			
 		}
@@ -54,16 +57,27 @@ public class Rewards {
 		//bbr rewardadd (tier) (rewardType) (Amount of money)
 		public void rewardAdd(Player p,String tier, String rewardType, int amount) {	
 			
-			if(isTier(tier) == false) {
-				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
-				return;
-			}
+			final String PATH = "Tiers." + tier + ".Properties.Rewards.Money";
+
+			isTier(tier,p);
+			
+			config.set("Tiers" + tier + ".Properties.Rewards.Money", amount);
 			
 		}
 		//For Items
 		//It will add the item in your hand
 		//bbr rewardadd (tier) (rewardType)
 		public void rewardAdd(Player p,String tier, String rewardType) {	
+			
+			final String PATH = "Tiers." + tier + ".Properties.Rewards.Money";
+			ItemStack item = p.getItemInHand();
+			isTier(tier,p);
+			
+			int amount = item.getAmount();
+			String itemName = item.getType().name();
+			Map<Enchantment, Integer> enchants = item.getEnchantments();
+			
+			
 			
 		}
 		

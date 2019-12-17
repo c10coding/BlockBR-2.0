@@ -209,5 +209,17 @@ public class Tier {
 	public void getTierInfo() {
 		
 	}
+	
+	public void showTierList(Player p) {
+		
+		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
+		
+		Chat.sendPlayerMessage(p, "&4List of tiers:");
+		for(String tier : tierList) {
+			p.sendMessage(Chat.chat("&b&l- " + tier));
+		}
+		
+		
+	}
 
 }
