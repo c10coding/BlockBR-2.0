@@ -58,10 +58,20 @@ public class PlayerCommands implements CommandExecutor{
 						t.configWork(args[2], args[1]);
 					}
 				//Crates
-				//bbr rewardadd (tier) (rewardType) (Crate)
+				//bbr rewardadd (tier) ("Crate") (CrateName)
 				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
 					if(player.hasPermission("blockbr.admin")) {
-						r.rewardAdd(player, args[1], args[2], args[3]);
+						r.rewardAddCrate(player, args[1], args[2], args[3]);
+					}
+				//Items
+				//bbr rewardadd (tier) ("Item")
+				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item")) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.rewardAddItem(player, args[1]);
+					}
+				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
 					}
 				}		
 			}

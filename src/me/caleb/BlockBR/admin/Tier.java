@@ -210,6 +210,10 @@ public class Tier {
 		
 	}
 	
+	public void tierRename() {
+		
+	}
+	
 	public void showTierList(Player p) {
 		
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
