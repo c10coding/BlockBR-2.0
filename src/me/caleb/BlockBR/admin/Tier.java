@@ -216,7 +216,54 @@ public class Tier {
 		plugin.saveConfig();	
 	}
 	
-	public void getTierInfo() {
+	//Checks to see if the path in the config even exists before it does anything else
+	public boolean isTier(Player p, String tierName) {
+		
+		if(config.getString("Tiers." + tierName.toLowerCase()) == null) {
+			Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
+			return false;
+		}
+		return true;
+		
+	}
+	
+	public void getTierInfo(Player p, String tier) {
+		
+		if(isTier(p,tier) == false) {
+			return;
+		}
+		
+		String material = config.getString("Tiers." + tier + ".Properties.Material");
+		double mult = config.getDouble("Tiers." + tier + ".Properties.Multiplier");
+		int threshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
+		int money = config.getInt("Tiers." + tier + ".Properties.Rewards.Money");
+		String crate = config.getString("Tiers." + tier + ".Properties.Rewards.Crate");
+		List<String> itemList = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
+		List<String> commandList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Commands");
+		
+		Chat.sendPlayerMessage(p, "&bTier info for tier &5&l" + tier.toUpperCase() );
+		
+		p.sendMessage(Chat.chat("&b&lMaterial: &5" + material));
+		p.sendMessage(Chat.chat("&b&lMultiplier: &5" + mult));
+		p.sendMessage(Chat.chat("&b&lThreshold: &5" + threshold));
+		p.sendMessage(Chat.chat("&b&lMoney: &5" + money));
+		p.sendMessage(Chat.chat("&b&lCrate: &5" + crate));
+		
+		p.sendMessage(Chat.chat("&b&lItems:"));
+		
+		int count = 1;
+		for(String item : itemList) {
+			p.sendMessage(Chat.chat("&b&l" + count + ".) &5" + item));
+			count++;
+		}
+		
+		count = 1;
+		
+		p.sendMessage(Chat.chat("&b&lCommands:"));
+		for(String command : commandList) {
+			p.sendMessage(Chat.chat("&b&l" + count + ".) &5" + command));
+			count++;
+		}
 		
 	}
 	

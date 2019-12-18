@@ -9,22 +9,29 @@ import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
+import me.caleb.BlockBR.admin.Rewards;
 
 public class RewardCommandPrompt extends StringPrompt{
 	
 	private Main plugin;
 	String tier;
-	Player player;
+	Player p;
 	
 	public RewardCommandPrompt(Main plugin,String tier,Player p) {
 		this.plugin = plugin;
 		this.tier = tier;
-		this.player = p;
+		this.p = p;
 	}
 	
 	@Override
 	public Prompt acceptInput(ConversationContext con, String answer) {
 		
+		// If it's not a tier, it won't do anything else;
+		Rewards r = new Rewards(plugin);
+		if(r.isTier(tier, p) == false) {
+			return null;
+		}
+
 		List<String> cmds = (List<String>) plugin.getConfig().getList("Tiers." + tier + ".Properties.Rewards.Commands");
 		cmds.add(answer);
 		
