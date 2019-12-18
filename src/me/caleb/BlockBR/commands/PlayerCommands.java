@@ -73,6 +73,11 @@ public class PlayerCommands implements CommandExecutor{
 					if(player.hasPermission("blockbr.admin")) {
 						r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
 					}
+				//bbr tier rename (tier) (newName)
+				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("rename") && !args[2].isEmpty() && !args[3].isEmpty()) {
+					if(player.hasPermission("blockbr.admin")) {
+						t.tierRename(args[2], args[3],player);
+					}
 				}		
 			}
 			
