@@ -25,12 +25,13 @@ public class Rewards {
 		}
 		
 		//Checks to see if the path in the config even exists before it does anything else
-		public void isTier(String tierName,Player p) {
+		public boolean isTier(String tierName,Player p) {
 			
 			if(config.getString("Tiers." + tierName.toLowerCase()) == null) {
 				Chat.sendPlayerMessage(p, "&bThis is not a tier! Do &6&l/bbr tierlist &bto see all the different tiers!");
-				return;
+				return false;
 			}
+			return true;
 			
 		}
 		
@@ -40,7 +41,9 @@ public class Rewards {
 			
 			final String PATH = "Tiers." + tier + ".Properties.Rewards.Crate";
 
-			isTier(tier,p);
+			if(isTier(tier,p) == false) {
+				return;
+			}
 			
 			/*
 			 * CrateReloaded is not required for this plugin to fully work,
@@ -62,7 +65,10 @@ public class Rewards {
 		public void rewardAddMoney(Player p,String tier, String rewardType, int amount) {	
 	
 			final String PATH = "Tiers." + tier + ".Properties.Rewards.Money";
-			isTier(tier,p);
+			
+			if(isTier(tier,p) == false) {
+				return;
+			}
 			
 			//Tests to see if the value is an actual number and if the number is negative
 			try {
@@ -89,7 +95,10 @@ public class Rewards {
 			final String PATH = "Tiers." + tier + ".Properties.Rewards.Item";
 			String itemLine = "";
 			ItemStack item = p.getItemInHand();
-			isTier(tier,p);
+			
+			if(isTier(tier,p) == false) {
+				return;
+			}
 			
 			int amount = item.getAmount();
 			String itemName = item.getType().name();

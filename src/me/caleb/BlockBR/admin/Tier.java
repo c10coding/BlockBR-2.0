@@ -68,7 +68,18 @@ public class Tier {
 		}
 		
 		Chat.sendPlayerMessage(p, "The tier has been removed");	
-		Chat.sendConsoleMessage("The tier " + tierName.toUpperCase() + " has been removed?");
+		Chat.sendConsoleMessage("The tier " + tierName.toUpperCase() + " has been removed!");
+	}
+	
+	public void tierEditName(String tier, String newTier,Player p) {
+		
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("ALTER TABLE `blockbr2` CHANGE " + tier + " " + newTier + " varchar(255)");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			Chat.sendPlayerMessage(p, "There has been an error in the database! Please contact an admin!");
+		}
+		
 	}
 	
 	/*
@@ -76,7 +87,6 @@ public class Tier {
 	 * of anything within the config
 	 */
 	public void configWork(String tierName, String action) {
-		
 		
 		action = action.toLowerCase();	
 		
@@ -212,16 +222,36 @@ public class Tier {
 	
 	public void tierRename(String tier, String newTier,Player p) {
 		
-		String material = config.getString("Tiers." + newTier + ".Properties.Material");
+		Rewards r = new Rewards(plugin);
+		//If it's not a tier, tierRename won't even be executed
+		if(r.isTier(tier,p) == false) {
+			return;
+		}
 		
-		config.set("Tiers." + newTier + ".Properties.Material","Material.GRASS_BLOCK");
-		config.set("Tiers." + newTier + ".Properties.Multiplier", 2.0);
-		config.set("Tiers." + newTier + ".Properties.Threshold", 500);
-		config.set("Tiers." + newTier + ".Properties.Rewards.Money", 0);
-		config.set("Tiers." + newTier + ".Properties.Rewards.Crate", "CrateNameGoesHere");
+		String material = config.getString("Tiers." + tier + ".Properties.Material");
+		p.sendMessage(material);
+		double mult = config.getDouble("Tiers." + tier + ".Properties.Multiplier");
+		int threshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
+		int money = config.getInt("Tiers." + tier + ".Properties.Rewards.Money");
+		String crate = config.getString("Tiers." + tier + ".Properties.Rewards.Crate");
+		List<String> itemList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Item");
+		p.sendMessage(itemList.toString());
+		List<String> commandList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Command");
+		List<String> tierList = (List<String>) config.getList("TierList");
+		tierList.add(newTier);
 		
-		config.set("Tiers." + tier, newTier);
+		config.set("Tiers." + newTier + ".Properties.Material", material);
+		config.set("Tiers." + newTier + ".Properties.Multiplier", mult);
+		config.set("Tiers." + newTier + ".Properties.Threshold", threshold);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Money", money);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Crate", crate);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Item", itemList);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Command", commandList);
+		
 		Chat.sendPlayerMessage(p, "The tier &5&l" + tier.toUpperCase() + " has been renamed to &5&l" + newTier.toUpperCase());
+		tierEditName(tier,newTier,p);
+		configWork(tier,"remove");
+		
 		plugin.saveConfig();
 	}
 	
