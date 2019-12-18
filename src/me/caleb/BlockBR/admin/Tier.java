@@ -229,14 +229,13 @@ public class Tier {
 		}
 		
 		String material = config.getString("Tiers." + tier + ".Properties.Material");
-		p.sendMessage(material);
 		double mult = config.getDouble("Tiers." + tier + ".Properties.Multiplier");
 		int threshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
 		int money = config.getInt("Tiers." + tier + ".Properties.Rewards.Money");
 		String crate = config.getString("Tiers." + tier + ".Properties.Rewards.Crate");
-		List<String> itemList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Item");
+		List<String> itemList = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
 		p.sendMessage(itemList.toString());
-		List<String> commandList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Command");
+		List<String> commandList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Commands");
 		List<String> tierList = (List<String>) config.getList("TierList");
 		tierList.add(newTier);
 		
@@ -245,8 +244,8 @@ public class Tier {
 		config.set("Tiers." + newTier + ".Properties.Threshold", threshold);
 		config.set("Tiers." + newTier + ".Properties.Rewards.Money", money);
 		config.set("Tiers." + newTier + ".Properties.Rewards.Crate", crate);
-		config.set("Tiers." + newTier + ".Properties.Rewards.Item", itemList);
-		config.set("Tiers." + newTier + ".Properties.Rewards.Command", commandList);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Items", itemList);
+		config.set("Tiers." + newTier + ".Properties.Rewards.Commands", commandList);
 		
 		Chat.sendPlayerMessage(p, "The tier &5&l" + tier.toUpperCase() + " has been renamed to &5&l" + newTier.toUpperCase());
 		tierEditName(tier,newTier,p);

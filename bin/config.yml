@@ -24,14 +24,14 @@ Tiers:
 
   Grass:
     Properties:
-      Material: Material.GRASS_BLOCK
+      Material: GRASS_BLOCK
       Multiplier: 2.0
       Threshold: 750
       Rewards: 
         #RewardType: Money
         Money: 0
         Crate: CrateNameGoesHere
-        Item: 
+        Items: 
         - name:(ItemName) amount:amount Enchants: Damage_all   
-        Command:
+        Commands:
         - give %player% apple 64      

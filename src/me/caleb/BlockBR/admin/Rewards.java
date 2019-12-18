@@ -7,21 +7,26 @@ import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.utils.Chat;
+import me.caleb.BlockBR.utils.RewardCommandPrompt;
 
 public class Rewards {
 		
 		private Main plugin;
 		private FileConfiguration config = null;
+		ConversationFactory factory;
 		
 		public Rewards(Main plugin) {
 			this.plugin = plugin;
 			config = plugin.getConfig();
+			factory = new ConversationFactory(plugin);
 		}
 		
 		//Checks to see if the path in the config even exists before it does anything else
@@ -158,7 +163,14 @@ public class Rewards {
 		
 		//For Commands
 		//bbr rewardadd (tier) (rewardType)
-		public void rewardAddCommand(Player p,String tier, String rewardType) {	
+		public void rewardAddCommand(Player p,String tier) {	
+			
+			if(isTier(tier,p) == false) {
+				return;
+			}
+			
+			Conversation conv = factory.withFirstPrompt(new RewardCommandPrompt(plugin,tier,p)).withLocalEcho(false).withEscapeSequence("cancel").buildConversation(p);
+			conv.begin();
 			
 		}
 		

@@ -78,6 +78,10 @@ public class PlayerCommands implements CommandExecutor{
 					if(player.hasPermission("blockbr.admin")) {
 						t.tierRename(args[2], args[3],player);
 					}
+				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("command")) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.rewardAddCommand(player, args[1]);
+					}
 				}		
 			}
 			
