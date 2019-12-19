@@ -34,6 +34,7 @@ public class PlayerCommands implements CommandExecutor{
 			if(!(sender instanceof Player)) {
 				Chat.sendConsoleMessage("You must be a player!");
 			}else {
+				
 				//Args[1] should be the tierName
 				if(args[0].equalsIgnoreCase("tierlist")) {
 					if(player.hasPermission("blockbr.use")) {
@@ -82,11 +83,26 @@ public class PlayerCommands implements CommandExecutor{
 					if(player.hasPermission("blockbr.admin")) {
 						r.rewardAddCommand(player, args[1]);
 					}
+				//bbr tier info
 				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("info") && !args[2].isEmpty()) {
 					if(player.hasPermission("blockbr.use")) {
 						t.getTierInfo(player, args[2]);
 					}
-				}		
+				//bbr rewardremove (Tier) "Item" (##)
+				}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item") && !args[3].isEmpty()) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.rewardRemoveItem(args[1],args[3],player);
+					}
+				//bbr rewardremove (Tier) "Command" (##)
+				}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Command") && !args[3].isEmpty()) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.rewardRemoveCommand(args[1], args[3], player);
+					}
+				}else if(args[0].equalsIgnoreCase("changeType") && !args[1].isEmpty()) {
+					if(player.hasPermission("blockbr.admin")) {
+						r.changeMineType(args[1], player);
+					}
+				}	
 			}
 			
 		}catch(ArrayIndexOutOfBoundsException e) {

@@ -150,16 +150,60 @@ public class Rewards {
 			}else {
 				itemList.add(itemLine);
 				config.set("Tiers." + tier + ".Properties.Rewards.Items", itemList);
-			}
+			} 
 			
 			Chat.sendPlayerMessage(p, "&bYour item has been added as a reward!");
 			
 			plugin.saveConfig();
 		}
 		
-		public void rewardRemoveItem() {
+		/*
+		 * Allows you to remove items from a tier
+		 */
+		public void rewardRemoveItem(String tier, String i,Player p) {
 			
+			if(isTier(tier,p) == false) {
+				return;
+			}
 			
+			try {
+				int index = Integer.parseInt(i);
+				List<String> items = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
+				index--;
+				items.remove(index);
+				Chat.sendPlayerMessage(p, "This item has been removed from the tier!");
+			}catch(NumberFormatException e) {
+				Chat.sendPlayerMessage(p, "&bThis not a valid number! Please try again! The command is &6&l/bbr rewardremove (Tier) Item (Item Number on the list)");
+			}catch(IndexOutOfBoundsException e) {
+				Chat.sendPlayerMessage(p, "&bThe number you gave is too high or there is no items for this tier. Please try again! The command is &6&l/bbr rewardremove (Tier) Item (Item Number on the list)");
+			}
+			
+			plugin.saveConfig();
+			
+		}
+		
+		/*
+		 * Allows you to remove commands from a tier
+		 */
+		public void rewardRemoveCommand(String tier, String i, Player p) {
+			
+			if(isTier(tier,p) == false) {
+				return;
+			}
+			
+			try{
+				int index = Integer.parseInt(i);
+				List<String> commands = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Commands");
+				index--;
+				commands.remove(index);
+				Chat.sendPlayerMessage(p, "This item has been removed from the tier!");
+			}catch(NumberFormatException e) {
+				Chat.sendPlayerMessage(p, "&bThis not a valid number! Please try again! The command is &6&l/bbr rewardremove (Tier) Item (Command Number on the list)");
+			}catch(IndexOutOfBoundsException e) {
+				Chat.sendPlayerMessage(p, "&bThe number you gave is too high or there is no items for this tier. Please try again! The command is &6&l/bbr rewardremove (Tier) Item (Item Number on the list)");
+			}
+			
+			plugin.saveConfig();
 			
 		}
 		
@@ -176,8 +220,27 @@ public class Rewards {
 			
 		}
 		
+		public void changeMineType(String type, Player p) {
+			
+			String types[] = {"Group","All","OneByOne"};
+			
+			for(String t : types) {
+				if(t.equalsIgnoreCase(type)) {
+					config.set("MineType", type);
+					Chat.sendPlayerMessage(p, "&bThe mine type has been changed to &5&l" + type);
+					return;
+				}
+			}
+			
+			Chat.sendPlayerMessage(p, "&bThis is not a valid minetype. The minetypes can be the following: &5&l" + types[0] + ", " + types[1] + ", " + types[2]);
+			
+			plugin.saveConfig();
+			
+		}
 		
-
+		/*
+		 * Checks to see if CrateReloaded is installed on the server 
+		 */
 		public boolean checkCrateReloaded() {
 			return plugin.getServer().getPluginManager().isPluginEnabled("CrateReloaded");
 		}
