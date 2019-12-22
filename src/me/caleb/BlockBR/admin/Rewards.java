@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.caleb.BlockBR.Main;
+import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.RewardCommandPrompt;
 
@@ -228,9 +229,20 @@ public class Rewards {
 				if(t.equalsIgnoreCase(type)) {
 					config.set("MineType", type);
 					Chat.sendPlayerMessage(p, "&bThe mine type has been changed to &5&l" + type);
-					return;
+					
+					if(type.equalsIgnoreCase("Group")) {
+						Group g = new Group(plugin);
+						g.formulateConfig("form");
+						return;
+					}else {
+						Group g = new Group(plugin);
+						g.formulateConfig("remove");
+						return;
+					}
+
 				}
 			}
+			
 			
 			Chat.sendPlayerMessage(p, "&bThis is not a valid minetype. The minetypes can be the following: &5&l" + types[0] + ", " + types[1] + ", " + types[2]);
 			

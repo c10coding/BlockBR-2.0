@@ -36,7 +36,6 @@ public class BlockBroke implements Listener{
 			return;
 		}else {
 			//If block broken is not canceled aka broken
-			
 			boolean inDB = gd.ifInDB(playerName);
 			
 			if(inDB == true) {
