@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
+import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.utils.Chat;
 
 public class Tier {
@@ -22,10 +23,12 @@ public class Tier {
 	private Main plugin;
 	private String rewardType = null;
 	private FileConfiguration config = null;
+	Player p;
 	
-	public Tier(Main plugin) {
+	public Tier(Main plugin, Player p) {
 		this.plugin = plugin;
 		config = plugin.getConfig();
+		this.p = p;
 	}
 	/*
 	 * Method crates a column within the database with the tier name
@@ -256,6 +259,54 @@ public class Tier {
 		plugin.saveConfig();	
 	}
 	
+	public void tierMove(String tierName, String newGroupName) {
+		
+		//Checks to see if the tier given is an actual tier
+		if(isTier(p,tierName) == false) return;
+		
+		//Checks to see if the MineType is type "Group"
+		if(Group.isTypeGroup() == false) return;
+		
+		//Checks to see if the group given is an actual group
+		if(Group.isGroup(newGroupName) == false) return;
+		
+		//Tests to see if the tier is in a group at all
+		//If not, just put it it the last group
+		String group = Group.tierGroup(tierName);
+		List<String> allGroups = config.getStringList("GroupList");
+		
+		try {
+			
+			if(Group.tierGroup(tierName).equalsIgnoreCase(newGroupName)) {
+				Chat.sendPlayerMessage(p, "&bThis tier is already in group &5&l" + newGroupName + "!");
+				return;
+			}
+		//Will return null when the tier is not in a group
+		}catch(NullPointerException e) {
+			
+			Chat.sendPlayerMessage(p, "The tier was not in a group previously. Tier &5&l" + tierName + " is now in group &5&l" + allGroups.get(allGroups.size()-1));
+			List<String> lastGroup = config.getStringList("Groups." + allGroups.get(allGroups.size()-1));
+			lastGroup.add(tierName);
+			config.set("Groups." + allGroups.get(allGroups.size()-1), lastGroup);
+			plugin.saveConfig();
+			return;
+			
+		}
+
+		//Removes the tier from that group
+		List<String> tierGroup = config.getStringList("Groups." + group);
+		tierGroup.remove(tierName);
+		config.set("Groups." + group, tierGroup);
+		
+		//Adds the tier to the new group
+		List<String> newGroup = config.getStringList("Groups." + newGroupName);
+		newGroup.add(tierName);
+		config.set("Groups." + newGroupName, newGroup);
+		Chat.sendPlayerMessage(p, "&bTier &5&l" + tierName.toUpperCase() + "&b has been moved from &5&l" + group.toUpperCase() + "&b to group &5&l" + newGroupName.toUpperCase());
+		
+		plugin.saveConfig();
+	}
+	
 	//Checks to see if the path in the config even exists before it does anything else
 	public boolean isTier(Player p, String tierName) {
 		
@@ -345,7 +396,7 @@ public class Tier {
 		
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
 		
-		Chat.sendPlayerMessage(p, "&4List of tiers:");
+		Chat.sendPlayerMessage(p, "List of tiers:");
 		for(String tier : tierList) {
 			p.sendMessage(Chat.chat("&b&l- " + tier));
 		}

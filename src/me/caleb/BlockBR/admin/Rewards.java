@@ -231,11 +231,11 @@ public class Rewards {
 					Chat.sendPlayerMessage(p, "&bThe mine type has been changed to &5&l" + type);
 					
 					if(type.equalsIgnoreCase("Group")) {
-						Group g = new Group(plugin);
+						Group g = new Group(plugin,p);
 						g.formulateConfig("form");
 						return;
 					}else {
-						Group g = new Group(plugin);
+						Group g = new Group(plugin,p);
 						g.formulateConfig("remove");
 						return;
 					}

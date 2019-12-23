@@ -14,10 +14,12 @@ public class Group {
 
 	private static Main plugin;
 	private static FileConfiguration config;
+	private static Player p;
 	
-	public Group(Main plugin) {
+	public Group(Main plugin, Player p) {
 		this.plugin = plugin;
 		config = plugin.getConfig();
+		this.p = p;
 	}
 	
 	/*
@@ -47,6 +49,46 @@ public class Group {
 		}
 		
 		return groups;
+		
+	}
+	
+	/*
+	 * Shows the user the list of groups
+	 */
+	
+	public static void showGroupList() {
+		
+		if (isTypeGroup() == false) return;
+		
+		List<String> groupList = config.getStringList("GroupList");
+		
+		Chat.sendPlayerMessage(p, "List of Groups:");
+		
+		for(String group : groupList) {
+			p.sendMessage(Chat.chat("&b&l- " + group));
+		}
+		
+	}
+	
+	public static void groupTiers(String groupName) {
+		
+		if (isTypeGroup() == false) return;
+		
+		if (isGroup(groupName) == false) return;
+		
+		List<String> groupTiers = config.getStringList("Groups." + groupName);
+		
+		if(groupTiers.isEmpty()) {
+			Chat.sendPlayerMessage(p, "You do not have any tiers in this group!");
+		}else {
+			
+			Chat.sendPlayerMessage(p, "Group tiers:");
+			
+			for(String tier : groupTiers) {
+				p.sendMessage(Chat.chat("&b&l- " + tier));
+			}
+			
+		}
 		
 	}
 	
@@ -91,7 +133,7 @@ public class Group {
 	/*
 	 * Checks to see if the MineType is type "Group"
 	 */
-	public static boolean isTypeGroup(Player p) {
+	public static boolean isTypeGroup() {
 		
 		String mineType = config.getString("MineType");
 		
@@ -105,12 +147,52 @@ public class Group {
 	}
 	
 	/*
+	 * Returns the group that the tier is in
+	 */
+	public static String tierGroup(String tierName) {
+		
+		List<String> allGroups = config.getStringList("GroupList");
+		String group = null;
+		
+		search:{
+			for(int x = 0; x < allGroups.size(); x++) {
+				List<String> groupList = config.getStringList("Groups." + allGroups.get(x));
+				for(String tier : groupList) {
+					if(tier.equalsIgnoreCase(tierName)) {
+						group = allGroups.get(x);
+						break search;
+					}
+				}
+			}
+		}
+		
+		return group;
+	}
+	
+	/*
+	 * Checks to see if the Group is a valid group
+	 */
+	public static boolean isGroup(String groupName) {
+		
+		List<String> groups = config.getStringList("GroupList");
+		
+		for(String g : groups) {
+			if(g.equalsIgnoreCase(groupName)) {
+				return true;
+			}
+		}
+		
+		Chat.sendPlayerMessage(p, "Group &5&l" + groupName.toUpperCase() + " is not a valid group!");
+		return false;
+	}
+	
+	/*
 	 * Allows the user to create a group
 	 * with a name of their choice.
 	 */
 	public static void createGroup(String groupName, Player p) {
 		
-		if(isTypeGroup(p) == false) return;
+		if(isTypeGroup() == false) return;
 		
 		List<String> groupList = config.getStringList("GroupList");
 		
@@ -138,7 +220,7 @@ public class Group {
 	 */
 	public void removeGroup(String groupName, Player p) {
 		
-		if(isTypeGroup(p) == false) return;
+		if(isTypeGroup() == false) return;
 		
 		List<String> groupList = config.getStringList("GroupList");
 		
