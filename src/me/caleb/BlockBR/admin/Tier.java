@@ -38,7 +38,7 @@ public class Tier {
 		tierName = tierName.toLowerCase();
 		//SQL WORK
 		try {
-			String query = "ALTER TABLE `blockbr2` ADD " + tierName + " varchar(255) NOT NULL";
+			String query = "ALTER TABLE `blockbr2` ADD " + tierName + " varchar(255) NOT NULL DEFAULT 0";
 			PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
 			int rowsAffected = stmt.executeUpdate();
 			

@@ -8,11 +8,11 @@ import org.bukkit.Bukkit;
 
 import me.caleb.BlockBR.Main;
 
-public class GetData {
+public class DataManager {
 
 	private Main plugin;
 	
-	public GetData(Main plugin) {
+	public DataManager(Main plugin) {
 		this.plugin = plugin;
 	}
 	
@@ -66,15 +66,17 @@ public class GetData {
 	}
 	
 	//Adds player to the database
-	/*
+	
 	public void addPlayer() {
 		
 		try {
 			
 			PreparedStatement stmt = plugin.getConnection().prepareStatement("INSERT INTO `blockbr`");
 			
+		}catch(SQLException e) {
+			
 		}
 		
-	}*/
+	}
 	
 }

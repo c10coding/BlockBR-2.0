@@ -8,8 +8,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import me.caleb.BlockBR.Main;
-import me.caleb.BlockBR.sql.GetData;
+import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
+import me.caleb.BlockBR.utils.Checker;
 
 public class BlockBroke implements Listener{
 
@@ -26,9 +27,7 @@ public class BlockBroke implements Listener{
 		Block block = e.getBlock();
 		Player player = e.getPlayer();
 		String playerName = player.getName();
-		GetData gd = new GetData(plugin);
-		
-		//Chat.sendPlayerMessage(player, playerName);
+		DataManager dm = new DataManager(plugin);
 		
 		//The region plugins cancel the block breaking. If it's cancelled, e.isCancelled is true
 		if(e.isCancelled()) {
@@ -36,10 +35,10 @@ public class BlockBroke implements Listener{
 			return;
 		}else {
 			//If block broken is not canceled aka broken
-			boolean inDB = gd.ifInDB(playerName);
+			boolean inDB = dm.ifInDB(playerName);
 			
 			if(inDB == true) {
-				
+				Checker c = new Checker(plugin);
 			}else {
 				
 			}
