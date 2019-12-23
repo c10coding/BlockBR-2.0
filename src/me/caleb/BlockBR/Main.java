@@ -25,6 +25,7 @@ public class Main extends JavaPlugin{
 	private String host, password, database, username;
 	private int port;
 	public static Economy economy = null;
+	public FileConfiguration config = getConfig();
 	
 	@Override
 	public void onEnable() {
@@ -112,36 +113,17 @@ public class Main extends JavaPlugin{
         }
 			
 	}
+	
 	/*
-	public void createRewardsConfig() {
-		customConfigFile = new File(getDataFolder(), "rewards.yml");
+	 * Checks on reload to see if the player has removed something
+	 * from the config that is still in the database
+	 */
+	public void validateConfig() {
 		
-		if(!customConfigFile.exists()) {
-			customConfigFile.getParentFile().mkdir();
-			saveResource("rewards.yml",false);
-		}
 		
-		customConfig= new YamlConfiguration();
 		
-		try {
-			try {
-				customConfig.load(customConfigFile);
-			} catch (InvalidConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	public FileConfiguration getRewardsConfig() {
-        return this.customConfig;
-    }*/
 	
 	
 

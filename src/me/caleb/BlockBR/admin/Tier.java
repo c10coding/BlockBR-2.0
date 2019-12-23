@@ -37,16 +37,18 @@ public class Tier {
 		try {
 			String query = "ALTER TABLE `blockbr2` ADD " + tierName + " varchar(255) NOT NULL";
 			PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
-			stmt.executeUpdate();
-			configWork(tierName, "add");
+			int rowsAffected = stmt.executeUpdate();
+			
+			if(rowsAffected == 0) {
+				configWork(tierName, "add");
+				Chat.sendPlayerMessage(p, "The new tier has been created!");
+			}
+			
 		} catch (SQLException e) {
 			Chat.sendPlayerMessage(p, "There has been an error while adding tier to database!");
 			Chat.sendPlayerMessage(p, "Is there already a tier named &6&l" + tierName + " &rin the database?");
 			return;
 		}
-		
-		Chat.sendPlayerMessage(p, "The new tier has been created!");
-		Chat.sendConsoleMessage("The new tier " + tierName.toUpperCase() + " has been added to the database!");
 	}
 	
 	/*
@@ -59,17 +61,44 @@ public class Tier {
 		try {
 			String query = "ALTER TABLE `blockbr2` DROP " + tierName;
 			PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
-			stmt.executeUpdate();
-			configWork(tierName, "remove");
+			
+			int rowsAffected = stmt.executeUpdate();
+			
+			if(rowsAffected == 0) {
+				configWork(tierName, "remove");
+				Chat.sendPlayerMessage(p, "The tier has been removed!");
+			}
+			
 		}catch(SQLException e) {
 			Chat.sendPlayerMessage(p, "There has been an error while removing the tier");
 			Chat.sendPlayerMessage(p, "Are you sure there is a tier named &6&l" + tierName.toUpperCase() + " &rin the database?");
-			Chat.sendConsoleMessage("Are you sure there is a tier named &6&l" + tierName.toUpperCase() + " &rin the database?");
+			return;
+		}
+	}
+	
+	/*
+	 * Removes all tiers
+	 */
+	public void tierRemove(Player p) {
+		
+		List<String> tierList = config.getStringList("TierList");
+		
+		try {
+			
+			for(int x = 0; x < tierList.size(); x++) {
+				String tierName = tierList.get(x).toLowerCase();
+				String query = "ALTER TABLE `blockbr2` DROP " + tierName;
+				PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
+				if(stmt.executeUpdate() == 1) {
+					configRemoveAll();
+				}
+			}
+			
+		}catch(SQLException e) {
+			Chat.sendPlayerMessage(p, "There has been an error while removing a tier. Please contact an admin or the plugin owner");
 			return;
 		}
 		
-		Chat.sendPlayerMessage(p, "The tier has been removed");	
-		Chat.sendConsoleMessage("The tier " + tierName.toUpperCase() + " has been removed!");
 	}
 	
 	public void tierEditName(String tier, String newTier,Player p) {
@@ -129,6 +158,16 @@ public class Tier {
 		}
 		
 		plugin.saveConfig();
+		
+	}
+	
+	public void configRemoveAll() {
+		
+		List<String> tierList = config.getStringList("TierList");
+		
+		for(int x = 0; x < tierList.size(); x++) {
+			configWork(tierList.get(x).toLowerCase(), "remove");
+		}
 		
 	}
 	

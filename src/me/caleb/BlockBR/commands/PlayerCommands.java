@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.Rewards;
 import me.caleb.BlockBR.admin.Tier;
+import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.utils.Chat;
 
 public class PlayerCommands implements CommandExecutor{
@@ -28,6 +29,7 @@ public class PlayerCommands implements CommandExecutor{
 		player = (Player) sender;
 		Tier t = new Tier(plugin);
 		Rewards r = new Rewards(plugin);
+		Group g = new Group(plugin);
 		
 		try {
 			
@@ -49,7 +51,12 @@ public class PlayerCommands implements CommandExecutor{
 					}
 				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
 					if(player.hasPermission("blockbr.admin")) {
-						t.tierRemove(args[2], player);
+						if(args[2].equalsIgnoreCase("all")) {
+							t.tierRemove(player);
+						}else {
+							t.tierRemove(args[2], player);
+						}
+						
 					}		
 				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
 					if(player.hasPermission("blockbr.admin")) {
@@ -96,9 +103,20 @@ public class PlayerCommands implements CommandExecutor{
 					if(player.hasPermission("blockbr.admin")) {
 						r.rewardRemoveCommand(args[1], args[3], player);
 					}
+				//bbr changeType (Type)
 				}else if(args[0].equalsIgnoreCase("changeType") && !args[1].isEmpty()) {
 					if(player.hasPermission("blockbr.admin")) {
 						r.changeMineType(args[1], player);
+					}
+				//bbr group create (Group Name)
+				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("create") && args.length == 3) {
+					if(player.hasPermission("blockbr.admin")) {
+						g.createGroup(args[2], player);
+					}
+				//bbr group remove (Group Name)
+				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("remove") && args.length == 3) {
+					if(player.hasPermission("blockbr.admin")) {
+						g.removeGroup(args[2], player);
 					}
 				}	
 			}

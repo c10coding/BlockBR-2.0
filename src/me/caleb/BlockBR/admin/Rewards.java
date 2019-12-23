@@ -243,7 +243,6 @@ public class Rewards {
 				}
 			}
 			
-			
 			Chat.sendPlayerMessage(p, "&bThis is not a valid minetype. The minetypes can be the following: &5&l" + types[0] + ", " + types[1] + ", " + types[2]);
 			
 			plugin.saveConfig();

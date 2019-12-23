@@ -11,7 +11,7 @@ Password: "0GlWRDr9jYOS05g"
 # OneByOne: You can do one tier at a time
 # All: You can do all the tiers at once
 
-MineType: Group
+MineType: OneByOne
 
 # Reward types can be the following:
 # Crates, Money, Items, MoneyI (Money and Items), and MoneyC
