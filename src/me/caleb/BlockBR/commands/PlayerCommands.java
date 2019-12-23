@@ -137,6 +137,10 @@ public class PlayerCommands implements CommandExecutor{
 					if(isAdmin(player) == true) {
 						g.groupTiers(args[2]);
 					}
+				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("rename") && args.length == 4) {
+					if(isAdmin(player) == true) {
+						g.editName(args[2], args[3]);
+					}
 				}	
 
 			}

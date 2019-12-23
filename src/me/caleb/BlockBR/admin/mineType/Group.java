@@ -130,6 +130,29 @@ public class Group {
 		
 	}
 	
+	public static void editName(String groupName, String newName) {
+		
+		if(isTypeGroup() == false) return;
+		
+		if(isGroup(groupName) == false) return;
+		
+		List<String> groupList = config.getStringList("GroupList");
+		groupList.remove(groupName);	
+		groupList.add(newName);
+		config.set("GroupList", groupList);
+		
+		//Gets the old group contents and pastes them to the new group
+		List<String> prevGroup = config.getStringList("Groups." + groupName);
+		config.set("Groups." + groupName, null);
+		
+		config.set("Groups." + newName, prevGroup);
+		
+		Chat.sendPlayerMessage(p, "The group &5&l" + groupName + " has been renamed to &5&l" + newName + "!");
+		
+		plugin.saveConfig();
+		
+	}
+	
 	/*
 	 * Checks to see if the MineType is type "Group"
 	 */
@@ -138,7 +161,7 @@ public class Group {
 		String mineType = config.getString("MineType");
 		
 		if(!mineType.equalsIgnoreCase("group")) {
-			Chat.sendPlayerMessage(p, "&4You can only use this command when MineType is type &5&lGROUP!&4You can change this by doing &6&l/bbr minetype (type)");
+			Chat.sendPlayerMessage(p, "&4You can only use this command when MineType is type &5&lGROUP!&4 You can change this by doing &6&l/bbr minetype (type)");
 			return false;
 		}else {
 			return true;
