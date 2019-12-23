@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -14,6 +15,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.commands.PlayerCommands;
 import me.caleb.BlockBR.listeners.BlockBroke;
 import me.caleb.BlockBR.utils.Chat;
@@ -25,10 +27,12 @@ public class Main extends JavaPlugin{
 	private String host, password, database, username;
 	private int port;
 	public static Economy economy = null;
-	public FileConfiguration config = getConfig();
+	public FileConfiguration config;
 	
 	@Override
 	public void onEnable() {
+		
+		config = this.getConfig();
 		
 		if (!setupEconomy()) {
             this.getLogger().severe("Disabled due to no Vault dependency found!");
@@ -40,6 +44,16 @@ public class Main extends JavaPlugin{
 		
 		loadConfig();
 		getConfig().options().copyDefaults(true);
+		
+		String mineType = config.getString("MineType");
+		List<String> groupList = config.getStringList("GroupList");
+		Group g = new Group(this);
+		
+		if(mineType.equalsIgnoreCase("group") && groupList.equals(null)) {
+			g.formulateConfig("form");
+		}else {
+			g.formulateConfig("remove");
+		}
 		
 		new BlockBroke(this);
 		new PlayerCommands(this);

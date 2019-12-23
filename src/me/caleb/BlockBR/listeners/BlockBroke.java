@@ -27,8 +27,7 @@ public class BlockBroke implements Listener{
 		Block block = e.getBlock();
 		Player player = e.getPlayer();
 		String playerName = player.getName();
-		DataManager dm = new DataManager(plugin);
-		
+		DataManager dm = new DataManager(plugin, player);
 		//The region plugins cancel the block breaking. If it's cancelled, e.isCancelled is true
 		if(e.isCancelled()) {
 			//If block broken is canceled
@@ -36,11 +35,12 @@ public class BlockBroke implements Listener{
 		}else {
 			//If block broken is not canceled aka broken
 			boolean inDB = dm.ifInDB(playerName);
-			
+
 			if(inDB == true) {
-				Checker c = new Checker(plugin);
+				Checker c = new Checker(plugin, block, player);
+				c.formMaterialList();
 			}else {
-				
+				dm.addPlayer(player);
 			}
 		}
 		

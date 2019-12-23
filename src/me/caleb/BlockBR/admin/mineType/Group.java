@@ -22,6 +22,11 @@ public class Group {
 		this.p = p;
 	}
 	
+	public Group(Main plugin) {
+		this.plugin = plugin;
+		config = plugin.getConfig();
+	}
+	
 	/*
 	 * Method that returns a 2d array
 	 * of the groups
