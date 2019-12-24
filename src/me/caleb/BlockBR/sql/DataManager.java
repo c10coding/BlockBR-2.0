@@ -17,10 +17,12 @@ public class DataManager {
 
 	private Main plugin;
 	private Player p;
+	private FileConfiguration config;
 	
 	public DataManager(Main plugin,Player p) {
 		this.plugin = plugin;
 		this.p = p;
+		config = plugin.getConfig();
 	}
 	
 	//Gets all the data from the player
@@ -289,11 +291,23 @@ public class DataManager {
 		
 		
 	}
+	
+	public boolean ifAllTiersAreDone(String tier) {
+		
+		List<String> tierList = config.getStringList("TierList");
+		
+		return false;
+	}
 
-	public void levelUp() {
+	public void levelUp(String tier) {
 		
 		try {
-			
+			int level = getLevel();
+			level++;
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET level=? WHERE playerName=?");
+			stmt.setString(1, String.valueOf(level));
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -301,7 +315,19 @@ public class DataManager {
 	}
 
 	public void resetTiers() {
-		// TODO Auto-generated method stub
+		
+		List<String> tierList = config.getStringList("TierList");
+		
+		for(String tier : tierList) {
+			try {
+				PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET " + tier + "=? WHERE playerName=?");
+				stmt.setInt(1, 0);
+				stmt.setString(2, p.getName());
+				stmt.executeUpdate();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

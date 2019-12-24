@@ -159,10 +159,17 @@ public class Checker {
 				String group = dm.getGroup();
 				
 				//If this is the last group
+				//Level up
 				if(groups.get(groups.size()-1).equalsIgnoreCase(group)) {
 					if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
-						dm.levelUp();
+						
+						dm.levelUp(tier);
 						dm.resetTiers();
+						int level = dm.getLevel();
+						
+						Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to level " + level);
+						Chat.sendPlayerMessage(p, "Enjoy your new set of rewards for the next tiers! You are now back on tier &5&l" + tierList.get(0).toUpperCase());
+						
 						return;
 					}
 				}
@@ -178,6 +185,8 @@ public class Checker {
 					dm.setToDone(tier);
 					return;
 				}
+				
+			}else if(mineType.equalsIgnoreCase("all")) {
 				
 			}
 			
