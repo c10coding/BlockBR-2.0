@@ -88,19 +88,25 @@ public class Tier {
 		
 		try {
 			
-			for(int x = 0; x < tierList.size(); x++) {
+			for(int x = 1; x < tierList.size(); x++) {
 				String tierName = tierList.get(x).toLowerCase();
 				String query = "ALTER TABLE `blockbr2` DROP " + tierName;
 				PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
-				if(stmt.executeUpdate() == 1) {
+				int rowsAffected = stmt.executeUpdate();
+				
+				if(rowsAffected == 0) {
 					configRemoveAll();
 				}
+				
 			}
 			
 		}catch(SQLException e) {
+			e.printStackTrace();
 			Chat.sendPlayerMessage(p, "There has been an error while removing a tier. Please contact an admin or the plugin owner");
 			return;
 		}
+		
+		Chat.sendPlayerMessage(p, "All tiers have been removed!");
 		
 	}
 	
@@ -127,7 +133,7 @@ public class Tier {
 		switch(action) {
 		
 			case "add":
-				config.set("Tiers." + tierName + ".Properties.Material","Material.GRASS_BLOCK");
+				config.set("Tiers." + tierName + ".Properties.Material","GRASS_BLOCK");
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.Threshold", 500);
 				config.set("Tiers." + tierName + ".Properties.Rewards.Money", 0);
@@ -171,6 +177,8 @@ public class Tier {
 		for(int x = 0; x < tierList.size(); x++) {
 			configWork(tierList.get(x).toLowerCase(), "remove");
 		}
+		
+		
 		
 	}
 	

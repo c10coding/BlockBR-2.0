@@ -45,15 +45,21 @@ public class Main extends JavaPlugin{
 		loadConfig();
 		getConfig().options().copyDefaults(true);
 		
+		/*
+		 * When the plugin gets reloaded or ran for the first time, it checks to see if any 
+		 * edits have been made to the MineType to make sure that the config is formulated correctly
+		 * according to the MineType
+		 */
+		/*
 		String mineType = config.getString("MineType");
 		List<String> groupList = config.getStringList("GroupList");
 		Group g = new Group(this);
 		
-		if(mineType.equalsIgnoreCase("group") && groupList.equals(null)) {
+		if(mineType.equalsIgnoreCase("group") && groupList.isEmpty()) {
 			g.formulateConfig("form");
 		}else {
 			g.formulateConfig("remove");
-		}
+		}*/
 		
 		new BlockBroke(this);
 		new PlayerCommands(this);

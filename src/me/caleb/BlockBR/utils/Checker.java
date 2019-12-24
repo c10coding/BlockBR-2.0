@@ -20,7 +20,8 @@ public class Checker {
 	String mineType;
 	Player p;
 	ArrayList<Material> matList = new ArrayList<Material>();
-	String currentTier;
+	String currentTier, groupTierAffected;
+	ArrayList<String> undoneTiers;
 	Block b;
 	
 	public Checker(Main plugin, Block b, Player p) {
@@ -47,6 +48,7 @@ public class Checker {
 	
 	public boolean aValidBlock() {
 		
+		p.sendMessage("called");
 		Material blockMat = b.getType();
 		
 		if(mineType.equalsIgnoreCase("all")) {
@@ -61,20 +63,23 @@ public class Checker {
 			
 		}else if(mineType.equalsIgnoreCase("group")){
 			
-			Group g = new Group(plugin, p);
-			String group = null;
+			DataManager dm = new DataManager(plugin, p);
+			String group = dm.getGroup();
+			ArrayList<Material> groupMats = new ArrayList<Material>();
+			ArrayList<String> undoneTiers = dm.getUndoneTiers();
 			
-			/*
-			 * This shouldn't happen unless the user deletes the default groups and does not make new ones
-			 */
-			try {
-				group = g.tierGroup(currentTier);
-			}catch(NullPointerException e) {
-				Bukkit.getConsoleSender().sendMessage("A player has mined a block, but there are no groups! Please create more groups for the plugin to properly function by doing /bbr group create (Group name)");
-				return false;
+			for(String tier : undoneTiers) {
+				
+				String matString  = config.getString("Tiers." + tier + ".Properties.Material");
+				Material mat = Material.valueOf(matString);
+				
+				if(mat.equals(blockMat)) {
+					groupTierAffected = tier;
+					p.sendMessage(groupTierAffected);
+					return true;
+				}
+				
 			}
-			
-			List<String> tiersInGroup = config.getStringList("Groups." + group);
 			
 		
 		}

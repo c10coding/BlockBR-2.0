@@ -39,6 +39,7 @@ public class BlockBroke implements Listener{
 			if(inDB == true) {
 				Checker c = new Checker(plugin, block, player);
 				c.formMaterialList();
+				c.aValidBlock();
 			}else {
 				dm.addPlayer(player);
 			}

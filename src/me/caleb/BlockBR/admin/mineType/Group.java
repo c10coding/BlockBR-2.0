@@ -1,11 +1,14 @@
 package me.caleb.BlockBR.admin.mineType;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import com.mysql.jdbc.PreparedStatement;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.utils.Chat;
@@ -173,6 +176,21 @@ public class Group {
 		}
 		
 	}
+	
+	/*
+	 * Gets the group at a specific index
+	 */
+	public List<String> getGroupTiers(int index) {
+		
+		FileConfiguration config = plugin.getConfig();
+		List<String> groupList = config.getStringList("GroupList");
+		
+		String group = groupList.get(index);
+		List<String> groupTiers = config.getStringList("Groups." + group);
+
+		return groupTiers;
+	}
+	
 	
 	/*
 	 * Returns the group that the tier is in
