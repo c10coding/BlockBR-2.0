@@ -149,7 +149,7 @@ public class Group {
 		groupList.add(newName);
 		config.set("GroupList", groupList);
 		
-		//Gets the old group contents and pastes them to the new group
+		// Gets the old group contents and pastes them to the new group
 		List<String> prevGroup = config.getStringList("Groups." + groupName);
 		config.set("Groups." + groupName, null);
 		

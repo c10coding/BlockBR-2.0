@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.sql.DataManager;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Checker {
 
@@ -31,9 +33,9 @@ public class Checker {
 		config = plugin.getConfig();
 		mineType = config.getString("MineType");
 		DataManager dm = new DataManager(plugin,p);
-		currentTier = dm.getTier(p);
+		currentTier = dm.getTier();
 	}
-	
+	/*
 	public void formMaterialList() {
 		
 		List<String> tierList = config.getStringList("TierList");
@@ -44,22 +46,34 @@ public class Checker {
 			matList.add(material);
 		}
 		
-	}
+	}*/
 	
-	public boolean aValidBlock() {
+	public String tierAffected() {
 		
-		p.sendMessage("called");
 		Material blockMat = b.getType();
 		
 		if(mineType.equalsIgnoreCase("all")) {
 			
-			for(Material mat : matList) {
+			List<String> tierList = config.getStringList("TierList");
+			
+			for(String tier : tierList) {
 				
-				if(mat.equals(blockMat)) {
-					return true;
+				String materialString = config.getString("Tiers." + tier + ".Properties.Material");
+				Material mat = Material.getMaterial(materialString);
+				
+				if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
+					if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
+						return tier;
+					}
+				}else {
+					if(blockMat.equals(mat)) {
+						return tier;
+					}
 				}
 				
 			}
+			
+			return "none";
 			
 		}else if(mineType.equalsIgnoreCase("group")){
 			
@@ -73,19 +87,126 @@ public class Checker {
 				String matString  = config.getString("Tiers." + tier + ".Properties.Material");
 				Material mat = Material.valueOf(matString);
 				
-				if(mat.equals(blockMat)) {
-					groupTierAffected = tier;
-					p.sendMessage(groupTierAffected);
-					return true;
+				if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
+					if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
+						return tier;
+					}
+				
+				}else{
+					if(mat.equals(blockMat)) {
+						return tier;
+					}
+				}
+			}
+			
+		return "none";
+		
+		}else if(mineType.equalsIgnoreCase("onebyone")) {
+			
+			DataManager dm = new DataManager(plugin,p);
+			String tier = dm.getTier();
+			String matString = config.getString("Tiers." + tier + ".Properties.Material");
+			Material mat = Material.valueOf(matString);
+			
+			if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
+				if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
+					return tier;
+				}
+			}else {
+				if(blockMat.equals(mat)) {
+					return tier;
+				}
+			}
+			
+		}else {
+			return "none";
+		}
+		
+		return "none";
+		
+	}
+	
+	public boolean atThreshold(String tier) {
+		
+		DataManager dm = new DataManager(plugin, p);
+		int amount = dm.getTierAmount(tier);
+		amount++;
+		String thresholdString = config.getString("Tiers." + tier + ".Properties.Threshold");
+		int threshold = Integer.parseInt(thresholdString);
+		if(threshold == amount) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	/*
+	 * Increasing the tier amount or it increases your group or tier
+	 */
+	public void increaseAmount(boolean atThreshold,String tier) {
+		
+		DataManager dm = new DataManager(plugin, p);
+		
+		if(atThreshold) {
+			
+			List<String> tierList = config.getStringList("TierList");
+			
+			
+			if(mineType.equalsIgnoreCase("group")) {
+				List<String> undoneTiers = dm.getUndoneTiers();
+				List<String> groups = config.getStringList("GroupList");
+				String group = dm.getGroup();
+				
+				//If this is the last group
+				if(groups.get(groups.size()-1).equalsIgnoreCase(group)) {
+					if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
+						dm.levelUp();
+						dm.resetTiers();
+						return;
+					}
+				}
+				
+				//You aren't on the last group, but you are on the last tier of whatever group you are on
+				
+				if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to the next group! You have also completed tier &5&l" + tier.toUpperCase());
+					dm.setToDone(tier);
+					return;
+				}else {
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have completed the tier &5&l" + tier.toUpperCase() + "&b. You are one step closer to going to the next group!");
+					dm.setToDone(tier);
+					return;
 				}
 				
 			}
 			
-		
+		}else {
+			
+			int amount = dm.getTierAmount(tier);
+			/*
+			 * If the amount is -1, then stop all execution of the plugin
+			 * You can't increment a value of "done!"
+			 */
+			if(amount == -1) {
+				return;
+			}
+			int level = dm.getLevel();
+			int threshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
+			amount++;
+			dm.increaseAmount(tier, amount);
+			
+			if(mineType.equalsIgnoreCase("group")) {
+				String group = dm.getGroup();
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lGroup: &8&l[&5&l" + group.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
+			}else{
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lTier: &8&l[&5&l" + tier.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
+			}
+			
+			
+			return;
 		}
 		
-		
-		return false;
 	}
 	
 }

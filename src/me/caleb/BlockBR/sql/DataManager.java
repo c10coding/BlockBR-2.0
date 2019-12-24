@@ -48,6 +48,49 @@ public class DataManager {
 		return null;
 	}
 	
+	public int getLevel() {
+		
+		try {
+			ResultSet rs = getResultSet(p.getName());
+			return rs.getInt("level");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return 5;
+	}
+	
+	/*
+	 * Gets the tier amount for a specific tier
+	 */
+	public int getTierAmount(String tier) {
+		
+		PreparedStatement stmt;
+		int amount = 0;
+		try {
+			stmt = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr2` WHERE playerName=?");
+			stmt.setString(1, p.getName());
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			
+			/*
+			 * If the amount comes back as "done" then it makes the value -1
+			 * This is unnecessary, but i'm going to leave it there because everything is working as intended
+			 */
+			try {
+				amount = Integer.parseInt(rs.getString(tier));
+			}catch(NumberFormatException e) {
+				return -1;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return amount;
+	}
+	
 	//Checks to see if player is in database
 	public boolean ifInDB(String playerName) {
 		
@@ -57,7 +100,7 @@ public class DataManager {
 			stmt.setString(1, playerName);
 			
 			ResultSet rs = stmt.executeQuery();
-			//Bukkit.broadcastMessage(playerName);
+			
 			if(rs.next()) {
 				return true;
 			}else {
@@ -89,7 +132,10 @@ public class DataManager {
 		
 	}
 	
-	public String getTier(Player p) {
+	/*
+	 * Gets the tier that the player is currently on
+	 */
+	public String getTier() {
 		
 		String playerName = p.getName();
 		
@@ -109,6 +155,22 @@ public class DataManager {
 		}
 		
 		return null;
+		
+	}
+	
+	/*
+	 * When all the checks are done and the player isn't at the threshold, increase the amount that they have at a specific tier
+	 */
+	public void increaseAmount(String tier,int amount) {
+		
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET " + tier + "=? WHERE playerName=?");
+			stmt.setInt(1, amount);
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -140,7 +202,6 @@ public class DataManager {
 					String amount = rs.getString(tier);
 					
 					if(!amount.equalsIgnoreCase("done")) {
-						
 						group = Group.tierGroup(tier);
 						return group;
 					}
@@ -182,7 +243,6 @@ public class DataManager {
 						String amount = rs.getString(tier);
 						
 						if(!amount.equalsIgnoreCase("done")) {
-							//Bukkit.broadcastMessage(tier);
 							
 							group = Group.tierGroup(tier);
 							
@@ -215,5 +275,40 @@ public class DataManager {
 		return undoneTiers;
 		
 	}
+
+	public void setToDone(String tier) {
+		
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET " + tier + "=? WHERE playerName=?");
+			stmt.setString(1, "done");
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public void levelUp() {
+		
+		try {
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void resetTiers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void nextTier() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 }

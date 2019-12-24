@@ -405,8 +405,10 @@ public class Tier {
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
 		
 		Chat.sendPlayerMessage(p, "List of tiers:");
+		int counter = 1;
 		for(String tier : tierList) {
-			p.sendMessage(Chat.chat("&b&l- " + tier));
+			p.sendMessage(Chat.chat("&b&l " + counter + ".) " + tier));
+			counter++;
 		}
 		
 		

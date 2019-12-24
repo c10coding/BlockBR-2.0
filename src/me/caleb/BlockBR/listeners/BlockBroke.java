@@ -38,10 +38,18 @@ public class BlockBroke implements Listener{
 
 			if(inDB == true) {
 				Checker c = new Checker(plugin, block, player);
-				c.formMaterialList();
-				c.aValidBlock();
+				String tier = c.tierAffected();
+				if(!tier.equalsIgnoreCase("none")) {
+					
+					boolean atThreshold = c.atThreshold(tier);
+					c.increaseAmount(atThreshold,tier);
+					
+				}else {
+					return;
+				}
 			}else {
 				dm.addPlayer(player);
+				return;
 			}
 		}
 		
