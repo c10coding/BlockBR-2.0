@@ -30,7 +30,7 @@ public class DataManager {
 		
 		try {
 			
-			PreparedStatement stmt = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr` WHERE playerName=?");
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr2` WHERE playerName=?");
 			stmt.setString(1, playerName);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -48,6 +48,7 @@ public class DataManager {
 			e.printStackTrace();
 		}
 		return null;
+		
 	}
 	
 	public int getLevel() {
@@ -222,7 +223,7 @@ public class DataManager {
 	/*
 	 * This is a mess of a method
 	 */
-	public ArrayList<String> getUndoneTiers(){
+	public ArrayList<String> getUndoneTiersInGroup(){
 		
 		List<String> groupList = plugin.config.getStringList("GroupList");
 		ArrayList<String> undoneTiers = new ArrayList<String>();
@@ -292,11 +293,37 @@ public class DataManager {
 		
 	}
 	
-	public boolean ifAllTiersAreDone(String tier) {
+	/*
+	 * Returns the undone tiers of all the tiers
+	 * If tier =! "done", then it adds it to the array of undone tiers
+	 */
+	public ArrayList<String> getAllUndoneTiers() {
 		
 		List<String> tierList = config.getStringList("TierList");
+		ArrayList<String> undoneTiers = new ArrayList<String>();
 		
-		return false;
+		for(String tier : tierList) {
+			
+			try {
+				
+				PreparedStatement stmt = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr2` WHERE playerName=?");
+				stmt.setString(1, p.getName());
+				ResultSet rs = stmt.executeQuery();
+				rs.next();
+				String tierAmount = rs.getString(tier);
+				
+				if(!tierAmount.equalsIgnoreCase("done")) {
+					undoneTiers.add(tier);
+				}
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+		return undoneTiers;
 	}
 
 	public void levelUp(String tier) {
@@ -304,6 +331,7 @@ public class DataManager {
 		try {
 			int level = getLevel();
 			level++;
+			//p.sendMessage(String.valueOf(level));
 			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET level=? WHERE playerName=?");
 			stmt.setString(1, String.valueOf(level));
 			stmt.setString(2, p.getName());

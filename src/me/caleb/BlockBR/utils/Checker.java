@@ -80,7 +80,7 @@ public class Checker {
 			DataManager dm = new DataManager(plugin, p);
 			String group = dm.getGroup();
 			ArrayList<Material> groupMats = new ArrayList<Material>();
-			ArrayList<String> undoneTiers = dm.getUndoneTiers();
+			ArrayList<String> undoneTiers = dm.getUndoneTiersInGroup();
 			
 			for(String tier : undoneTiers) {
 				
@@ -133,6 +133,7 @@ public class Checker {
 		amount++;
 		String thresholdString = config.getString("Tiers." + tier + ".Properties.Threshold");
 		int threshold = Integer.parseInt(thresholdString);
+		
 		if(threshold == amount) {
 			return true;
 		}else {
@@ -150,11 +151,22 @@ public class Checker {
 		
 		if(atThreshold) {
 			
+			//Increases the money and the threshold
+			int tierThreshold = Integer.parseInt(config.getString("Tiers." + tier + ".Properties.Threshold"));
+			double tierMult = Double.parseDouble(config.getString("Tiers." + tier + ".Properties.Multiplier"));
+			double moneyMult = Double.parseDouble(config.getString("Tiers." + tier + ".Propeties.MoneyMultiplier"));
+			int money = Integer.parseInt(config.getString("Tiers." + tier + ".Properties.Rewards.Money"));
+			
+			int newMoney = (int) (money * moneyMult);
+			int newThreshold = (int) (tierThreshold * tierMult);
+			
+			config.set("Tiers." + tier + ".Properties.Money", newMoney);
+			config.set("Tiers." + tier + ".Properties.Threshold", newThreshold);
+			
 			List<String> tierList = config.getStringList("TierList");
 			
-			
 			if(mineType.equalsIgnoreCase("group")) {
-				List<String> undoneTiers = dm.getUndoneTiers();
+				List<String> undoneTiers = dm.getUndoneTiersInGroup();
 				List<String> groups = config.getStringList("GroupList");
 				String group = dm.getGroup();
 				
@@ -165,6 +177,7 @@ public class Checker {
 						
 						dm.levelUp(tier);
 						dm.resetTiers();
+						
 						int level = dm.getLevel();
 						
 						Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to level " + level);
@@ -175,7 +188,6 @@ public class Checker {
 				}
 				
 				//You aren't on the last group, but you are on the last tier of whatever group you are on
-				
 				if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
 					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to the next group! You have also completed tier &5&l" + tier.toUpperCase());
 					dm.setToDone(tier);
@@ -186,7 +198,31 @@ public class Checker {
 					return;
 				}
 				
+				
+				
 			}else if(mineType.equalsIgnoreCase("all")) {
+				
+				ArrayList<String> undoneTiers = dm.getAllUndoneTiers();
+				
+				//If this is the last tier
+				if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
+					
+					dm.levelUp(tier);
+					dm.resetTiers();
+					int level = dm.getLevel();
+					
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to level " + level);
+					Chat.sendPlayerMessage(p, "Enjoy your new set of rewards for the next tiers! You are now back on tier &5&l" + tierList.get(0).toUpperCase());
+					return;
+					
+				//If this is not the last tier
+				}else {
+					
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have completed the tier &5&l" + tier.toUpperCase() + "&b. You are one step closer to leveling up!");
+					dm.setToDone(tier);
+					return;
+					
+				}
 				
 			}
 			

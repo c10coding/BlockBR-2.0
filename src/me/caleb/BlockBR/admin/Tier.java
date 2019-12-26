@@ -88,7 +88,7 @@ public class Tier {
 		
 		try {
 			
-			for(int x = 1; x < tierList.size(); x++) {
+			for(int x = 0; x < tierList.size(); x++) {
 				String tierName = tierList.get(x).toLowerCase();
 				String query = "ALTER TABLE `blockbr2` DROP " + tierName;
 				PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
@@ -135,6 +135,7 @@ public class Tier {
 			case "add":
 				config.set("Tiers." + tierName + ".Properties.Material","GRASS_BLOCK");
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
+				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.Threshold", 500);
 				config.set("Tiers." + tierName + ".Properties.Rewards.Money", 0);
 				config.set("Tiers." + tierName + ".Properties.Rewards.Crate", "CrateNameGoesHere");
@@ -155,6 +156,7 @@ public class Tier {
 			case "remove":
 				config.set("Tiers." + tierName + ".Properties.Material",null);
 				config.set("Tiers." + tierName + ".Properties.Multiplier", null);
+				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", null);
 				config.set("Tiers." + tierName + ".Properties.Threshold", null);
 				config.set("Tiers." + tierName + ".Properties.Reward.RewardType", null);
 				config.set("Tiers." + tierName + ".Properties.Reward", null);

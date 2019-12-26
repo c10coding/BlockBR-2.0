@@ -26,6 +26,7 @@ Tiers:
     Properties:
       Material: GRASS_BLOCK
       Multiplier: 2.0
+      MoneyMultiplier: 2.0
       Threshold: 750
       Rewards: 
         #RewardType: Money
