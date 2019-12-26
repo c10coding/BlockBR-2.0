@@ -35,18 +35,6 @@ public class Checker {
 		DataManager dm = new DataManager(plugin,p);
 		currentTier = dm.getTier();
 	}
-	/*
-	public void formMaterialList() {
-		
-		List<String> tierList = config.getStringList("TierList");
-		
-		for(String tierName : tierList) {
-			String materialString = config.getString("Tiers." + tierName + ".Properties.Material");
-			Material material = Material.getMaterial(materialString);
-			matList.add(material);
-		}
-		
-	}*/
 	
 	public String tierAffected() {
 		
@@ -58,8 +46,8 @@ public class Checker {
 			
 			for(String tier : tierList) {
 				
-				String materialString = config.getString("Tiers." + tier + ".Properties.Material");
-				Material mat = Material.getMaterial(materialString);
+				String matString = config.getString("Tiers." + tier + ".Properties.Material");
+				Material mat = Material.getMaterial(matString);
 				
 				if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
 					if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
@@ -85,7 +73,7 @@ public class Checker {
 			for(String tier : undoneTiers) {
 				
 				String matString  = config.getString("Tiers." + tier + ".Properties.Material");
-				Material mat = Material.valueOf(matString);
+				Material mat = Material.getMaterial(matString);
 				
 				if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
 					if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
@@ -99,14 +87,14 @@ public class Checker {
 				}
 			}
 			
-		return "none";
+			return "none";
 		
 		}else if(mineType.equalsIgnoreCase("onebyone")) {
 			
 			DataManager dm = new DataManager(plugin,p);
 			String tier = dm.getTier();
 			String matString = config.getString("Tiers." + tier + ".Properties.Material");
-			Material mat = Material.valueOf(matString);
+			Material mat = Material.getMaterial(matString);
 			
 			if(mat.equals(Material.GRASS_BLOCK) || mat.equals(Material.DIRT)) {
 				if(blockMat.equals(Material.GRASS_BLOCK) || blockMat.equals(Material.DIRT)) {
@@ -122,23 +110,40 @@ public class Checker {
 			return "none";
 		}
 		
-		return "none";
+			return "none";
 		
 	}
 	
 	public boolean atThreshold(String tier) {
 		
-		DataManager dm = new DataManager(plugin, p);
+		DataManager dm = new DataManager(plugin,p);
 		int amount = dm.getTierAmount(tier);
+		int threshold = getThreshold(tier);
 		amount++;
-		String thresholdString = config.getString("Tiers." + tier + ".Properties.Threshold");
-		int threshold = Integer.parseInt(thresholdString);
 		
 		if(threshold == amount) {
 			return true;
 		}else {
 			return false;
 		}
+		
+	}
+	
+	public int getThreshold(String tier) {
+		
+		DataManager dm = new DataManager(plugin, p);
+		int level = dm.getLevel();
+		double mult = config.getDouble("Tiers." + tier + ".Properties.Multiplier");
+		int initThreshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
+		int threshold = 0;
+		//If they are on a level greater than 1, then get the appropriate threshold based on their level
+		if(level > 1) {
+			threshold = (int) ((int) initThreshold * (mult * (level-1)));
+		}else {
+			return initThreshold;
+		}
+		
+		return threshold;
 		
 	}
 	
@@ -150,18 +155,6 @@ public class Checker {
 		DataManager dm = new DataManager(plugin, p);
 		
 		if(atThreshold) {
-			
-			//Increases the money and the threshold
-			int tierThreshold = Integer.parseInt(config.getString("Tiers." + tier + ".Properties.Threshold"));
-			double tierMult = Double.parseDouble(config.getString("Tiers." + tier + ".Properties.Multiplier"));
-			double moneyMult = Double.parseDouble(config.getString("Tiers." + tier + ".Propeties.MoneyMultiplier"));
-			int money = Integer.parseInt(config.getString("Tiers." + tier + ".Properties.Rewards.Money"));
-			
-			int newMoney = (int) (money * moneyMult);
-			int newThreshold = (int) (tierThreshold * tierMult);
-			
-			config.set("Tiers." + tier + ".Properties.Money", newMoney);
-			config.set("Tiers." + tier + ".Properties.Threshold", newThreshold);
 			
 			List<String> tierList = config.getStringList("TierList");
 			
@@ -224,6 +217,31 @@ public class Checker {
 					
 				}
 				
+			}else if(mineType.equalsIgnoreCase("onebyone")) {
+				
+				//This is the last tier
+				if(tierList.get(tierList.size()-1).equalsIgnoreCase(tier)) {
+					
+					dm.levelUp(tier);
+					dm.resetTiers();
+					int level = dm.getLevel();
+					
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to level " + level);
+					Chat.sendPlayerMessage(p, "Enjoy your new set of rewards for the next tiers! You are now back on tier &5&l" + tierList.get(0).toUpperCase());
+					return;
+				//This is not the last tier
+				}else {
+					
+					String nextTier = tierList.get(tierList.indexOf(tier)+1);
+					
+					Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have completed the tier &5&l" + tier.toUpperCase() + "&b. You are now on tier &5&l" + nextTier.toUpperCase());
+					
+					dm.setToDone(tier);
+					dm.nextTier(tier);
+					return;
+					
+				}
+				
 			}
 			
 		}else {
@@ -237,13 +255,13 @@ public class Checker {
 				return;
 			}
 			int level = dm.getLevel();
-			int threshold = config.getInt("Tiers." + tier + ".Properties.Threshold");
+			int threshold = getThreshold(tier);
 			amount++;
 			dm.increaseAmount(tier, amount);
 			
 			if(mineType.equalsIgnoreCase("group")) {
 				String group = dm.getGroup();
-				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lGroup: &8&l[&5&l" + group.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lTier: &8&l[&5&l" + tier.toUpperCase() + "&8&l]" + " &r&l| &0&lGroup: &8&l[&5&l" + group.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
 			}else{
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lTier: &8&l[&5&l" + tier.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
 			}

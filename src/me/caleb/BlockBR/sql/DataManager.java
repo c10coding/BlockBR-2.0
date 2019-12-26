@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -357,10 +356,35 @@ public class DataManager {
 			}
 		}
 		
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET tier=? WHERE playerName=?");
+			stmt.setString(1, tierList.get(0));
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
-	public void nextTier() {
-		// TODO Auto-generated method stub
+	public void nextTier(String completedTier) {
+		
+		List<String> tierList = config.getStringList("TierList");
+		
+		int index = tierList.indexOf(completedTier);
+		int nextIndex = index+=1;
+		
+		String nextTier = tierList.get(nextIndex);
+		
+		PreparedStatement stmt;
+		try {
+			stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET tier=? WHERE playerName=?");
+			stmt.setString(1, nextTier);
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

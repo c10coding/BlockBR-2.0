@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockFormEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.sql.DataManager;
@@ -22,15 +25,18 @@ public class BlockBroke implements Listener{
 	}
 	
 	@EventHandler
-	public void onBlockBreak(BlockBreakEvent e) {
+	private void onBlockBreak(BlockBreakEvent e) {
 		
 		Block block = e.getBlock();
 		Player player = e.getPlayer();
 		String playerName = player.getName();
 		DataManager dm = new DataManager(plugin, player);
-		//The region plugins cancel the block breaking. If it's cancelled, e.isCancelled is true
-		if(e.isCancelled()) {
-			//If block broken is canceled
+		/*
+		 * If the breaking of the block is actually canceled i.e. a region plugin is preventing you from breaking the block
+		 * If the block has meta data of being placed
+		 * If the block has meta data of it being formed (The forming of cobblestone or obsidian)
+		 */
+		if(e.isCancelled() || block.hasMetadata("PLACED") || block.hasMetadata("FORMED")) {
 			return;
 		}else {
 			//If block broken is not canceled aka broken
@@ -53,6 +59,19 @@ public class BlockBroke implements Listener{
 			}
 		}
 		
+	}
+	
+	@EventHandler
+	private void onBlockPlace(BlockPlaceEvent event) {
+		Block block = event.getBlock();
+		// Makes a new metadata value called placed 
+		block.setMetadata("PLACED", new FixedMetadataValue(plugin,true));
+	}
+	
+	@EventHandler
+	private void onBlockForm(BlockFormEvent event) {
+		Block block = event.getBlock();
+		block.setMetadata("FORMED", new FixedMetadataValue(plugin,true));
 	}
 	
 }
