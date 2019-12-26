@@ -15,11 +15,11 @@ import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.Checker;
 
-public class BlockBroke implements Listener{
+public class BlockEvent implements Listener{
 
 	private Main plugin;
 	
-	public BlockBroke(Main plugin) {
+	public BlockEvent(Main plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this,plugin);
 	}

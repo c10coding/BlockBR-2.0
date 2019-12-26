@@ -141,7 +141,7 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Rewards.Crate", "CrateNameGoesHere");
 				
 				List<String> itemList = new ArrayList<String>();
-				itemList.add("name:Apple amount:64 Enchants: Damage_all 1;Protection 1");
+				itemList.add("name: Apple amount:64 enchants: Damage_all 1;Protection 1");
 				config.set("Tiers." + tierName + ".Properties.Rewards.Items", itemList);
 				
 				List<String> commandList = new ArrayList<String>();

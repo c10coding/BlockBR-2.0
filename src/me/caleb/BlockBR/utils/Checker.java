@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.rewards.RewardHandler;
 import me.caleb.BlockBR.sql.DataManager;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -157,6 +158,8 @@ public class Checker {
 		if(atThreshold) {
 			
 			List<String> tierList = config.getStringList("TierList");
+			RewardHandler r = new RewardHandler(plugin,tier,p);
+			r.giveRewards();
 			
 			if(mineType.equalsIgnoreCase("group")) {
 				List<String> undoneTiers = dm.getUndoneTiersInGroup();
