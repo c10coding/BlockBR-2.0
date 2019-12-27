@@ -17,3 +17,21 @@ TierList:
 Tiers:
    
 Help:
+- Player commands:
+- /&6&lbbr tierlist &rshows you all the tiers
+- /&6&lbbr menu &rbrings up the BlockBR menu
+- Admin Commands:
+- /&6&lbbr tier add (Tier Name) &rallows you to create a new tier
+- /&6&lbbr tier remove (Tier name) &rallows you to remove a tier
+- /&6&lbbr tier remove all &rallows you to remove all tiers
+- /&6&lbbr tier edit ("mult" | "mat" | "thresh") (Your multiplier | Your material/Item name | Your threshold number) &rallows you to edit the different properties of a tier. (Multiplier, Material, Threshold)
+
+Help2:
+- /&6&lbbr rewardadd (The tier) (\"item\")&r adds the item in your hand to the rewards list for this tier
+- /&6&lbbr rewardadd (The tier) (\"command\")&r asks what command you would like to add to this tier
+- /&6&lbbr rewardedit (The tier) (\"money\") (The amount) &redits the money amount for this tier
+- /&6&lbbr rewardedit (The tier) (\"crate\") (The crate) &radds the desired crate you want for this tier
+- /&6&lbbr rewardremove (The tier) (\"item\") (# Item) &rremoves the desired reward item from the tier
+- /&6&lbbr rewardremove (The tier) (\"command\") (# Item) &rremoves the desired reward item from the tier
+- /&6&lbbr changeType ("all" | "group" | "onebyone")&r changes the mine type
+- /&6&lbbr group create (Group name)&r creates a group with the desired name

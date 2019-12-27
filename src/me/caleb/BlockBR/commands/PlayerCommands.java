@@ -1,18 +1,28 @@
 package me.caleb.BlockBR.commands;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 
+import com.sun.corba.se.spi.orbutil.fsm.Action;
+
+import cratereloaded.p;
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.Rewards;
 import me.caleb.BlockBR.admin.Tier;
 import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.utils.Chat;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class PlayerCommands implements CommandExecutor{
 
@@ -96,7 +106,7 @@ public class PlayerCommands implements CommandExecutor{
 					}
 				//bbr tier info
 				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("info") && !args[2].isEmpty()) {
-					if(isPlayer() == true) {
+					if(isAdmin() == true) {
 						t.getTierInfo(player, args[2]);
 					}
 				//bbr rewardremove (Tier) "Item" (##)
@@ -144,10 +154,15 @@ public class PlayerCommands implements CommandExecutor{
 					if(isAdmin() == true) {
 						g.editName(args[2], args[3]);
 					}
+				}else if(args[0].equalsIgnoreCase("help") && args.length == 1) {
+					if(isPlayer() == true) {
+						sendHelp();
+					}
+				}else if(args[0].equalsIgnoreCase("help2") && args.length == 1) {
+					sendHelp2();
 				}else {
 					sendHelp();
-				}	
-
+				}
 			}
 			
 		}catch(ArrayIndexOutOfBoundsException e) {
@@ -157,6 +172,8 @@ public class PlayerCommands implements CommandExecutor{
 		return false;
 	}
 	
+	
+
 	public boolean isAdmin() {
 		
 		if(player.hasPermission("blockbr.admin")) {
@@ -179,8 +196,56 @@ public class PlayerCommands implements CommandExecutor{
 		
 	}
 	
-	public void sendHelp() {
-		Chat.sendPlayerMessage(player, "List of commands:");	
+	private void sendHelp() {
+		FileConfiguration config = plugin.getConfig();
+		Chat.sendPlayerMessage(player, "List of commands:");
+		
+		List<String> helpList = config.getStringList("Help");
+		
+		for(String helpLine : helpList) {
+			player.sendMessage(Chat.chat("&b> " + helpLine));
+		}
+		
+		TextComponent message = new TextComponent("Page 1");
+		TextComponent arrows = new TextComponent(" >>>");
+		arrows.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+		arrows.setBold(true);
+		message.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+		arrows.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help2"));
+		message.addExtra(arrows);
+		arrows.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the next page of commands" ).create() ) );
+
+		player.spigot().sendMessage(message);
+		
+	}
+	
+	private void sendHelp2() {
+		
+		FileConfiguration config = plugin.getConfig();
+		Chat.sendPlayerMessage(player, "Page 2:");
+		List<String> helpList = config.getStringList("Help2");
+		
+		for(String helpLine : helpList) {
+			player.sendMessage(Chat.chat("&b> " + helpLine));
+		}
+		
+		TextComponent arrows = new TextComponent("<<< ");
+		TextComponent message = new TextComponent("Page 2");
+		TextComponent arrows2 = new TextComponent(" >>>");
+		arrows2.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+		arrows2.setBold(true);
+		arrows.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+		arrows.setBold(true);
+		message.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+		arrows.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help"));
+		arrows2.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help2"));
+		arrows.addExtra(message);
+		arrows.addExtra(arrows2);
+		arrows.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the first page of commands" ).create() ) );
+		arrows2.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the next page of commands" ).create() ) );
+		
+		player.spigot().sendMessage(arrows);
+		
 	}
 
 }

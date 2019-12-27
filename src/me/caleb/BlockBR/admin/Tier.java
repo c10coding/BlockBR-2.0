@@ -249,7 +249,7 @@ public class Tier {
 				
 				break;
 				
-			case "threshold":
+			case "thresh":
 				
 				try {
 					//If it's a decimal, you can't cast it straight to a integer. Input String double -> Double -> Integer cast
