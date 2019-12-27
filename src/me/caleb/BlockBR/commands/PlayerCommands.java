@@ -11,8 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 
-import com.sun.corba.se.spi.orbutil.fsm.Action;
-
 import cratereloaded.p;
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.Rewards;
@@ -146,7 +144,7 @@ public class PlayerCommands implements CommandExecutor{
 					if(isAdmin() == true) {
 						g.showGroupList();
 					}
-				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("tiers") && args.length == 3) {
+				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("tierList") && args.length == 3) {
 					if(isAdmin() == true) {
 						g.groupTiers(args[2]);
 					}
@@ -160,6 +158,8 @@ public class PlayerCommands implements CommandExecutor{
 					}
 				}else if(args[0].equalsIgnoreCase("help2") && args.length == 1) {
 					sendHelp2();
+				}else if(args[0].equalsIgnoreCase("help3") && args.length == 1) {
+					sendHelp3();
 				}else {
 					sendHelp();
 				}
@@ -198,7 +198,7 @@ public class PlayerCommands implements CommandExecutor{
 	
 	private void sendHelp() {
 		FileConfiguration config = plugin.getConfig();
-		Chat.sendPlayerMessage(player, "List of commands:");
+		Chat.sendPlayerMessage(player, "&5&lList of commands:");
 		
 		List<String> helpList = config.getStringList("Help");
 		
@@ -222,7 +222,7 @@ public class PlayerCommands implements CommandExecutor{
 	private void sendHelp2() {
 		
 		FileConfiguration config = plugin.getConfig();
-		Chat.sendPlayerMessage(player, "Page 2:");
+		Chat.sendPlayerMessage(player, "&5&lPage 2:");
 		List<String> helpList = config.getStringList("Help2");
 		
 		for(String helpLine : helpList) {
@@ -238,13 +238,37 @@ public class PlayerCommands implements CommandExecutor{
 		arrows.setBold(true);
 		message.setColor(net.md_5.bungee.api.ChatColor.AQUA);
 		arrows.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help"));
-		arrows2.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help2"));
+		arrows2.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help3"));
 		arrows.addExtra(message);
 		arrows.addExtra(arrows2);
 		arrows.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the first page of commands" ).create() ) );
 		arrows2.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the next page of commands" ).create() ) );
 		
 		player.spigot().sendMessage(arrows);
+		
+	}
+	
+	private void sendHelp3() {
+		
+		FileConfiguration config = plugin.getConfig();
+		Chat.sendPlayerMessage(player, "&5&lPage 3:");
+		List<String> helpList = config.getStringList("Help3");
+		
+		for(String helpLine : helpList) {
+			player.sendMessage(Chat.chat("&b> " + helpLine));
+		}
+		
+		TextComponent arrows = new TextComponent("<<< ");
+		TextComponent message = new TextComponent("Page 3");
+		arrows.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+		arrows.setBold(true);
+		message.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+		arrows.setClickEvent( new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bbr help2"));
+		arrows.setHoverEvent( new HoverEvent( HoverEvent.Action.SHOW_TEXT, new ComponentBuilder( "Go to the second page of commands" ).create() ) );
+		arrows.addExtra(message);
+		player.spigot().sendMessage(arrows);
+		
+		
 		
 	}
 

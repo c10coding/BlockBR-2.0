@@ -17,21 +17,27 @@ TierList:
 Tiers:
    
 Help:
-- Player commands:
-- /&6&lbbr tierlist &rshows you all the tiers
-- /&6&lbbr menu &rbrings up the BlockBR menu
-- Admin Commands:
-- /&6&lbbr tier add (Tier Name) &rallows you to create a new tier
-- /&6&lbbr tier remove (Tier name) &rallows you to remove a tier
-- /&6&lbbr tier remove all &rallows you to remove all tiers
-- /&6&lbbr tier edit ("mult" | "mat" | "thresh") (Your multiplier | Your material/Item name | Your threshold number) &rallows you to edit the different properties of a tier. (Multiplier, Material, Threshold)
+- '/&6bbr tierlist: &rShows you all the tiers'
+- '/&6bbr menu: &rBrings up the BlockBR menu'
+- '/&6bbr tier add (Tier Name): &rCreates a new tier'
+- '/&6bbr tier remove (Tier name): &rRemoves the desired tier'
+- '/&6bbr tier remove all: &rRemoves all tiers'
+- '/&6bbr tier edit ("mult" | "mat" | "thresh") (Your multiplier | Your material/Item name | Your threshold number): &rEdits a specific property of a tier. (Multiplier, Material, Threshold)'
+- '/&6bbr rewardadd (The tier) (\"item\"):&r Adds the item in your hand to the rewards list for this tier'
+- '/&6bbr rewardadd (The tier) (\"command\"):&r Asks what command you would like to add to this tier'
 
 Help2:
-- /&6&lbbr rewardadd (The tier) (\"item\")&r adds the item in your hand to the rewards list for this tier
-- /&6&lbbr rewardadd (The tier) (\"command\")&r asks what command you would like to add to this tier
-- /&6&lbbr rewardedit (The tier) (\"money\") (The amount) &redits the money amount for this tier
-- /&6&lbbr rewardedit (The tier) (\"crate\") (The crate) &radds the desired crate you want for this tier
-- /&6&lbbr rewardremove (The tier) (\"item\") (# Item) &rremoves the desired reward item from the tier
-- /&6&lbbr rewardremove (The tier) (\"command\") (# Item) &rremoves the desired reward item from the tier
-- /&6&lbbr changeType ("all" | "group" | "onebyone")&r changes the mine type
-- /&6&lbbr group create (Group name)&r creates a group with the desired name
+- '/&6bbr rewardedit (The tier) (\"money\") (The amount): &rEdits the money amount for this tier'
+- '/&6bbr rewardedit (The tier) (\"crate\") (The crate): &rAdds the desired crate you want for this tier'
+- '/&6bbr rewardremove (The tier) (\"item\") (# Item): &rRemoves the desired reward item from the tier'
+- '/&6bbr rewardremove (The tier) (\"command\") (# Item): &rRemoves the desired reward item from the tier'
+- '/&6bbr changeType ("all" | "group" | "onebyone"):&r Changes the mine type'
+- '/&6bbr group create (Group name):&r Creates a new group'
+- '/&6bbr group remove (Group name):&r Removes the desired group'
+- '/&6bbr tier move (Tier name) (Group name):&r Moves the desired tier to the desired group'
+
+Help3:
+- '/&6bbr groupList:&r Shows you all the groups'
+- '/&6bbr group tierList (Group name):&r Shows you tiers within a desired group'
+- '/&6bbr group rename (Group) (New Group name): &rRenames the desired group'
+- '/&6bbr help: &rBrings up this'

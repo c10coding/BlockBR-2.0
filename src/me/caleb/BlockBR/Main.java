@@ -136,11 +136,9 @@ public class Main extends JavaPlugin{
 	
 	/*
 	 * Checks on reload to see if the player has removed something
-	 * from the config that is still in the database
+	 * from the config that is still in the database.
 	 */
 	public void validateConfig() {
-		
-		
 		
 	}
 	

@@ -3,7 +3,7 @@ version: 2.0
 main: me.caleb.BlockBR.Main
 author: C10coding
 api-version: 1.14
-
+depend: [Vault]
 commands:
   blockbr:
     description: Regular commands
