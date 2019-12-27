@@ -12,27 +12,7 @@ Password: "0GlWRDr9jYOS05g"
 # All: You can do all the tiers at once
 
 MineType: OneByOne
-
-# Reward types can be the following:
-# Crates, Money, Items, MoneyI (Money and Items), and MoneyC
-# NOT CASE SENSITIVE
-
 TierList:
-- Grass
 
 Tiers:
-
-  Grass:
-    Properties:
-      Material: GRASS_BLOCK
-      Multiplier: 2.0
-      MoneyMultiplier: 2.0
-      Threshold: 750
-      Rewards: 
-        #RewardType: Money
-        Money: 0
-        Crate: CrateNameGoesHere
-        Items: 
-        - name:(ItemName) amount:amount Enchants: Damage_all   
-        Commands:
-        - give %player% apple 64      
+   

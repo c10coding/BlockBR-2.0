@@ -222,8 +222,10 @@ public class Checker {
 				
 			}else if(mineType.equalsIgnoreCase("onebyone")) {
 				
+				ArrayList<String> undoneTiers = dm.getAllUndoneTiers();
+				
 				//This is the last tier
-				if(tierList.get(tierList.size()-1).equalsIgnoreCase(tier)) {
+				if(undoneTiers.size() == 1 && undoneTiers.contains(tier)) {
 					
 					dm.levelUp(tier);
 					dm.resetTiers();

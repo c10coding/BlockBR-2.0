@@ -14,6 +14,7 @@ import com.hazebyte.crate.api.CratePlugin;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.sql.DataManager;
+import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.ItemParser;
 
 public class RewardHandler {
@@ -45,25 +46,52 @@ public class RewardHandler {
 		// If money is not 0, i.e. if it's not false or 0 in config
 		if(money > 0) {
 			Main.getEconomy().depositPlayer(p,money);
+			Chat.sendPlayerMessage(p, "&bYou have been given &5&l " + money);
+		}else {
+			Bukkit.getConsoleSender().sendMessage(Chat.blockBrChat("Money is equal to false, ignoring the money reward..."));
 		}
 		
 		if(!crate.equalsIgnoreCase("false")) {
-			api.getCrateRegistrar().getCrate(crate).giveTo(p, 1);
+			if(!plugin.checkCrateReloaded() == false) {
+				try {
+					api.getCrateRegistrar().getCrate(crate).giveTo(p, 1);
+					Chat.sendPlayerMessage(p, "You have been given a &5&l" + crate + " crate key!");
+				}catch(NullPointerException e) {
+					Chat.sendPlayerMessage(p, "&4There has been an error when attempting to give you the crate key. Please contact an admin!");
+					Chat.sendConsoleMessage("The crate " + crate + " has not been found! Please check your CrateReloaded config to make sure that this is an actual crate");
+				}
+				
+			}else {
+				Chat.sendConsoleMessage("CrateReloaded is not enabled! Ignoring the crate reward... If you wish to install the plugin, go to https://www.spigotmc.org/resources/free-crate-reloaded-mystery-crate-1-8-1-14-x.861/");
+			}	
 		}
 		
 		if(!commands.isEmpty()) {
 			for(String command : commands) {
-				command = command.replace("%player%", p.getName());
+				if(command.contains("%player%")) {
+					command = command.replace("%player%", p.getName());
+				}
 				plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), command);
 			}
+		}else {
+			Chat.sendConsoleMessage("There are no commands for this tier! Ignoring the commands reward...");
 		}
 		
 		if(!items.isEmpty()) {
+			
 			for(ItemStack i : items) {
 				p.getInventory().addItem(i);
 			}
-		}
 			
+			Chat.sendPlayerMessage(p, "You have been given the following items for completing this tier:");
+			for(ItemStack i : items) {
+				Chat.sendPlayerMessage(p, i.getType().name() + " x " + i.getAmount());
+			}
+			
+		}else {
+			Chat.sendConsoleMessage("There are no items for this tier! Ignoring the items reward...");
+		}
+		
 	}
 
 	public int getMoney() {
@@ -105,7 +133,8 @@ public class RewardHandler {
 		for(int x = 0; x < itemList.size(); x++) {
 			String line = itemList.get(x);
 			ItemParser ip = new ItemParser(plugin, line,tier);
-			ItemStack is = new ItemStack(Material.getMaterial(ip.getItemName()),ip.getAmount());
+			ItemStack is = new ItemStack(Material.valueOf(ip.getItemName().toUpperCase()),ip.getAmount());
+			
 			is.addEnchantments(ip.getItemEnchants());
 			items.add(is);
 		}

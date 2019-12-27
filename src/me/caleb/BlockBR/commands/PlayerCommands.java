@@ -70,7 +70,7 @@ public class PlayerCommands implements CommandExecutor{
 					}
 				//Crates
 				//bbr rewardadd (tier) ("Crate") (CrateName)
-				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
+				}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
 					if(isAdmin(player) == true) {
 						r.rewardAddCrate(player, args[1], args[2], args[3]);
 					}
@@ -80,9 +80,13 @@ public class PlayerCommands implements CommandExecutor{
 					if(isAdmin(player) == true) {
 						r.rewardAddItem(player, args[1]);
 					}
-				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
+				}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
 					if(isAdmin(player) == true) {
-						r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
+						try {
+							r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
+						}catch(NumberFormatException e) {
+							r.rewardAddMoney(player, args[1], args[2], args[3]);
+						}
 					}
 				//bbr tier rename (tier) (newName)
 				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("rename") && !args[2].isEmpty() && !args[3].isEmpty()) {

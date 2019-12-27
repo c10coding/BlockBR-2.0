@@ -144,6 +144,10 @@ public class Main extends JavaPlugin{
 		
 	}
 	
+	public boolean checkCrateReloaded() {
+		return this.getServer().getPluginManager().isPluginEnabled("CrateReloaded");
+	}
+	
 	
 	
 

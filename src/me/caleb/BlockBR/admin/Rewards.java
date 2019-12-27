@@ -12,6 +12,7 @@ import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
@@ -93,6 +94,26 @@ public class Rewards {
 			plugin.saveConfig();
 			
 		}
+		
+		public void rewardAddMoney(Player p, String tier, String rewardType, String str) {
+			
+			final String PATH = "Tiers." + tier + ".Properties.Rewards.Money";
+			
+			if(isTier(tier,p) == false) {
+				return;
+			}
+			
+			if(!str.equalsIgnoreCase("false")) {
+				Chat.sendPlayerMessage(p, "&4The amount you gave is not a positive number or the word false! Please try again");
+			}else {
+				Chat.sendPlayerMessage(p, "&bThe money for tier &5&l" + tier.toUpperCase() + "&b has been updated to &5&l" + str.toUpperCase());
+				config.set("Tiers." + tier + ".Properties.Rewards.Money", str);
+			}
+			
+			plugin.saveConfig();
+			
+		}
+		
 		//For Items
 		//It will add the item in your hand
 		//bbr rewardadd (tier) (rewardType)
@@ -112,46 +133,59 @@ public class Rewards {
 			if(item.getType().equals(Material.AIR)) {
 				Chat.sendPlayerMessage(p, "&bThe item in your hand can not be air!");
 				return;
-			}
-			
-			Map<Enchantment, Integer> enchants = item.getEnchantments();
-			ArrayList<Enchantment> itemEnchants = new ArrayList<Enchantment>();
-			ArrayList<Integer> itemLevels = new ArrayList<Integer>();
-			
-			//Gets all the enchants from the map
-			for(Entry<Enchantment, Integer> en : enchants.entrySet()){
-				itemEnchants.add(en.getKey());
-			}
-			
-			//Gets all the levels from the map
-			for(Entry<Enchantment, Integer> en : enchants.entrySet()){
-				itemLevels.add(en.getValue());
-			}
-			
-			//Started to created the item line you see in the config
-			itemLine += "name: " + itemName + " amount: " + amount + " Enchants: ";
-			
-			for(int x = 0; x < itemEnchants.size();x++) {
-				
-				Enchantment currentEnchant = itemEnchants.get(x);
-				int currentLevel = itemLevels.get(x);
-				
-				itemLine += currentEnchant.getName() + "-" + currentLevel + "; "; 
-			}
-			
-			List<String> itemList = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
-			
-			//If the item has no enchants, just print out the name and the amount. Otherwise, print out the enchants
-			//Each enchant is separated by a semi-colon
-			//The dash (-) separates the enchant and level
-			if(enchants.isEmpty()) {
-				itemLine = "name: " + itemName + " amount: " + amount;
-				itemList.add(itemLine);
-				config.set("Tiers." + tier + ".Properties.Rewards.Items", itemList);
 			}else {
-				itemList.add(itemLine);
-				config.set("Tiers." + tier + ".Properties.Rewards.Items", itemList);
-			} 
+				
+				Map<Enchantment, Integer> enchants;
+				
+				//If it's an enchanted book
+				if(item.getItemMeta() instanceof EnchantmentStorageMeta) {
+					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+					enchants = meta.getStoredEnchants();
+				}else {
+					enchants = item.getEnchantments();
+				}
+				
+				ArrayList<Enchantment> itemEnchants = new ArrayList<Enchantment>();
+				ArrayList<Integer> itemLevels = new ArrayList<Integer>();
+				
+				//Gets all the enchants from the map
+				for(Entry<Enchantment, Integer> en : enchants.entrySet()){
+					itemEnchants.add(en.getKey());
+				}
+				
+				//Gets all the levels from the map
+				for(Entry<Enchantment, Integer> en : enchants.entrySet()){
+					itemLevels.add(en.getValue());
+				}
+				
+				//Started to created the item line you see in the config
+				itemLine += "name: " + itemName + " amount: " + amount + " Enchants: ";
+				
+				for(int x = 0; x < itemEnchants.size();x++) {
+					
+					Enchantment currentEnchant = itemEnchants.get(x);
+					int currentLevel = itemLevels.get(x);
+					
+					itemLine += currentEnchant.getName() + " " + currentLevel + "; "; 
+				}
+				
+				List<String> itemList = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
+				
+				//If the item has no enchants, just print out the name and the amount. Otherwise, print out the enchants
+				//Each enchant is separated by a semi-colon
+				//The dash (-) separates the enchant and level
+				if(enchants.isEmpty()) {
+					itemLine = "name: " + itemName + " amount: " + amount;
+					itemList.add(itemLine);
+					config.set("Tiers." + tier + ".Properties.Rewards.Items", itemList);
+				}else {
+					itemList.add(itemLine);
+					config.set("Tiers." + tier + ".Properties.Rewards.Items", itemList);
+				} 
+						
+			}
+			
+			
 			
 			Chat.sendPlayerMessage(p, "&bYour item has been added as a reward!");
 			
@@ -197,7 +231,7 @@ public class Rewards {
 				List<String> commands = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Commands");
 				index--;
 				commands.remove(index);
-				Chat.sendPlayerMessage(p, "This item has been removed from the tier!");
+				Chat.sendPlayerMessage(p, "This command has been removed from the tier!");
 			}catch(NumberFormatException e) {
 				Chat.sendPlayerMessage(p, "&bThis not a valid number! Please try again! The command is &6&l/bbr rewardremove (Tier) Item (Command Number on the list)");
 			}catch(IndexOutOfBoundsException e) {
@@ -255,4 +289,6 @@ public class Rewards {
 		public boolean checkCrateReloaded() {
 			return plugin.getServer().getPluginManager().isPluginEnabled("CrateReloaded");
 		}
+
+		
 }

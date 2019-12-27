@@ -133,6 +133,17 @@ public class Tier {
 		switch(action) {
 		
 			case "add":
+
+				try {
+					List<String> tierList = (List<String>) config.getList("TierList");
+					tierList.add(tierName);
+					config.set("TierList", tierList);
+				}catch(NullPointerException e) {
+					List<String> tierList = new ArrayList<String>();
+					tierList.add(tierName);
+					config.set("TierList", tierList);
+				}
+				
 				config.set("Tiers." + tierName + ".Properties.Material","GRASS_BLOCK");
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", 2.0);
@@ -147,9 +158,6 @@ public class Tier {
 				List<String> commandList = new ArrayList<String>();
 				commandList.add("give %player% apple 64");
 				config.set("Tiers." + tierName + ".Properties.Rewards.Commands", commandList);
-				
-				List<String> tierList = (List<String>) config.getList("TierList");
-				tierList.add(tierName);
 				
 				break;
 			//Removes all the values by setting them to null, which removes them
@@ -406,14 +414,22 @@ public class Tier {
 		
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
 		
-		Chat.sendPlayerMessage(p, "List of tiers:");
-		int counter = 1;
-		for(String tier : tierList) {
-			p.sendMessage(Chat.chat("&b&l " + counter + ".) " + tier));
-			counter++;
+		try {
+			if(tierList.isEmpty()) {
+				Chat.sendPlayerMessage(p, "There are no tiers yet! Do create one, do &6&l/bbr tier add (tiername)");
+			}else {
+				Chat.sendPlayerMessage(p, "List of tiers:");
+				int counter = 1;
+				for(String tier : tierList) {
+					p.sendMessage(Chat.chat("&b&l " + counter + ".) " + tier));
+					counter++;
+				}	
+			}	
+		}catch(NullPointerException e) {
+			Chat.sendPlayerMessage(p, "There are no tiers yet! To create one, do &6&l/bbr tier add (tiername)");
+			return;
 		}
-		
-		
+	
 	}
 
 }
