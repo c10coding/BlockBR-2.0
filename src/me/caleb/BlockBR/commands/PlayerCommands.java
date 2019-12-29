@@ -16,6 +16,7 @@ import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.Rewards;
 import me.caleb.BlockBR.admin.Tier;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.menus.InfoMenu;
 import me.caleb.BlockBR.utils.Chat;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -120,7 +121,14 @@ public class PlayerCommands implements CommandExecutor{
 				//bbr changeType (Type)
 				}else if(args[0].equalsIgnoreCase("changeType") && !args[1].isEmpty()) {
 					if(isAdmin() == true) {
-						r.changeMineType(args[1], player);
+						Tier tier = new Tier(plugin, player);
+						if(tier.isTierListEmpty()) {
+							Chat.sendPlayerMessage(player, "You cannot do this right now! The tier list is empty! Try doing &6/bbr tier add (Tier Name) before using this command!");
+							return false;
+						}else {
+							r.changeMineType(args[1], player);
+						}
+						
 					}else {
 						return false;
 					}
@@ -160,6 +168,13 @@ public class PlayerCommands implements CommandExecutor{
 					sendHelp2();
 				}else if(args[0].equalsIgnoreCase("help3") && args.length == 1) {
 					sendHelp3();
+				}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
+					if(isPlayer() == true){
+						InfoMenu im = new InfoMenu(plugin, "Info", 9); 
+						im.initializeItems(player);
+						im.openInventory(player);
+					}
+					
 				}else {
 					sendHelp();
 				}
@@ -172,9 +187,7 @@ public class PlayerCommands implements CommandExecutor{
 		return false;
 	}
 	
-	
-
-	public boolean isAdmin() {
+	private boolean isAdmin() {
 		
 		if(player.hasPermission("blockbr.admin")) {
 			return true;
@@ -185,7 +198,7 @@ public class PlayerCommands implements CommandExecutor{
 		
 	}
 	
-	public boolean isPlayer() {
+	private boolean isPlayer() {
 		
 		if(player.hasPermission("blockbr.use")) {
 			return true;

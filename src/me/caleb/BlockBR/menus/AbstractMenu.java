@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,15 +20,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.sql.DataManager;
+import me.caleb.BlockBR.utils.Chat;
 
 public abstract class AbstractMenu implements Listener, InventoryHolder{
 
-	public final Inventory inv;
-	private Main plugin;
+	protected final Inventory inv;
+	protected Main plugin;
+	protected FileConfiguration config;
+	protected String mineType;
 	
-	public AbstractMenu(Main plugin, String menuTitle, int numSlots, DataManager dm) {
-		inv = Bukkit.createInventory(this, numSlots, menuTitle);
+	public AbstractMenu(Main plugin, String menuTitle, int numSlots) {	
 		this.plugin = plugin;
+		inv = Bukkit.createInventory(this, numSlots, Chat.chat(menuTitle));
+		config = plugin.getConfig();
+		mineType = config.getString("MineType");
 	}
 	
 	public Inventory getInventory() {
@@ -41,7 +47,7 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	/*
 	 * If the item has enchantments
 	 */
-	public static ItemStack createGuiItem(Material mat, String name, Map<Enchantment,Integer> enchants, int amount, String...lore) {
+	protected static ItemStack createGuiItem(Material mat, String name, Map<Enchantment,Integer> enchants, int amount, String...lore) {
 		
 		ItemStack item = new ItemStack(mat,1);
 		ItemMeta meta = item.getItemMeta();
@@ -90,28 +96,34 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	/*
 	 * No enchants. Regular items
 	 */
-	public static ItemStack createGuiItem(Material material, String name,int amount, String...lore) {
+	protected static ItemStack createGuiItem(Material material, String name,int amount, String...lore) {
 		
 		ItemStack item = new ItemStack(material,1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		item.setAmount(amount);
 		ArrayList<String> metaLore = new ArrayList<String>();
-		
-		for(String lorecomments : lore) {
-			
-			metaLore.add(lorecomments);
-			
+	
+		if(!lore.equals("")) {
+			for(String lorecomments : lore) {
+				metaLore.add(lorecomments);
+			}
+			meta.setLore(metaLore);
+		}else {
+			meta.setLore(null);
 		}
 		
-		meta.setLore(metaLore);
 		item.setItemMeta(meta);
 		return item;
 		
 	}
 	
+	protected static String chat(String s) {
+		return Chat.chat(s);
+	}
+	
 	//If you only want one item
-	public static ItemStack createGuiItem(Material material, String name, String...lore) {
+	protected static ItemStack createGuiItem(Material material, String name, String...lore) {
 		
 		ItemStack item = new ItemStack(material,1);
 		ItemMeta meta = item.getItemMeta();
@@ -131,19 +143,20 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	}
 	
 	//Filler item
-	public static ItemStack createGuiItem() {
+	protected static ItemStack createGuiItem() {
 		
 		ItemStack item = new ItemStack(Material.CYAN_STAINED_GLASS_PANE,1);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName("");
+		meta.setDisplayName(" ");
 		meta.setLore(null);
+		item.setItemMeta(meta);
 		
 		return item;
 	}
 	
-	public abstract void initializeItems(String tier, int amount, int level, double threshold);
+	public abstract void initializeItems(Player p);
 	
 	@EventHandler
-    public abstract void onInventoryClick(InventoryClickEvent e);
+	protected abstract void onInventoryClick(InventoryClickEvent e);
 	
 }

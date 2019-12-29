@@ -37,6 +37,13 @@ public class Checker {
 		currentTier = dm.getTier();
 	}
 	
+	public Checker(Main plugin) {
+		this.plugin = plugin;
+		config = plugin.getConfig();
+		DataManager dm = new DataManager(plugin,p);
+		currentTier = dm.getTier();
+	}
+
 	public String tierAffected() {
 		
 		Material blockMat = b.getType();

@@ -44,7 +44,14 @@ public class Group {
 		groups.add(new ArrayList<String>());
 		groups.add(new ArrayList<String>());
 		
-		int listSize = tierList.size();
+		int listSize = 0;
+		try {
+			listSize = tierList.size();
+		}catch(NullPointerException e) {
+			Chat.sendConsoleMessage("No tiers have been made yet. Cannot formulate groups!");
+			return null;
+		}
+		
 		
 		int groupIndexNum = 0;
 		for(int x = 0; x < listSize; x++) {
@@ -98,6 +105,11 @@ public class Group {
 			
 		}
 		
+	}
+	
+	public int getNumGroup(String group) {
+		List<String> groupList = config.getStringList("GroupList");
+		return groupList.indexOf(group)+1;
 	}
 	
 	/*

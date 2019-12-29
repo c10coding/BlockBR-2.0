@@ -187,9 +187,7 @@ public class Tier {
 		for(int x = 0; x < tierList.size(); x++) {
 			configWork(tierList.get(x).toLowerCase(), "remove");
 		}
-		
-		
-		
+
 	}
 	
 	public void tierEdit(String name, String property, String v,Player p) {
@@ -430,6 +428,23 @@ public class Tier {
 			return;
 		}
 	
+	}
+	
+	/*
+	 * This method is very poorly written. Fix in future
+	 */
+	public boolean isTierListEmpty() {
+		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
+		
+		try {
+			if(tierList.isEmpty())
+				return true;
+			else
+				return false;
+		}catch(NullPointerException e) {
+			return true;
+		}
+		
 	}
 
 }
