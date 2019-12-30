@@ -28,6 +28,7 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	protected Main plugin;
 	protected FileConfiguration config;
 	protected String mineType;
+	protected DataManager dm;
 	
 	public AbstractMenu(Main plugin, String menuTitle, int numSlots) {	
 		this.plugin = plugin;

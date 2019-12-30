@@ -24,6 +24,11 @@ public class DataManager {
 		config = plugin.getConfig();
 	}
 	
+	public DataManager(Main plugin) {
+		this.plugin = plugin;
+		config = plugin.getConfig();
+	}
+	
 	//Gets all the data from the player
 	public ResultSet getResultSet(String playerName) {
 		
