@@ -14,6 +14,7 @@ import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.Checker;
+import me.caleb.BlockBR.utils.Fireworks;
 
 public class BlockEvent implements Listener{
 
@@ -26,7 +27,6 @@ public class BlockEvent implements Listener{
 	
 	@EventHandler
 	private void onBlockBreak(BlockBreakEvent e) {
-		
 		Block block = e.getBlock();
 		Player player = e.getPlayer();
 		String playerName = player.getName();

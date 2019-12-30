@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
@@ -167,6 +173,8 @@ public class Checker {
 			List<String> tierList = config.getStringList("TierList");
 			RewardHandler r = new RewardHandler(plugin,tier,p);
 			r.giveRewards();
+			Fireworks f = new Fireworks(plugin);
+			f.spawnFireWorks(p);
 			
 			if(mineType.equalsIgnoreCase("group")) {
 				List<String> undoneTiers = dm.getUndoneTiersInGroup();
@@ -254,7 +262,7 @@ public class Checker {
 					
 				}
 				
-			}
+			}			
 			
 		}else {
 			
@@ -283,5 +291,7 @@ public class Checker {
 		}
 		
 	}
+	
+
 	
 }

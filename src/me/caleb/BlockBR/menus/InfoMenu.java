@@ -54,9 +54,9 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
 			Checker c = new Checker(plugin);
 			int thresh = c.getThreshold(tier);
 			
+			inv.addItem(createGuiItem());
+
 			
-			
-			inv.addItem(arg0)
 		}else if(mineType.equalsIgnoreCase("all")) {
 			inv.addItem(createGuiItem(Material.EXPERIENCE_BOTTLE, chat("&6Current level: &5&l" + level), level, chat("&rThis is the level that you are currently on")));
 			inv.addItem(createGuiItem(Material.IRON_PICKAXE, chat("&6Amount mined"), chat("&rClick me to see the amount you have"), chat("&rmined in each tier!")));

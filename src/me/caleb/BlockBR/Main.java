@@ -19,6 +19,7 @@ import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.commands.PlayerCommands;
 import me.caleb.BlockBR.listeners.BlockEvent;
 import me.caleb.BlockBR.utils.Chat;
+import me.caleb.BlockBR.utils.Fireworks;
 import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin{
@@ -63,6 +64,7 @@ public class Main extends JavaPlugin{
 		
 		new BlockEvent(this);
 		new PlayerCommands(this);
+		new Fireworks(this);
 	}
 	
 	@Override
