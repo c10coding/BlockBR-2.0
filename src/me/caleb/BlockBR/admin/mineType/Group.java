@@ -190,7 +190,7 @@ public class Group {
 	}
 	
 	/*
-	 * Gets the group at a specific index
+	 * Gets the group tiers of a specific index
 	 */
 	public List<String> getGroupTiers(int index) {
 		
@@ -203,6 +203,13 @@ public class Group {
 		return groupTiers;
 	}
 	
+	/*
+	 * Gets the group tiers of a specific group
+	 */
+	public List<String> getGroupTiers(String group){
+		List<String> groupTiers = config.getStringList("Groups." + group);
+		return groupTiers;
+	}
 	
 	/*
 	 * Returns the group that the tier is in

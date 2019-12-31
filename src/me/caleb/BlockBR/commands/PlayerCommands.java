@@ -170,7 +170,7 @@ public class PlayerCommands implements CommandExecutor{
 					sendHelp3();
 				}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
 					if(isPlayer() == true){
-						InfoMenu im = new InfoMenu(plugin, "Info", 9); 
+						InfoMenu im = new InfoMenu(plugin); 
 						im.initializeItems(player);
 						im.openInventory(player);
 					}

@@ -49,6 +49,14 @@ public class Checker {
 		DataManager dm = new DataManager(plugin,p);
 		currentTier = dm.getTier();
 	}
+	
+	public Checker(Main plugin, Player p) {
+		this.plugin = plugin;
+		this.p = p;
+		config = plugin.getConfig();
+		DataManager dm = new DataManager(plugin,p);
+		currentTier = dm.getTier();
+	}
 
 	public String tierAffected() {
 		

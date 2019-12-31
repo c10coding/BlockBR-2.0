@@ -13,9 +13,4 @@ permissions:
   blockbr.use:
     description: Allows blockbr commands
     default: true
-  blockbr.admin:
-    description: Gives all blockbr commands, including the admin ones
-    default: op
-    children:
-      blockbr.use
     

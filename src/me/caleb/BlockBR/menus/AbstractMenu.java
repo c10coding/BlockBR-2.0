@@ -1,6 +1,7 @@
 package me.caleb.BlockBR.menus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,13 +29,15 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	protected Main plugin;
 	protected FileConfiguration config;
 	protected String mineType;
-	protected DataManager dm;
+	protected List<String> tierList;
+	protected static final Material FILLER_MATERIAL = Material.BLACK_STAINED_GLASS_PANE;
 	
 	public AbstractMenu(Main plugin, String menuTitle, int numSlots) {	
 		this.plugin = plugin;
 		inv = Bukkit.createInventory(this, numSlots, Chat.chat(menuTitle));
 		config = plugin.getConfig();
 		mineType = config.getString("MineType");
+		tierList = config.getStringList("TierList");
 	}
 	
 	public Inventory getInventory() {
@@ -146,13 +149,37 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	//Filler item
 	protected static ItemStack createGuiItem() {
 		
-		ItemStack item = new ItemStack(Material.CYAN_STAINED_GLASS_PANE,1);
+		ItemStack item = new ItemStack(FILLER_MATERIAL,1);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(" ");
 		meta.setLore(null);
 		item.setItemMeta(meta);
 		
 		return item;
+	}
+	
+	protected int findSlotAmount() {
+		int slotSize = 0;
+		List<String> tierList = config.getStringList("TierList");
+		
+		do {
+			slotSize+=9;
+		}while(slotSize < tierList.size());
+		
+		return slotSize;
+		
+	}
+	
+	protected void fillMenu() {
+		int invSlots = inv.getSize();
+		int tierAmount = tierList.size();
+		
+		for(int x = tierAmount; x < invSlots; x++) {
+			inv.setItem(x, createGuiItem());
+			if(x == (invSlots - 1)) {
+				inv.setItem(x, createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast info menu!")));
+			}
+		}
 	}
 	
 	public abstract void initializeItems(Player p);
