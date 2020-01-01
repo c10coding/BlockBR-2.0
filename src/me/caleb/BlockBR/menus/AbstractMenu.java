@@ -177,7 +177,7 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 		for(int x = tierAmount; x < invSlots; x++) {
 			inv.setItem(x, createGuiItem());
 			if(x == (invSlots - 1)) {
-				inv.setItem(x, createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast info menu!")));
+				inv.setItem(x, createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
 			}
 		}
 	}

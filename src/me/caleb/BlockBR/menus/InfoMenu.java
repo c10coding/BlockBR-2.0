@@ -80,9 +80,8 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
         
         if (e.getClick().equals(ClickType.NUMBER_KEY)) e.setCancelled(true);
         
-        if(clickedItem == null && clickedItem.getType().equals(Material.AIR)) {
-        	return;
-        }else {
+        try {
+        	
         	 if(mineType.equalsIgnoreCase("group") || mineType.equalsIgnoreCase("all") || mineType.equalsIgnoreCase("onebyone")) {
              	
              	Material mat = e.getCurrentItem().getType();
@@ -101,12 +100,14 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
              	}
              	
              }
+            
+        }catch(NullPointerException n) {
+        	return;
         }
+        
         
         e.setCancelled(true);
 		
-	}
-	
-	
+	}	
 
 }

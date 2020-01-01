@@ -216,6 +216,25 @@ public class Tier {
 
 	}
 	
+	public boolean ifMatInConfig(Material mat) {
+		ArrayList<String> tierMatList = new ArrayList<String>();
+		List<String> tierList = (List<String>) config.getList("TierList");
+		
+		/*
+		 * Populates the array with the material that you currently have in the configuration file
+		 */
+		for(String tier : tierList) {
+			tierMatList.add(config.getString("Tiers." + tier + ".Properties.Material"));
+		}
+		
+		if(tierMatList.contains(mat.name())) {
+			Chat.sendPlayerMessage(p, "&4You already have a tier of this material. Please choose another material! &rTo see all the different materials, refer to this link: &ohttps://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html ");
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public void tierEdit(String name, String property, String v,Player p) {
 		
 		FileConfiguration config = plugin.getConfig();
@@ -258,17 +277,18 @@ public class Tier {
 				
 				Material mat = Material.matchMaterial(v);
 				
+				if(ifMatInConfig(mat) == true) return;
+				
 				try {
-					//Chat.sendPlayerMessage(p, mat.toString());
 					for(Material materialType : Material.values()) {
 						if(mat.equals(materialType)) {
 							config.set("Tiers." + name + ".Properties.Material", mat.name());
-							Chat.sendPlayerMessage(p, "&bThe Material for tier &5&l" + name.toUpperCase() + " &bhas been set to &5&l" + mat.toString());
+							Chat.sendPlayerMessage(p, "&bThe material for tier &5&l" + name.toUpperCase() + " &bhas been set to &5&l" + mat.toString());
 						}	
 					}
 					
 				}catch(NullPointerException e) {
-					Chat.sendPlayerMessage(p, "&cThis is not an item. To see all the different materials, refer to this link: &5https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html");
+					Chat.sendPlayerMessage(p, "&cThis is not an item. To see all the different materials, refer to this link: &ohttps://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html");
 				}
 				
 				break;

@@ -41,16 +41,24 @@ public class PotentialRewards extends AbstractMenu implements Listener, Inventor
         
         if (e.getClick().equals(ClickType.NUMBER_KEY)) e.setCancelled(true);
         
-        if(e.getRawSlot() != (inv.getSize()-1) && !(clickedItem.getType().equals(FILLER_MATERIAL))) {
-        	Material mat = clickedItem.getType();
-        	TierRewardsMenu trm = new TierRewardsMenu(plugin,mat);
-        }else if(e.getRawSlot() == (inv.getSize()-1)) {
-        	InfoMenu im = new InfoMenu(plugin);
-        	p.closeInventory();
-        	im.initializeItems(p);
-        	im.openInventory(p);
+        try {
+        	if(e.getRawSlot() != (inv.getSize()-1) && !(clickedItem.getType().equals(FILLER_MATERIAL))) {
+             	Material mat = clickedItem.getType();
+             	TierRewardsMenu trm = new TierRewardsMenu(plugin,mat);
+             	p.closeInventory();
+             	trm.initializeItems(p);
+             	trm.openInventory(p);
+             }else if(e.getRawSlot() == (inv.getSize()-1)) {
+             	InfoMenu im = new InfoMenu(plugin);
+             	p.closeInventory();
+             	im.initializeItems(p);
+             	im.openInventory(p);
+             }
+        }catch(NullPointerException n) {
+        	return;
         }
-        
+    	 
+         
         e.setCancelled(true);
 		
 	}
