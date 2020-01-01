@@ -15,6 +15,10 @@ import me.caleb.BlockBR.Main;
  * This menu shows the rewards for THIS TIER
  * Each one of these menus has a unique value - It's tier
  */
+
+/*
+ * Next time i hop on, i need to make it to where all the materials will be different.
+ */
 public class TierRewardsMenu extends AbstractMenu implements Listener, InventoryHolder{
 
 	private String tier;

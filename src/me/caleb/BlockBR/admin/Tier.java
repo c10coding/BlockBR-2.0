@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sound.sampled.BooleanControl.Type;
@@ -121,6 +122,28 @@ public class Tier {
 		
 	}
 	
+	public String getMaterialName() {
+		
+		String matList[] = {Material.GRASS_BLOCK.name(),Material.OAK_LOG.name(),Material.STONE.name(),Material.COAL_ORE.name(), Material.REDSTONE_ORE.name(), Material.LAPIS_ORE.name(), Material.IRON_ORE.name(),Material.GOLD_ORE.name(),Material.OBSIDIAN.name(),Material.DIAMOND_ORE.name(),Material.EMERALD_ORE.name(),Material.DIRT.name(),Material.SAND.name(),Material.CLAY.name(),Material.DIORITE.name(),Material.GRANITE.name(),Material.NETHER_QUARTZ_ORE.name(),Material.SANDSTONE.name(),Material.STONE_BRICKS.name(),Material.GRAY_WOOL.name(),Material.LIGHT_GRAY_WOOL.name(),Material.LIGHT_BLUE_WOOL.name(),Material.PURPLE_WOOL.name(),Material.BLUE_WOOL.name(),Material.BROWN_WOOL.name()};
+		ArrayList<String> tierMatList = new ArrayList<String>();
+		List<String> tierList = (List<String>) config.getList("TierList");
+		
+		/*
+		 * Populates the array with the material that you currently have in the configuration file
+		 */
+		for(String tier : tierList) {
+			tierMatList.add(config.getString("Tiers." + tier + ".Properties.Material"));
+		}
+		
+		for(int x = 0; x < tierList.size(); x++) {
+			if(!tierMatList.contains(matList[x])) {
+				return matList[x];
+			}
+		}
+		
+		return Material.GRASS_BLOCK.name();
+	}
+	
 	/*
 	 * Does all the config work for the adding, removing, and editing
 	 * of anything within the config
@@ -128,6 +151,7 @@ public class Tier {
 	public void configWork(String tierName, String action) {
 		
 		action = action.toLowerCase();	
+		//p.sendMessage(getMaterialName());
 		
 		//Removes the tier from the "Tiers" section
 		switch(action) {
@@ -144,7 +168,9 @@ public class Tier {
 					config.set("TierList", tierList);
 				}
 				
-				config.set("Tiers." + tierName + ".Properties.Material","GRASS_BLOCK");
+				
+				
+				config.set("Tiers." + tierName + ".Properties.Material",getMaterialName());
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.Threshold", 500);
