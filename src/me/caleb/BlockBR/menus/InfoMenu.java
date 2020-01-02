@@ -107,7 +107,9 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
              			p.closeInventory();
              			tm.initializeItems(p);
              			tm.openInventory(p);
-             		}else if(mineType.equalsIgnoreCase("all") || mineType.equalsIgnoreCase("onebyone")){
+             		}
+             	}else if(e.getRawSlot() == 3 && mat.equals(Material.BEACON)) {
+             		if(mineType.equalsIgnoreCase("all")) {
              			TierMenu tm = new TierMenu(plugin,"Tiers" ,findSlotAmount(tierList));
              			p.closeInventory();
              			tm.initializeItems(p);

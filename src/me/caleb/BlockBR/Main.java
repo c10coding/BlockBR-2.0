@@ -119,6 +119,7 @@ public class Main extends JavaPlugin{
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+            Chat.sendConsoleMessage("Your credentials to your mysql database is incorrect!");
         }
 			
 	}
