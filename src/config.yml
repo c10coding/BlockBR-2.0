@@ -30,7 +30,7 @@ Help2:
 - '/&6bbr rewardedit (The tier) ("money") (The amount): &rEdits the money amount for this tier'
 - '/&6bbr rewardedit (The tier) ("crate") (The crate): &rAdds the desired crate you want for this tier'
 - '/&6bbr rewardremove (The tier) ("item") (# Item): &rRemoves the desired reward item from the tier'
-- '/&6bbr rewardremove (The tier) ("command") (# Item): &rRemoves the desired reward item from the tier'
+- '/&6bbr rewardremove (The tier) ("command") (# Command): &rRemoves the desired reward item from the tier'
 - '/&6bbr changeType ("all" | "group" | "onebyone"):&r Changes the mine type'
 - '/&6bbr group create (Group name):&r Creates a new group'
 - '/&6bbr group remove (Group name):&r Removes the desired group'
