@@ -1,7 +1,7 @@
 # MYSQL DATA
 Host: "51.81.5.51"
 Port: 3306
-Database: "serverpro_db"
+Database: "none"
 Username: "root"
 Password: "0GlWRDr9jYOS05g"
 
@@ -18,7 +18,7 @@ Tiers:
    
 Help:
 - '/&6bbr tierlist: &rShows you all the tiers'
-- '/&6bbr menu: &rBrings up the BlockBR menu'
+- '/&6bbr menu &rBrings up the BlockBR menu'
 - '/&6bbr tier add (Tier Name): &rCreates a new tier'
 - '/&6bbr tier remove (Tier name): &rRemoves the desired tier'
 - '/&6bbr tier remove all: &rRemoves all tiers'

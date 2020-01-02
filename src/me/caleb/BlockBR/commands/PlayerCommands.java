@@ -17,6 +17,7 @@ import me.caleb.BlockBR.admin.Rewards;
 import me.caleb.BlockBR.admin.Tier;
 import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.menus.InfoMenu;
+import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -170,7 +171,11 @@ public class PlayerCommands implements CommandExecutor{
 					sendHelp3();
 				}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
 					if(isPlayer() == true){
+						DataManager dm = new DataManager(plugin,player);
 						InfoMenu im = new InfoMenu(plugin); 
+						if(!dm.ifInDB(player.getName())) {
+							dm.addPlayer(player);
+						}
 						im.initializeItems(player);
 						im.openInventory(player);
 					}

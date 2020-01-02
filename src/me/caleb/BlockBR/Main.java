@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -42,6 +47,7 @@ public class Main extends JavaPlugin{
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+		
 		
 		mysqlSetup();
 		
@@ -99,7 +105,14 @@ public class Main extends JavaPlugin{
 	            return;
 	        } 
 	        Class.forName("com.mysql.jdbc.Driver");
-	        connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database, this.username, this.password);
+	        
+	        String dbName = config.getString("Database");
+	        if(dbName.equalsIgnoreCase("none")) {
+	        	connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port, this.username, this.password);
+	        }else {
+	        	 connection = DriverManager.getConnection("jdbc:mysql://" + this.host+ ":" + this.port + "/" + this.database, this.username, this.password);
+	        }
+	        
 	        Bukkit.getConsoleSender().sendMessage(Chat.blockBrChat(("MYSQL CONNECTED!")));
 	    }
 	    
@@ -113,8 +126,26 @@ public class Main extends JavaPlugin{
 		database = this.getConfig().getString("Database");
 		username = this.getConfig().getString("Username");
 
-		try {     
+		try {  
+			
             openConnection();
+            
+            /*
+             * Creates the database and the table
+             */
+        	try {
+        		PreparedStatement stmt = connection.prepareStatement("CREATE DATABASE IF NOT EXISTS blockbr2");
+        		stmt.executeUpdate();
+        		stmt = connection.prepareStatement("USE `blockbr2`");
+        		stmt.executeQuery();
+        		config.set("Database", "blockbr2");
+        		this.saveConfig();
+        		stmt = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `blockbr2` (`id` int(11) NOT NULL AUTO_INCREMENT, `playerName` varchar(255) NOT NULL, `tier` varchar(255) NOT NULL, `level` varchar(255) NOT NULL DEFAULT 1, PRIMARY KEY (`id`));");
+        		stmt.executeUpdate();
+        	}catch(SQLException e1) {
+        		e1.printStackTrace();
+        	}
+            
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -123,6 +154,7 @@ public class Main extends JavaPlugin{
         }
 			
 	}
+	
 	
 	/*
 	 * Validates the MineType and tierlist relative to what's in the database
