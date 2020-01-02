@@ -27,7 +27,7 @@ public class PotentialRewards extends AbstractMenu implements Listener, Inventor
 			inv.addItem(createGuiItem(mat,chat("&6" + tier.toUpperCase()), chat("&rClick me to see the rewards"), chat("&rfor this tier!")));
 		}
 		
-		fillMenu();
+		fillMenu(tierList);
 		
 	}
 

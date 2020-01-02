@@ -86,7 +86,7 @@ public class AmountMinedMenu extends AbstractMenu implements Listener, Inventory
 				
 			}
 			
-			fillMenu();
+			fillMenu(tierList);
 			
 		}
 		

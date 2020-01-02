@@ -43,6 +43,7 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
 			inv.addItem(createGuiItem(Material.EXPERIENCE_BOTTLE, chat("&6Current level: &5&l" + level), level, chat("&rThis is the level that you are currently on")));
 			inv.addItem(createGuiItem(Material.CHEST, chat("&6Potential rewards"),chat("&rClick me to see potential rewards for each tier!")));
 			inv.addItem(createGuiItem(Material.BEACON, chat("&6Tiers in each group"), chat("&rClick me to see the tiers in each group!")));
+			fillMenu(5);
 			
 		}else if(mineType.equalsIgnoreCase("onebyone")) {
 			
@@ -60,12 +61,14 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
 			inv.addItem(createGuiItem(Material.IRON_PICKAXE, chat("&6Amount mined"), chat("&rBlocks mined: &5&o" + amount)));
 			inv.addItem(createGuiItem(Material.CHEST, chat("&6Potential rewards"),chat("&rClick me to see potential rewards for each tier!")));
 			inv.addItem(createGuiItem(Material.BEACON, chat("&6All tiers"), chat("&rClick me to see all the tiers!")));
+			fillMenu(5);
 			
 		}else if(mineType.equalsIgnoreCase("all")) {
 			inv.addItem(createGuiItem(Material.EXPERIENCE_BOTTLE, chat("&6Current level: &5&l" + level), level, chat("&rThis is the level that you are currently on")));
 			inv.addItem(createGuiItem(Material.IRON_PICKAXE, chat("&6Amount mined"), chat("&rClick me to see the amount you have"), chat("&rmined in each tier!")));
 			inv.addItem(createGuiItem(Material.CHEST, chat("&6Potential rewards"),chat("&rClick me to see potential rewards for each tier!")));
 			inv.addItem(createGuiItem(Material.BEACON, chat("&6All tiers"), chat("&rClick me to see all the tiers!")));
+			fillMenu(4);
 		}
 		
 	}
@@ -97,6 +100,21 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
              		PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount(tierList));
              		pr.initializeItems(p);
              		pr.openInventory(p);
+             	}else if(e.getRawSlot() == 4 && mat.equals(Material.BEACON)) {
+             		if(mineType.equalsIgnoreCase("group")) {
+             			List<String> groupList = config.getStringList("GroupList");
+             			TierMenu tm = new TierMenu(plugin, "Groups",findSlotAmount(groupList));
+             			p.closeInventory();
+             			tm.initializeItems(p);
+             			tm.openInventory(p);
+             		}else if(mineType.equalsIgnoreCase("all") || mineType.equalsIgnoreCase("onebyone")){
+             			TierMenu tm = new TierMenu(plugin,"Tiers" ,findSlotAmount(tierList));
+             			p.closeInventory();
+             			tm.initializeItems(p);
+             			tm.openInventory(p);
+             		}
+             	}else if(e.getRawSlot() == (inv.getSize()-1)) {
+             		p.closeInventory();
              	}
              	
              }

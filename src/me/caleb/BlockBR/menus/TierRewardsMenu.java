@@ -79,7 +79,7 @@ public class TierRewardsMenu extends AbstractMenu implements Listener, Inventory
 		inv.addItem(createGuiItem(Material.GOLD_NUGGET, chat("&6Money"),chat("&rYou get &5&l" + money) , chat("&rwhen you complete this tier!")));
 		inv.addItem(createGuiItem(Material.CHEST, chat("&6Crate"), chat("&rYou get a &5&l" + crate), chat("&rwhen you complete this tier!")));
 		inv.addItem(createGuiItem(Material.COMMAND_BLOCK, chat("&6Commands"), chat("&rClick me to see what commands are ran"), chat("&rwhen you complete this tier!")));
-		fillMenu();
+		fillMenu(4);
 	}
 
 	@EventHandler
@@ -113,14 +113,6 @@ public class TierRewardsMenu extends AbstractMenu implements Listener, Inventory
 		}
 		
 		e.setCancelled(true);
-	}
-	
-	@Override
-	protected void fillMenu() {
-		for(int x = 4; x < (inv.getSize()-1);x++) {
-			inv.setItem(x, createGuiItem());
-		}
-		inv.addItem(createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
 	}
 	
 }

@@ -35,7 +35,7 @@ public class Commands extends AbstractMenu implements Listener, InventoryHolder{
 		for(int x = 0; x < commands.size(); x++) {
 			inv.addItem(createGuiItem(Material.COMMAND_BLOCK,chat("&6Command " + (x+1)), 1 , chat("&r&o" + commands.get(x))));
 		}
-		fillMenu();
+		fillMenu(commands);
 	}
 
 	@EventHandler
@@ -59,15 +59,6 @@ public class Commands extends AbstractMenu implements Listener, InventoryHolder{
         }
         
         e.setCancelled(true);
-	}
-
-	@Override
-	protected void fillMenu() {
-		int itemSize = commands.size();
-		for(int x = itemSize;x < (inv.getSize()-1);x++) {
-			inv.setItem(x, createGuiItem());
-		}
-		inv.addItem(createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
 	}
 	
 }

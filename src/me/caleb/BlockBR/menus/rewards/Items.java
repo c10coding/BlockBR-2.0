@@ -75,7 +75,7 @@ public class Items extends AbstractMenu implements Listener, InventoryHolder{
 			}
 			
 		}
-		fillMenu();
+		fillMenu(items);
 	}
 	
 	@EventHandler
@@ -100,15 +100,6 @@ public class Items extends AbstractMenu implements Listener, InventoryHolder{
         
         e.setCancelled(true);
 		
-	}
-	
-	@Override
-	protected void fillMenu() {
-		int itemSize = items.size();
-		for(int x = itemSize;x < (inv.getSize()-1);x++) {
-			inv.setItem(x, createGuiItem());
-		}
-		inv.addItem(createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
 	}
 
 }

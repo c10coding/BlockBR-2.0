@@ -170,17 +170,32 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 		
 	}
 	
-	protected void fillMenu() {
+	protected void fillMenu(List<String> list) {
 		int invSlots = inv.getSize();
-		int tierAmount = tierList.size();
+		int amount = list.size();
 		
-		for(int x = tierAmount; x < invSlots; x++) {
+		for(int x = amount; x < invSlots; x++) {
 			inv.setItem(x, createGuiItem());
 			if(x == (invSlots - 1)) {
 				inv.setItem(x, createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
 			}
 		}
 	}
+	
+	/*
+	 * You use this when you already know how many items are in the menu
+	 */
+	protected void fillMenu(int amount) {
+		int invSlots = inv.getSize();
+		
+		for(int x = amount; x < invSlots; x++) {
+			inv.setItem(x, createGuiItem());
+			if(x == (invSlots - 1)) {
+				inv.setItem(x, createGuiItem(Material.RED_WOOL, chat("&6Go back"), chat("&rClick me to go back to the"), chat("&rlast menu!")));
+			}
+		}
+	}
+	
 	
 	public abstract void initializeItems(Player p);
 	
