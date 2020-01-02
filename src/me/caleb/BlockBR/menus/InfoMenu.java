@@ -86,15 +86,15 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
              	
              	Material mat = e.getCurrentItem().getType();
              	if(e.getRawSlot() == 1 && mat.equals(Material.IRON_PICKAXE)) {
-             		AmountMinedMenu a = new AmountMinedMenu(plugin, "Amount mined", findSlotAmount());
+             		AmountMinedMenu a = new AmountMinedMenu(plugin, "Amount mined", findSlotAmount(tierList));
              		a.initializeItems(p);
              		a.openInventory(p);
              	}else if(e.getRawSlot() == 3 && mat.equals(Material.CHEST)) {
-             		PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount());
+             		PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount(tierList));
              		pr.initializeItems(p);
              		pr.openInventory(p);
              	}else if(e.getRawSlot() == 2 && mat.equals(Material.CHEST)) {
-             		PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount());
+             		PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount(tierList));
              		pr.initializeItems(p);
              		pr.openInventory(p);
              	}

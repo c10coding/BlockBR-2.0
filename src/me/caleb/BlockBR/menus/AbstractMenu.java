@@ -158,27 +158,16 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 		return item;
 	}
 	
-	protected int findSlotAmount() {
-		int slotSize = 0;
-		List<String> tierList = config.getStringList("TierList");
-		
-		do {
-			slotSize+=9;
-		}while(slotSize <= tierList.size());
-
-		return slotSize;
-		
-	}
 	
-	
-	protected int findSlotAmountItems(List<String> items) {
+	protected int findSlotAmount(List<String> list) {
 		int slotSize = 0;
 		
 		do {
 			slotSize+=9;
-		}while(slotSize <= items.size());
+		}while(slotSize <= list.size());
 
 		return slotSize;
+		
 	}
 	
 	protected void fillMenu() {
