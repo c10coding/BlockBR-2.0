@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.commands.PlayerCommands;
 import me.caleb.BlockBR.listeners.BlockEvent;
+import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.Fireworks;
 import net.milkbowl.vault.economy.Economy;
@@ -45,22 +47,7 @@ public class Main extends JavaPlugin{
 		
 		loadConfig();
 		getConfig().options().copyDefaults(true);
-		
-		/*
-		 * When the plugin gets reloaded or ran for the first time, it checks to see if any 
-		 * edits have been made to the MineType to make sure that the config is formulated correctly
-		 * according to the MineType
-		 */
-		/*
-		String mineType = config.getString("MineType");
-		List<String> groupList = config.getStringList("GroupList");
-		Group g = new Group(this);
-		
-		if(mineType.equalsIgnoreCase("group") && groupList.isEmpty()) {
-			g.formulateConfig("form");
-		}else {
-			g.formulateConfig("remove");
-		}*/
+		validateConfig();
 		
 		new BlockEvent(this);
 		new PlayerCommands(this);
@@ -137,10 +124,44 @@ public class Main extends JavaPlugin{
 	}
 	
 	/*
-	 * Checks on reload to see if the player has removed something
-	 * from the config that is still in the database.
+	 * Validates the MineType and tierlist relative to what's in the database
 	 */
 	public void validateConfig() {
+		
+		String mineType = config.getString("MineType");
+		mineType = mineType.trim();
+		
+		if(!mineType.equalsIgnoreCase("all") || mineType.equalsIgnoreCase("group") || mineType.equalsIgnoreCase("onebyone")) {
+			config.set("MineType", "all");
+			Chat.sendConsoleMessage("Error reading the the config value \"MineType\". Setting MineType to \"all\"");
+		}
+		
+		this.saveConfig();
+		
+		List<String> tierList = config.getStringList("TierList");
+		DataManager dm = new DataManager(this);
+		ArrayList<String> columns = dm.getColumns();
+		
+		/*
+		 * If the config does not have this column, then remove it
+		 * The database should have the same stuff the config does
+		 */
+		
+		if(tierList.size() == 0) {
+			for(String column : columns) {
+				dm.removeColumn(column);
+				Chat.sendConsoleMessage("Config does not match up with database. Removing tier " + column);
+			}
+		}else {
+			for(int x = 0; x < columns.size(); x++) {
+				if(!tierList.contains(columns.get(x))) {
+					dm.removeColumn(columns.get(x));
+					Chat.sendConsoleMessage("Config does not match up with database. Removing tier " + columns.get(x));
+				}
+			}
+		}
+		
+		
 		
 	}
 	

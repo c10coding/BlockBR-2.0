@@ -1,16 +1,20 @@
 package me.caleb.BlockBR.sql;
 
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.utils.Chat;
 
 public class DataManager {
 
@@ -392,6 +396,36 @@ public class DataManager {
 		}
 		
 	}
+	
+	public ArrayList<String> getColumns() {
+		
+		ArrayList<String> columns = new ArrayList<String>();
+		
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr2`");
+			ResultSet rs = stmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			for(int x = 5;x <= rsmd.getColumnCount(); x++) {
+				columns.add(rsmd.getColumnName(x));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return columns;
+		
+	}
+
+	public void removeColumn(String tier) {
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("ALTER TABLE `blockbr2` DROP " + tier);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 }
