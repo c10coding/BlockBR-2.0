@@ -13,6 +13,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import me.caleb.BlockBR.Main;
+import me.caleb.BlockBR.menus.rewards.Items;
 
 
 /*
@@ -26,10 +27,10 @@ import me.caleb.BlockBR.Main;
 public class TierRewardsMenu extends AbstractMenu implements Listener, InventoryHolder{
 
 	private final String PATH;
-	private final String tier, crate;
-	private final Material mat;
-	private final int money;
-	private final List<String> items, commands;
+	public final String tier, crate;
+	public final Material mat;
+	public final int money;
+	public final List<String> items, commands;
 	
 	public TierRewardsMenu(Main plugin, Material mat) {
 		super(plugin,"Tier Rewards", 9);
@@ -91,14 +92,24 @@ public class TierRewardsMenu extends AbstractMenu implements Listener, Inventory
 		
 		try {
 			if(e.getRawSlot() == 0) {
-				
+				Items i = new Items(plugin, findSlotAmountItems(items), items, tier, mat);
+				p.closeInventory();
+				i.initializeItems(p);
+				i.openInventory(p);
+			}else if(e.getRawSlot() == (inv.getSize()-1)) {
+				PotentialRewards pr = new PotentialRewards(plugin, findSlotAmount());
+				p.closeInventory();
+				pr.initializeItems(p);
+				pr.openInventory(p);
 			}
 		}catch(NullPointerException n) {
-			
+			return;
 		}
 		
 		e.setCancelled(true);
 	}
+	
+	
 	
 	@Override
 	protected void fillMenu() {

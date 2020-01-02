@@ -15,7 +15,7 @@ import me.caleb.BlockBR.Main;
 public class PotentialRewards extends AbstractMenu implements Listener, InventoryHolder{
 
 	public PotentialRewards(Main plugin, int slotSize) {
-		super(plugin, "Potential Rewards", 9);
+		super(plugin, "Potential Rewards", slotSize);
 		Bukkit.getPluginManager().registerEvents(this,plugin);
 	}
 
