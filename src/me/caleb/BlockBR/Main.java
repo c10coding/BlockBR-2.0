@@ -179,17 +179,43 @@ public class Main extends JavaPlugin{
 		 * The database should have the same stuff the config does
 		 */
 		
-		if(tierList.size() == 0) {
+		if(tierList.size() == 0 && columns.size() > 1) {
 			for(String column : columns) {
 				dm.removeColumn(column);
 				Chat.sendConsoleMessage("Config does not match up with database. Removing tier " + column);
 			}
-		}else {
-			for(int x = 0; x < columns.size(); x++) {
-				if(!tierList.contains(columns.get(x))) {
-					dm.removeColumn(columns.get(x));
-					Chat.sendConsoleMessage("Config does not match up with database. Removing tier " + columns.get(x));
+		}else if(tierList.size() > 1 && columns.size() == 0){
+			for(String tier : tierList) {
+				dm.addColumn(tier);
+				Chat.sendConsoleMessage("Config does not match up with database. Adding tier " + tier);
+			}
+		}else{
+			
+			/*
+			 * There are more tiers in db than tierlist
+			 * Remove ---
+			 */
+			if(columns.size() > tierList.size()) {
+				for(int x = 0; x < columns.size(); x++) {
+					if(!tierList.contains(columns.get(x))) {
+						dm.removeColumn(columns.get(x));
+						Chat.sendConsoleMessage("Config does not match up with database. Removing tier " + columns.get(x));
+					}
 				}
+			/*
+			 * There are less tiers in db than tierlist
+			 * Add ---
+			 */
+			}else if(columns.size() < tierList.size()){
+				for(int x = 0; x < tierList.size();x++) {
+					if(!columns.contains(tierList.get(x))) {
+						dm.addColumn(tierList.get(x));
+						Chat.sendConsoleMessage("Config does not match up with database. Adding tier " + tierList.get(x));
+					}
+				}
+			}else {
+				Chat.sendConsoleMessage("The config matches up with the database!");
+				return;
 			}
 		}
 		

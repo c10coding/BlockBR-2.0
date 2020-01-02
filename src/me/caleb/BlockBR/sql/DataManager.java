@@ -425,6 +425,15 @@ public class DataManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void addColumn(String tier) {
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("ALTER TABLE `blockbr2` ADD " + tier + " varchar(255) NOT NULL DEFAULT 0");
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
