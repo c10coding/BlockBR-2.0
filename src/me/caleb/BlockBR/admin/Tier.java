@@ -178,11 +178,9 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Rewards.Crate", "CrateNameGoesHere");
 				
 				List<String> itemList = new ArrayList<String>();
-				itemList.add("name: APPLE amount: 64");
 				config.set("Tiers." + tierName + ".Properties.Rewards.Items", itemList);
 				
 				List<String> commandList = new ArrayList<String>();
-				commandList.add("give %player% apple 64");
 				config.set("Tiers." + tierName + ".Properties.Rewards.Commands", commandList);
 				
 				break;

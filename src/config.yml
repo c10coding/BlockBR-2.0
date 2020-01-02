@@ -12,9 +12,9 @@ Password: ""
 # All: You can do all the tiers at once
 
 MineType: OneByOne
-TierList:
+TierList: {}
 
-Tiers:
+Tiers: {}
    
 Help:
 - '/&6bbr tierlist: &rShows you all the tiers'

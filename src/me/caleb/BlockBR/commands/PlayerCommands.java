@@ -179,7 +179,11 @@ public class PlayerCommands implements CommandExecutor{
 						im.initializeItems(player);
 						im.openInventory(player);
 					}
-					
+				}else if(args[0].equalsIgnoreCase("type") && args.length == 1) {
+					if(isPlayer() == true) {
+						FileConfiguration config = plugin.getConfig();
+						Chat.sendPlayerMessage(player, "&rThe current mine type is &5&l" + config.getString("MineType"));
+					}
 				}else {
 					sendHelp();
 				}
