@@ -158,6 +158,8 @@ public class Tier {
 		
 			case "add":
 
+				tierName = tierName.toLowerCase();
+				
 				try {
 					List<String> tierList = (List<String>) config.getList("TierList");
 					tierList.add(tierName);

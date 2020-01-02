@@ -162,9 +162,8 @@ public class Main extends JavaPlugin{
 	public void validateConfig() {
 		
 		String mineType = config.getString("MineType");
-		mineType = mineType.trim();
 		
-		if(!mineType.equalsIgnoreCase("all") || mineType.equalsIgnoreCase("group") || mineType.equalsIgnoreCase("onebyone")) {
+		if(!(mineType.equalsIgnoreCase("all")) && !(mineType.equalsIgnoreCase("group")) && !(mineType.equalsIgnoreCase("onebyone"))) {
 			config.set("MineType", "all");
 			Chat.sendConsoleMessage("Error reading the the config value \"MineType\". Setting MineType to \"all\"");
 		}

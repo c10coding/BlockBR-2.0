@@ -1,9 +1,9 @@
 # MYSQL DATA. LEAVE THE DATABASE AS NONE. ADJUST ALL OTHER FIELDS
-Host: 
+Host: ""
 Port: 3306
 Database: "none"
-Username:
-Password: 
+Username: ""
+Password: ""
 
 # MineType
 # Choices are Group (default), OnebyOne, All
