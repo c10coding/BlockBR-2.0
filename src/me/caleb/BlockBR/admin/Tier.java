@@ -168,8 +168,6 @@ public class Tier {
 					config.set("TierList", tierList);
 				}
 				
-				
-				
 				config.set("Tiers." + tierName + ".Properties.Material",getMaterialName());
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", 2.0);
@@ -178,7 +176,7 @@ public class Tier {
 				config.set("Tiers." + tierName + ".Properties.Rewards.Crate", "CrateNameGoesHere");
 				
 				List<String> itemList = new ArrayList<String>();
-				itemList.add("name: Apple amount:64 enchants: Damage_all 1;Protection 1");
+				itemList.add("name: APPLE amount: 64");
 				config.set("Tiers." + tierName + ".Properties.Rewards.Items", itemList);
 				
 				List<String> commandList = new ArrayList<String>();

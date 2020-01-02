@@ -42,7 +42,14 @@ public class ItemParser {
 	
 	public void spacingError() {
 		Bukkit.getConsoleSender().sendMessage(Chat.chat("&4vvvvvvv BLOCKBR ERROR vvvvvvv"));
-		Bukkit.getConsoleSender().sendMessage(Chat.chat("The spacing in this line " + line + " is out of wack in tier &5&l" + tier));
+		Bukkit.getConsoleSender().sendMessage(Chat.chat("There is something wrong with this line. Check the item name and the line spacing " + line + " in tier &5&l" + tier));
+		Bukkit.getConsoleSender().sendMessage("Make sure that there is a space after name:, amount:, and Enchants: ");
+		Bukkit.getConsoleSender().sendMessage(Chat.chat("&4^^^^^^^ BLOCKBR ERROR ^^^^^^^"));
+	}
+	
+	public void spacingError2() {
+		Bukkit.getConsoleSender().sendMessage(Chat.chat("&4vvvvvvv BLOCKBR ERROR vvvvvvv"));
+		Bukkit.getConsoleSender().sendMessage(Chat.chat("There is something wrong with this line. Check the line spacing " + line + " in tier &5&l" + tier));
 		Bukkit.getConsoleSender().sendMessage("Make sure that there is a space after name:, amount:, and Enchants: ");
 		Bukkit.getConsoleSender().sendMessage(Chat.chat("&4^^^^^^^ BLOCKBR ERROR ^^^^^^^"));
 	}
@@ -65,7 +72,7 @@ public class ItemParser {
 		
 		//If the first index is not Enchants:, then there is something wrong with the yml file
 		if(!arrEnchants.get(0).equalsIgnoreCase("Enchants:")) {
-			spacingError();
+			spacingError2();
 		}else {
 			//Compiles the map with the enchant, and then the level
 			//Increments it by 2 to go on to the next enchants

@@ -38,9 +38,17 @@ public class TierMenu extends AbstractMenu implements Listener, InventoryHolder{
 			for(int x = 0; x < groupList.size(); x++) {
 				List<String> tiers = g.getGroupTiers(groupList.get(x));
 				if(x % 2 == 0) {
-					inv.addItem(createGuiItem(Material.SLIME_BALL, chat("&6" + groupList.get(x)), tiersArray(tiers)));
+					if(tiersArray(tiers).length == 0) {
+						inv.addItem(createGuiItem(Material.SLIME_BALL, chat("&6" + groupList.get(x).toUpperCase()), chat("&r&oNone...")));
+					}else {
+						inv.addItem(createGuiItem(Material.SLIME_BALL, chat("&6" + groupList.get(x).toUpperCase()), tiersArray(tiers)));
+					}
 				}else {
-					inv.addItem(createGuiItem(Material.MAGMA_CREAM, chat("&6" + groupList.get(x)), tiersArray(tiers)));
+					if(tiersArray(tiers).length == 0) {
+						inv.addItem(createGuiItem(Material.MAGMA_CREAM, chat("&6" + groupList.get(x).toUpperCase()), chat("&r&oNone...")));
+					}else {
+						inv.addItem(createGuiItem(Material.MAGMA_CREAM, chat("&6" + groupList.get(x).toUpperCase()), tiersArray(tiers)));
+					}
 				}
 			}
 			
@@ -50,7 +58,7 @@ public class TierMenu extends AbstractMenu implements Listener, InventoryHolder{
 			
 			for(int x = 0; x < tierList.size(); x++) {
 				Material mat = Material.getMaterial(config.getString("Tiers." + tierList.get(x) + ".Properties.Material"));
-				inv.addItem(createGuiItem(mat,chat("&6" + tierList.get(x))));
+				inv.addItem(createGuiItem(mat,chat("&6" + tierList.get(x).toUpperCase())));
 			}
 			
 			fillMenu(tierList);

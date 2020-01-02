@@ -53,7 +53,13 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	 */
 	protected static ItemStack createGuiItem(Material mat, String name, Map<Enchantment,Integer> enchants, int amount, String...lore) {
 		
-		ItemStack item = new ItemStack(mat,1);
+		ItemStack item = null;
+		if(mat == null) {
+			Chat.sendConsoleMessage("&4" + name + " is not a material. Please fix this in the configuration file!");
+		}else {
+			item = new ItemStack(mat,1);
+		}
+		
 		ItemMeta meta = item.getItemMeta();
 		ArrayList<Enchantment> itemEnchants = new ArrayList<Enchantment>();
 		ArrayList<Integer> itemLevels = new ArrayList<Integer>();
@@ -102,7 +108,13 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	 */
 	protected static ItemStack createGuiItem(Material material, String name,int amount, String...lore) {
 		
-		ItemStack item = new ItemStack(material,1);
+		ItemStack item = null;
+		if(material == null) {
+			Chat.sendConsoleMessage("&4" + name + " is not a material. Please fix this in the configuration file!");
+		}else {
+			item = new ItemStack(material,1);
+		}
+		
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		item.setAmount(amount);
@@ -129,7 +141,13 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	//If you only want one item
 	protected static ItemStack createGuiItem(Material material, String name, String...lore) {
 		
-		ItemStack item = new ItemStack(material,1);
+		ItemStack item = null;
+		if(material == null) {
+			Chat.sendConsoleMessage("&4" + name + " is not a material. Please fix this in the configuration file!");
+		}else {
+			item = new ItemStack(material,1);
+		}
+		
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		
