@@ -147,8 +147,7 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 		}else {
 			item = new ItemStack(material,1);
 		}
-		Bukkit.broadcastMessage(material.toString());
-		Bukkit.broadcastMessage(item.toString());
+
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		

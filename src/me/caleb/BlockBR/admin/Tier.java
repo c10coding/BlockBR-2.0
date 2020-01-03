@@ -195,7 +195,6 @@ public class Tier {
 			//Removes all the values by setting them to null, which removes them
 			case "remove":
 				
-				
 				if(removalOfFirstTier(tierName)) {
 					/*
 					 * Exception to this. If remove all is done, then none of this should occur
