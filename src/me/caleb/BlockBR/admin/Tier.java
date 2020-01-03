@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 
 public class Tier {
@@ -32,7 +33,7 @@ public class Tier {
 		this.p = p;
 	}
 	/*
-	 * Method crates a column within the database with the tier name
+	 * Method creates a column within the database with the tier name
 	 */
 	public void tierAdd(String tierName,Player p) {
 		
@@ -60,7 +61,13 @@ public class Tier {
 	 */
 	public void tierRemove(String tierName, Player p) {
 		
+		Tier t = new Tier(plugin, p);
 		tierName = tierName.toLowerCase();
+		
+		if(!t.isTier(p, tierName)) {
+			Chat.sendPlayerMessage(p, "This is not a tier!");
+		}
+	
 		//SQL WORK
 		try {
 			String query = "ALTER TABLE `blockbr2` DROP " + tierName;
@@ -87,27 +94,31 @@ public class Tier {
 		
 		List<String> tierList = config.getStringList("TierList");
 		
-		try {
-			
-			for(int x = 0; x < tierList.size(); x++) {
-				String tierName = tierList.get(x).toLowerCase();
-				String query = "ALTER TABLE `blockbr2` DROP " + tierName;
-				PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
-				int rowsAffected = stmt.executeUpdate();
+		if(tierList.size() == 0) {
+			Chat.sendPlayerMessage(p, "There are no tiers to delete!");
+		}else {
+			try {
 				
-				if(rowsAffected == 0) {
-					configRemoveAll();
+				for(int x = 0; x < tierList.size(); x++) {
+					String tierName = tierList.get(x).toLowerCase();
+					String query = "ALTER TABLE `blockbr2` DROP " + tierName;
+					PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
+					int rowsAffected = stmt.executeUpdate();
+					
+					if(rowsAffected == 0) {
+						configRemoveAll();
+					}
+					
 				}
 				
+			}catch(SQLException e) {
+				e.printStackTrace();
+				Chat.sendPlayerMessage(p, "There has been an error while removing a tier. Please contact an admin or the plugin owner");
+				return;
 			}
 			
-		}catch(SQLException e) {
-			e.printStackTrace();
-			Chat.sendPlayerMessage(p, "There has been an error while removing a tier. Please contact an admin or the plugin owner");
-			return;
+			Chat.sendPlayerMessage(p, "All tiers have been removed!");
 		}
-		
-		Chat.sendPlayerMessage(p, "All tiers have been removed!");
 		
 	}
 	
@@ -151,8 +162,7 @@ public class Tier {
 	public void configWork(String tierName, String action) {
 		
 		action = action.toLowerCase();	
-		//p.sendMessage(getMaterialName());
-		
+		List<String> tierList = (List<String>) config.getList("TierList");
 		//Removes the tier from the "Tiers" section
 		switch(action) {
 		
@@ -160,16 +170,14 @@ public class Tier {
 
 				tierName = tierName.toLowerCase();
 				
-				try {
-					List<String> tierList = (List<String>) config.getList("TierList");
-					tierList.add(tierName);
-					config.set("TierList", tierList);
-				}catch(NullPointerException e) {
-					List<String> tierList = new ArrayList<String>();
-					tierList.add(tierName);
-					config.set("TierList", tierList);
+				if(tierList.size() == 0) {
+					DataManager dm = new DataManager(plugin,p);
+					dm.setTier(tierName);
 				}
 				
+				tierList.add(tierName);
+				
+				config.set("TierList", tierList);
 				config.set("Tiers." + tierName + ".Properties.Material",getMaterialName());
 				config.set("Tiers." + tierName + ".Properties.Multiplier", 2.0);
 				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", 2.0);
@@ -186,6 +194,21 @@ public class Tier {
 				break;
 			//Removes all the values by setting them to null, which removes them
 			case "remove":
+				
+				
+				if(removalOfFirstTier(tierName)) {
+					/*
+					 * Exception to this. If remove all is done, then none of this should occur
+					 */
+					try {
+						String nextTier = tierList.get(1);
+						DataManager dm = new DataManager(plugin,p);
+						dm.alterFirstTiers(tierName, nextTier);	
+					}catch(IndexOutOfBoundsException e) {
+						Chat.sendConsoleMessage("There is no second tier column to set the tier to. Ignoring...");
+					}
+
+				}
 				config.set("Tiers." + tierName + ".Properties.Material",null);
 				config.set("Tiers." + tierName + ".Properties.Multiplier", null);
 				config.set("Tiers." + tierName + ".Properties.MoneyMultiplier", null);
@@ -202,6 +225,16 @@ public class Tier {
 		
 		plugin.saveConfig();
 		
+	}
+	
+	public boolean removalOfFirstTier(String tier) {
+		List<String> tierList = (List<String>) config.getList("TierList");
+		//If this is the first tier
+		if(tierList.get(0).equalsIgnoreCase(tier) ) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public void configRemoveAll() {

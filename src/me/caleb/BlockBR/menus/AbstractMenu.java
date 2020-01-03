@@ -140,14 +140,15 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	
 	//If you only want one item
 	protected static ItemStack createGuiItem(Material material, String name, String...lore) {
-		
+	
 		ItemStack item = null;
 		if(material == null) {
 			Chat.sendConsoleMessage("&4" + name + " is not a material. Please fix this in the configuration file!");
 		}else {
 			item = new ItemStack(material,1);
 		}
-		
+		Bukkit.broadcastMessage(material.toString());
+		Bukkit.broadcastMessage(item.toString());
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		

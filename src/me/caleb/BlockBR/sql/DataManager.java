@@ -349,7 +349,37 @@ public class DataManager {
 		}
 		
 	}
-
+	
+	/*
+	 * Used when there's nothing in the tierlist and the player wants to add their first tier.
+	 */
+	public void setTier(String tier) {
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET tier=? WHERE playerName=?");
+			stmt.setString(1, tier);
+			stmt.setString(2, p.getName());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * If the first tier is removed from the database, then 
+	 * the "tier" column is set to the next tier in line
+	 * for all people that were on the first tier
+	 */
+	public void alterFirstTiers(String tier, String nextTier) {
+		try {
+			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET tier=? WHERE tier=?");
+			stmt.setString(1, nextTier);
+			stmt.setString(2, tier);
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void resetTiers() {
 		
 		List<String> tierList = config.getStringList("TierList");

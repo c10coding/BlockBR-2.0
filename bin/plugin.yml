@@ -1,16 +1,21 @@
-name: BlockBR_2.0
-version: 2.0
-main: me.caleb.BlockBR.Main
-author: C10coding
+--- 
 api-version: 1.14
-depend: [Vault]
-commands:
-  blockbr:
-    description: Regular commands
+author: C10coding
+commands: 
+  blockbr: 
+    aliases: 
+      - bbr
+    description: "Regular commands"
     permission: blockbr.use
-    aliases: [bbr]
-permissions:
-  blockbr.use:
-    description: Allows blockbr commands
+depend: 
+  - Vault
+main: me.caleb.BlockBR.Main
+name: BlockBR_2.0
+permissions: 
+  blockbr.admin: 
+    default: op
+    description: "Allows admin blockbr commands"
+  blockbr.use: 
     default: true
-    
+    description: "Allows blockbr commands"
+version: 2.0

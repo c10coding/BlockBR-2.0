@@ -53,10 +53,10 @@ public class Main extends JavaPlugin{
 		 */
 		if(config.getString("Host").isEmpty() || config.getString("Password").isEmpty() || config.getString("Username").isEmpty()) {
 			Chat.sendConsoleMessage("Please enter your MYSQL credentials into the config so that we can get started with the fun!");
-		}else {
-			mysqlSetup();
 			loadConfig();
 			getConfig().options().copyDefaults(true);
+		}else {
+			mysqlSetup();
 			validateConfig();
 			
 			new BlockEvent(this);

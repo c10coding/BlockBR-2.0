@@ -23,6 +23,7 @@ Help:
 - '/&6bbr tier remove (Tier name): &rRemoves the desired tier'
 - '/&6bbr tier remove all: &rRemoves all tiers'
 - '/&6bbr tier edit ("mult" | "mat" | "thresh") (Your multiplier | Your material/Item name | Your threshold number): &rEdits a specific property of a tier. (Multiplier, Material, Threshold)'
+- '/&6bbr tier rename (tier name) (new tier name):&r Renames the desired tier'
 - '/&6bbr rewardadd (The tier) ("item"):&r Adds the item in your hand to the rewards list for this tier'
 - '/&6bbr rewardadd (The tier) ("command"):&r Asks what command you would like to add to this tier'
 

@@ -48,7 +48,7 @@ public class RewardHandler {
 			Main.getEconomy().depositPlayer(p,money);
 			Chat.sendPlayerMessage(p, "&bYou have been given &5&l " + money);
 		}else {
-			Bukkit.getConsoleSender().sendMessage(Chat.blockBrChat("Money is equal to false, ignoring the money reward..."));
+			Bukkit.getConsoleSender().sendMessage(Chat.blockBrChat("Money is equal to false. Ignoring the money reward..."));
 		}
 		
 		if(!crate.equalsIgnoreCase("false")) {
@@ -64,6 +64,8 @@ public class RewardHandler {
 			}else {
 				Chat.sendConsoleMessage("CrateReloaded is not enabled! Ignoring the crate reward... If you wish to install the plugin, go to https://www.spigotmc.org/resources/free-crate-reloaded-mystery-crate-1-8-1-14-x.861/");
 			}	
+		}else {
+			Chat.sendConsoleMessage("The crate is set to false. Ignoring the crate reward...");
 		}
 		
 		if(!commands.isEmpty()) {

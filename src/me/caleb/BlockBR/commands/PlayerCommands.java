@@ -37,7 +37,13 @@ public class PlayerCommands implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		player = (Player) sender;
+		if(!(sender instanceof Player)) {
+			Chat.sendConsoleMessage("You cannot use this command from the console!");
+			return false;
+		}else {
+			player = (Player) sender;
+		}
+
 		Tier t = new Tier(plugin,player);
 		Rewards r = new Rewards(plugin);
 		Group g = new Group(plugin,player);
@@ -49,144 +55,143 @@ public class PlayerCommands implements CommandExecutor{
 		
 		try {
 			
-			if(!(sender instanceof Player)) {
-				Chat.sendConsoleMessage("You must be a player!");
-			}else {
-				
-				if(args[0].equalsIgnoreCase("tierlist") && args.length == 1) {
-					if(isPlayer() == true) {
-						t.showTierList(player);
-					}	
-				//0 is tier, 1 is add or remove, 2 is tiername
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("add") && !args[2].isEmpty()) {
-					if(isAdmin() == true) {
-						t.tierAdd(args[2], player);
-					}
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
-					if(isAdmin() == true) {
-						if(args[2].equalsIgnoreCase("all")) {
-							t.tierRemove(player);
-						}else {
-							t.tierRemove(args[2], player);
-						}	
-					}		
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
-					if(isAdmin() == true) {
-						t.tierEdit(args[2], args[3], args[4], player);
-						t.configWork(args[2], args[1]);
-					}
-				//Crates
-				//bbr rewardadd (tier) ("Crate") (CrateName)
-				}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
-					if(isAdmin() == true) {
-						r.rewardAddCrate(player, args[1], args[2], args[3]);
-					}
-				//Items
-				//bbr rewardadd (tier) ("Item")
-				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item")) {
-					if(isAdmin() == true) {
-						r.rewardAddItem(player, args[1]);
-					}
-				}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
-					if(isAdmin() == true) {
-						try {
-							r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
-						}catch(NumberFormatException e) {
-							r.rewardAddMoney(player, args[1], args[2], args[3]);
-						}
-					}
-				//bbr tier rename (tier) (newName)
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("rename") && !args[2].isEmpty() && !args[3].isEmpty()) {
-					if(isAdmin() == true) {
-						t.tierRename(args[2], args[3],player);
-					}
-				}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("command")) {
-					if(isAdmin() == true) {
-						r.rewardAddCommand(player, args[1]);
-					}
-				//bbr tier info
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("info") && !args[2].isEmpty()) {
-					if(isAdmin() == true) {
-						t.getTierInfo(player, args[2]);
-					}
-				//bbr rewardremove (Tier) "Item" (##)
-				}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item") && !args[3].isEmpty()) {
-					if(isAdmin() == true) {
-						r.rewardRemoveItem(args[1],args[3],player);
-					}
-				//bbr rewardremove (Tier) "Command" (##)
-				}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Command") && !args[3].isEmpty()) {
-					if(isAdmin() == true) {
-						r.rewardRemoveCommand(args[1], args[3], player);
-					}
-				//bbr changeType (Type)
-				}else if(args[0].equalsIgnoreCase("changeType") && !args[1].isEmpty()) {
-					if(isAdmin() == true) {
-						Tier tier = new Tier(plugin, player);
-						if(tier.isTierListEmpty()) {
-							Chat.sendPlayerMessage(player, "You cannot do this right now! The tier list is empty! Try doing &6/bbr tier add (Tier Name) before using this command!");
-							return false;
-						}else {
-							r.changeMineType(args[1], player);
-						}
-						
+			if(args[0].equalsIgnoreCase("tierlist") && args.length == 1) {
+				if(isPlayer() == true) {
+					t.showTierList(player);
+				}	
+			//0 is tier, 1 is add or remove, 2 is tiername
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("add") && !args[2].isEmpty()) {
+				if(isAdmin() == true) {
+					t.tierAdd(args[2], player);
+				}
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
+				if(isAdmin() == true) {
+					if(args[2].equalsIgnoreCase("all")) {
+						t.tierRemove(player);
 					}else {
+						t.tierRemove(args[2], player);
+					}	
+				}		
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
+				if(isAdmin() == true) {
+					t.tierEdit(args[2], args[3], args[4], player);
+					t.configWork(args[2], args[1]);
+				}
+			//Crates
+			//bbr rewardadd (tier) ("Crate") (CrateName)
+			}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
+				if(isAdmin() == true) {
+					r.rewardAddCrate(player, args[1], args[2], args[3]);
+				}
+			//Items
+			//bbr rewardadd (tier) ("Item")
+			}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item")) {
+				if(isAdmin() == true) {
+					r.rewardAddItem(player, args[1]);
+				}
+			}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
+				if(isAdmin() == true) {
+					try {
+						r.rewardAddMoney(player, args[1], args[2],Integer.parseInt(args[3]));
+					}catch(NumberFormatException e) {
+						r.rewardAddMoney(player, args[1], args[2], args[3]);
+					}
+				}
+			//bbr tier rename (tier) (newName)
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("rename") && !args[2].isEmpty() && !args[3].isEmpty()) {
+				if(isAdmin() == true) {
+					t.tierRename(args[2], args[3],player);
+				}
+			}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("command")) {
+				if(isAdmin() == true) {
+					r.rewardAddCommand(player, args[1]);
+				}
+			//bbr tier info
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("info") && !args[2].isEmpty()) {
+				if(isAdmin() == true) {
+					t.getTierInfo(player, args[2]);
+				}
+			//bbr rewardremove (Tier) "Item" (##)
+			}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item") && !args[3].isEmpty()) {
+				if(isAdmin() == true) {
+					r.rewardRemoveItem(args[1],args[3],player);
+				}
+			//bbr rewardremove (Tier) "Command" (##)
+			}else if(args[0].equalsIgnoreCase("rewardremove") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Command") && !args[3].isEmpty()) {
+				if(isAdmin() == true) {
+					r.rewardRemoveCommand(args[1], args[3], player);
+				}
+			//bbr changeType (Type)
+			}else if(args[0].equalsIgnoreCase("changeType") && !args[1].isEmpty()) {
+				if(isAdmin() == true) {
+					Tier tier = new Tier(plugin, player);
+					if(tier.isTierListEmpty()) {
+						Chat.sendPlayerMessage(player, "You cannot do this right now! The tier list is empty! Try doing &6/bbr tier add (Tier Name) before using this command!");
 						return false;
+					}else {
+						r.changeMineType(args[1], player);
 					}
-				//bbr group create (Group Name)
-				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("create") && args.length == 3) {
-					if(isAdmin() == true) {
-						g.createGroup(args[2], player);
-					}
-				//bbr group remove (Group Name)
-				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("remove") && args.length == 3) {
-					if(isAdmin() == true) {
-						g.removeGroup(args[2], player);
-					}
-				//bbr tier move (Group Name)
-				}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("move") && args.length == 4) {
-					if(isAdmin() == true) {
-						player.sendMessage("here");
-						t.tierMove(args[2], args[3]);
-					}
-				}else if(args[0].equalsIgnoreCase("groupList") && args.length == 1) {
-					if(isAdmin() == true) {
-						g.showGroupList();
-					}
-				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("tierList") && args.length == 3) {
-					if(isAdmin() == true) {
-						g.groupTiers(args[2]);
-					}
-				}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("rename") && args.length == 4) {
-					if(isAdmin() == true) {
-						g.editName(args[2], args[3]);
-					}
-				}else if(args[0].equalsIgnoreCase("help") && args.length == 1) {
-					if(isPlayer() == true) {
-						sendHelp();
-					}
-				}else if(args[0].equalsIgnoreCase("help2") && args.length == 1) {
-					sendHelp2();
-				}else if(args[0].equalsIgnoreCase("help3") && args.length == 1) {
-					sendHelp3();
-				}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
-					if(isPlayer() == true){
-						DataManager dm = new DataManager(plugin,player);
-						InfoMenu im = new InfoMenu(plugin); 
+					
+				}else {
+					return false;
+				}
+			//bbr group create (Group Name)
+			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("create") && args.length == 3) {
+				if(isAdmin() == true) {
+					g.createGroup(args[2], player);
+				}
+			//bbr group remove (Group Name)
+			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("remove") && args.length == 3) {
+				if(isAdmin() == true) {
+					g.removeGroup(args[2], player);
+				}
+			//bbr tier move (Group Name)
+			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("move") && args.length == 4) {
+				if(isAdmin() == true) {
+					t.tierMove(args[2], args[3]);
+				}
+			}else if(args[0].equalsIgnoreCase("groupList") && args.length == 1) {
+				if(isAdmin() == true) {
+					g.showGroupList();
+				}
+			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("tierList") && args.length == 3) {
+				if(isAdmin() == true) {
+					g.groupTiers(args[2]);
+				}
+			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("rename") && args.length == 4) {
+				if(isAdmin() == true) {
+					g.editName(args[2], args[3]);
+				}
+			}else if(args[0].equalsIgnoreCase("help") && args.length == 1) {
+				if(isPlayer() == true) {
+					sendHelp();
+				}
+			}else if(args[0].equalsIgnoreCase("help2") && args.length == 1) {
+				sendHelp2();
+			}else if(args[0].equalsIgnoreCase("help3") && args.length == 1) {
+				sendHelp3();
+			}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
+				if(isPlayer() == true){
+					DataManager dm = new DataManager(plugin,player);
+					InfoMenu im = new InfoMenu(plugin); 
+					if(t.isTierListEmpty()) {
+						Chat.sendPlayerMessage(player, "The tier list is empty! You can not use this command right now");
+						return false;
+					}else {
 						if(!dm.ifInDB(player.getName())) {
 							dm.addPlayer(player);
 						}
-						im.initializeItems(player);
-						im.openInventory(player);
 					}
-				}else if(args[0].equalsIgnoreCase("type") && args.length == 1) {
-					if(isPlayer() == true) {
-						FileConfiguration config = plugin.getConfig();
-						Chat.sendPlayerMessage(player, "&rThe current mine type is &5&l" + config.getString("MineType"));
-					}
-				}else {
-					sendHelp();
+					im.initializeItems(player);
+					im.openInventory(player);
 				}
+			}else if(args[0].equalsIgnoreCase("type") && args.length == 1) {
+				if(isPlayer() == true) {
+					FileConfiguration config = plugin.getConfig();
+					Chat.sendPlayerMessage(player, "&rThe current mine type is &5&l" + config.getString("MineType"));
+				}
+			}else {
+				sendHelp();
 			}
 			
 		}catch(ArrayIndexOutOfBoundsException e) {

@@ -50,7 +50,6 @@ public class InfoMenu extends AbstractMenu implements Listener, InventoryHolder{
 			String tier = dm.getTier();
 			String matString = config.getString("Tiers." + tier + ".Properties.Material");
 			Material mat = Material.getMaterial(matString);
-			
 			Checker c = new Checker(plugin,p);
 			int thresh = c.getThreshold(tier);
 			int amount = dm.getTierAmount(tier);
