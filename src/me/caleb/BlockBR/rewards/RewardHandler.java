@@ -25,7 +25,7 @@ public class RewardHandler {
 	private String basePropPath;
 	private String tier;
 	private Player p;
-	private static CratePlugin api = CrateAPI.getInstance();
+	private static CratePlugin api;
 	
 	public RewardHandler(Main plugin, String tier, Player p) {
 		this.plugin = plugin;
@@ -34,6 +34,11 @@ public class RewardHandler {
 		this.p = p;
 		baseRewardPath = "Tiers." + tier + ".Properties.Rewards.";
 		basePropPath = "Tiers." + tier + ".Properties.";
+		
+		if(plugin.checkCrateReloaded() == true) {
+			api = CrateAPI.getInstance();
+		}
+		
 	}
 	
 	public void giveRewards() {
