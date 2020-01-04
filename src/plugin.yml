@@ -10,7 +10,7 @@ commands:
 depend: 
   - Vault
 main: me.caleb.BlockBR.Main
-name: BlockBR_2.0
+name: BlockBR
 permissions: 
   blockbr.admin: 
     default: op
