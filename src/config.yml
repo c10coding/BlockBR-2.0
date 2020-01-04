@@ -14,7 +14,7 @@ Password: ""
 MineType: OneByOne
 TierList:
 - grass
-- log
+- oak_log
 - stone
 - coal
 - iron
