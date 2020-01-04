@@ -201,6 +201,7 @@ public class Checker {
 						
 						Chat.sendPlayerMessage(p, "&5&lCongratulations! &bYou have gone up to level " + level);
 						Chat.sendPlayerMessage(p, "Enjoy your new set of rewards for the next tiers! You are now back on tier &5&l" + tierList.get(0).toUpperCase());
+						Chat.sendPlayerMessage(p, "&rWant to see the rewards for the other tiers? Do &6/bbr menu");
 						
 						return;
 					}

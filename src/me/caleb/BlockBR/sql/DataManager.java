@@ -33,7 +33,10 @@ public class DataManager {
 		config = plugin.getConfig();
 	}
 	
-	//Gets all the data from the player
+	/*
+	 * Gets all the data from a player and returns a ResultSet
+	 * for easy usage
+	 */
 	public ResultSet getResultSet(String playerName) {
 		
 		try {
@@ -102,7 +105,9 @@ public class DataManager {
 		return amount;
 	}
 	
-	//Checks to see if player is in database
+    /*
+     * Checks to see if the player is the database
+     */
 	public boolean ifInDB(String playerName) {
 		
 		try {
@@ -126,8 +131,10 @@ public class DataManager {
 		
 	}
 	
-	//Adds player to the database
 	
+	/*
+	 * Adds the player into the `blockbr2` database
+	 */
 	public void addPlayer(Player p) {
 		
 		try {
@@ -286,7 +293,10 @@ public class DataManager {
 		return undoneTiers;
 		
 	}
-
+	
+	/*
+	 * Sets the current column to "done" whenever they meet the threshold
+	 */
 	public void setToDone(String tier) {
 		
 		try {
@@ -334,12 +344,14 @@ public class DataManager {
 		return undoneTiers;
 	}
 
+	/*
+	 * Levels up the player whenever they complete all the tiers
+	 */
 	public void levelUp(String tier) {
 		
 		try {
 			int level = getLevel();
 			level++;
-			//p.sendMessage(String.valueOf(level));
 			PreparedStatement stmt = plugin.getConnection().prepareStatement("UPDATE `blockbr2` SET level=? WHERE playerName=?");
 			stmt.setString(1, String.valueOf(level));
 			stmt.setString(2, p.getName());
@@ -380,6 +392,9 @@ public class DataManager {
 		}
 	}
 	
+	/*
+	 * This is called whenever someone levels up. It sets all the tiers from "done" --> 0
+	 */
 	public void resetTiers() {
 		
 		List<String> tierList = config.getStringList("TierList");

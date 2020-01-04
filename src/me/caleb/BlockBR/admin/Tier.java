@@ -38,7 +38,7 @@ public class Tier {
 	public void tierAdd(String tierName,Player p) {
 		
 		tierName = tierName.toLowerCase();
-		//SQL WORK
+		
 		try {
 			String query = "ALTER TABLE `blockbr2` ADD " + tierName + " varchar(255) NOT NULL DEFAULT 0";
 			PreparedStatement stmt = plugin.getConnection().prepareStatement(query);
@@ -122,6 +122,9 @@ public class Tier {
 		
 	}
 	
+	/*
+	 * Edits the tier name in the database
+	 */
 	public void tierEditName(String tier, String newTier,Player p) {
 		
 		try {
@@ -248,6 +251,9 @@ public class Tier {
 		
 	}
 	
+	/*
+	 * If the tier that is removed is the first tier in the list, it returns true
+	 */
 	public boolean removalOfFirstTier(String tier) {
 		List<String> tierList = (List<String>) config.getList("TierList");
 		//If this is the first tier
@@ -258,6 +264,9 @@ public class Tier {
 		}
 	}
 	
+	/*
+	 * Removes all tiers from the config
+	 */
 	public void configRemoveAll() {
 		
 		List<String> tierList = config.getStringList("TierList");
@@ -287,6 +296,9 @@ public class Tier {
 		}
 	}
 	
+	/*
+	 * Allows you to edit specific properties of a tier
+	 */
 	public void tierEdit(String name, String property, String v,Player p) {
 		
 		FileConfiguration config = plugin.getConfig();
@@ -306,7 +318,6 @@ public class Tier {
 					double value = Double.parseDouble(v);
 					
 					//Checks to see if the new multiplier given is 0, or less than 0
-						//I don't understand why this if statement works
 					if(Math.signum(value) > 0) {
 						config.set("Tiers." + name + ".Properties.Multiplier", value);
 						Chat.sendPlayerMessage(p, "&bThe multiplier has been edited for the tier &5&l" + name.toUpperCase());
@@ -373,6 +384,9 @@ public class Tier {
 		plugin.saveConfig();	
 	}
 	
+	/*
+	 * Allows you to move a tier to a group
+	 */
 	public void tierMove(String tierName, String newGroupName) {
 		
 		//Checks to see if the tier given is an actual tier
@@ -432,6 +446,9 @@ public class Tier {
 		
 	}
 	
+	/*
+	 * Gets all the information for a certain tier
+	 */
 	public void getTierInfo(Player p, String tier) {
 		
 		if(isTier(p,tier) == false) {
@@ -472,6 +489,9 @@ public class Tier {
 		
 	}
 	
+	/*
+	 * Renames the tier to your desired name
+	 */
 	public void tierRename(String tier, String newTier,Player p) {
 		
 		Rewards r = new Rewards(plugin);
@@ -505,6 +525,9 @@ public class Tier {
 		plugin.saveConfig();
 	}
 	
+	/*
+	 * Shows all the tiers
+	 */
 	public void showTierList(Player p) {
 		
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");
@@ -528,7 +551,7 @@ public class Tier {
 	}
 	
 	/*
-	 * This method is very poorly written. Fix in future
+	 * If the tier list is empty
 	 */
 	public boolean isTierListEmpty() {
 		List<String> tierList = (List<String>) plugin.getConfig().getList("TierList");

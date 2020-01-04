@@ -54,16 +54,17 @@ public class PlayerCommands implements CommandExecutor{
 		 */
 		
 		try {
-			
+			//bbr tierlist
 			if(args[0].equalsIgnoreCase("tierlist") && args.length == 1) {
 				if(isPlayer() == true) {
 					t.showTierList(player);
 				}	
-			//0 is tier, 1 is add or remove, 2 is tiername
+			//bbr tier add (Tier Name)
 			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("add") && !args[2].isEmpty()) {
 				if(isAdmin() == true) {
 					t.tierAdd(args[2], player);
 				}
+			//bbr tier remove (Tier Name)
 			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("remove") && !args[2].isEmpty()) {
 				if(isAdmin() == true) {
 					if(args[2].equalsIgnoreCase("all")) {
@@ -71,24 +72,24 @@ public class PlayerCommands implements CommandExecutor{
 					}else {
 						t.tierRemove(args[2], player);
 					}	
-				}		
+				}
+			//bbr tier edit (Tier Name) (Property you want to edit) (Value)
 			}else if(args[0].equalsIgnoreCase("tier") && args[1].equalsIgnoreCase("edit") && !args[2].isEmpty() && !args[3].isEmpty() && !args[4].isEmpty()) {
 				if(isAdmin() == true) {
 					t.tierEdit(args[2], args[3], args[4], player);
 					t.configWork(args[2], args[1]);
 				}
-			//Crates
-			//bbr rewardadd (tier) ("Crate") (CrateName)
+			//bbr rewardadd (tier) crate (CrateName)
 			}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("crate") && !args[3].isEmpty()) {
 				if(isAdmin() == true) {
 					r.rewardAddCrate(player, args[1], args[2], args[3]);
 				}
-			//Items
-			//bbr rewardadd (tier) ("Item")
+			//bbr rewardadd (tier) item
 			}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Item")) {
 				if(isAdmin() == true) {
 					r.rewardAddItem(player, args[1]);
 				}
+			//bbr rewardedit (Tier Name) money (Value)
 			}else if(args[0].equalsIgnoreCase("rewardedit") && !args[1].isEmpty() && args[2].equalsIgnoreCase("Money") && !args[3].isEmpty()) {
 				if(isAdmin() == true) {
 					try {
@@ -102,6 +103,7 @@ public class PlayerCommands implements CommandExecutor{
 				if(isAdmin() == true) {
 					t.tierRename(args[2], args[3],player);
 				}
+			//bbr rewardadd command
 			}else if(args[0].equalsIgnoreCase("rewardadd") && !args[1].isEmpty() && args[2].equalsIgnoreCase("command")) {
 				if(isAdmin() == true) {
 					r.rewardAddCommand(player, args[1]);
@@ -150,26 +152,33 @@ public class PlayerCommands implements CommandExecutor{
 				if(isAdmin() == true) {
 					t.tierMove(args[2], args[3]);
 				}
+			//bbr grouplist
 			}else if(args[0].equalsIgnoreCase("groupList") && args.length == 1) {
 				if(isAdmin() == true) {
 					g.showGroupList();
 				}
+			//bbr group tierlist (Group name)
 			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("tierList") && args.length == 3) {
 				if(isAdmin() == true) {
 					g.groupTiers(args[2]);
 				}
+			//bbr group rename (Group Name) (New Group Name)
 			}else if(args[0].equalsIgnoreCase("group") && args[1].equalsIgnoreCase("rename") && args.length == 4) {
 				if(isAdmin() == true) {
 					g.editName(args[2], args[3]);
 				}
+			//bbr help
 			}else if(args[0].equalsIgnoreCase("help") && args.length == 1) {
 				if(isPlayer() == true) {
 					sendHelp();
 				}
+			//bbr help2
 			}else if(args[0].equalsIgnoreCase("help2") && args.length == 1) {
 				sendHelp2();
+			//bbr help3
 			}else if(args[0].equalsIgnoreCase("help3") && args.length == 1) {
 				sendHelp3();
+			//bbr menu
 			}else if(args[0].equalsIgnoreCase("menu") && args.length == 1) {
 				if(isPlayer() == true){
 					DataManager dm = new DataManager(plugin,player);
@@ -185,6 +194,7 @@ public class PlayerCommands implements CommandExecutor{
 					im.initializeItems(player);
 					im.openInventory(player);
 				}
+			//bbr type
 			}else if(args[0].equalsIgnoreCase("type") && args.length == 1) {
 				if(isPlayer() == true) {
 					FileConfiguration config = plugin.getConfig();

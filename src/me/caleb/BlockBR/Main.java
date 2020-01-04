@@ -63,9 +63,7 @@ public class Main extends JavaPlugin{
 			new PlayerCommands(this);
 			new Fireworks(this);
 		}
-		
-		
-		
+			
 	}
 	
 	@Override
@@ -227,10 +225,11 @@ public class Main extends JavaPlugin{
 			}
 		}
 		
-		
-		
 	}
 	
+	/*
+	 * Checks to see if the "CrateReloaded" plugin is installed and enabled
+	 */
 	public boolean checkCrateReloaded() {
 		return this.getServer().getPluginManager().isPluginEnabled("CrateReloaded");
 	}

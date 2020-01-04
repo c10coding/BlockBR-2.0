@@ -51,7 +51,7 @@ public class RewardHandler {
 		// If money is not 0, i.e. if it's not false or 0 in config
 		if(money > 0) {
 			Main.getEconomy().depositPlayer(p,money);
-			Chat.sendPlayerMessage(p, "&bYou have been given &5&l " + money);
+			Chat.sendPlayerMessage(p, "&bYou have been given &5&l" + money);
 		}else {
 			Bukkit.getConsoleSender().sendMessage(Chat.blockBrChat("Money is equal to false. Ignoring the money reward..."));
 		}
