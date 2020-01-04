@@ -5,6 +5,7 @@ or join my [discord](https://discord.gg/2ZMkpkf) and go to the #support channel 
 
 # Installation 
 If you don't feel like reading all this junk, you can go watch my [installation video](https://youtu.be/pRP0pYSUf_4)!
+**Before you do anything, install Vault. It is required in order to run this plugin**
 1. Download the plugin from [spigot](#) or any other reliable source
 2. Put the jar file in your /plugins directory/folder
 3. Restart your server, load the plugin using [PlugMan](https://dev.bukkit.org/projects/plugman), or reload the server using `/reload` (Not encouraged)
