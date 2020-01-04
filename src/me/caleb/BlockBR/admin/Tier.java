@@ -65,7 +65,7 @@ public class Tier {
 		tierName = tierName.toLowerCase();
 		
 		if(!t.isTier(p, tierName)) {
-			Chat.sendPlayerMessage(p, "This is not a tier!");
+			return;
 		}
 	
 		//SQL WORK
@@ -131,6 +131,21 @@ public class Tier {
 			Chat.sendPlayerMessage(p, "There has been an error in the database! Please contact an admin!");
 		}
 		
+		try {
+			PreparedStatement stmt2 = plugin.getConnection().prepareStatement("SELECT * FROM `blockbr2` WHERE playerName=?");
+			stmt2.setString(1, p.getName());
+			ResultSet rs = stmt2.executeQuery();
+			rs.next();
+			//If the tier that you're trying to change is the tier that you're on, make sure you change the name there too (That's what this does)
+			String dbTier = rs.getString("tier");
+			if(tier.equalsIgnoreCase(dbTier)) {
+				DataManager dm = new DataManager(plugin,p);
+				dm.setTier(newTier);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public String getMaterialName() {
@@ -170,9 +185,16 @@ public class Tier {
 
 				tierName = tierName.toLowerCase();
 				
-				if(tierList.size() == 0) {
+				if(tierList == null) {
 					DataManager dm = new DataManager(plugin,p);
 					dm.setTier(tierName);
+					tierList = new ArrayList<String>();
+				}else {
+					if(tierList.isEmpty()) {
+						DataManager dm = new DataManager(plugin,p);
+						dm.setTier(tierName);
+						tierList = new ArrayList<String>();
+					}
 				}
 				
 				tierList.add(tierName);
@@ -464,10 +486,9 @@ public class Tier {
 		int money = config.getInt("Tiers." + tier + ".Properties.Rewards.Money");
 		String crate = config.getString("Tiers." + tier + ".Properties.Rewards.Crate");
 		List<String> itemList = (List<String>) config.getList("Tiers." + tier + ".Properties.Rewards.Items");
-		p.sendMessage(itemList.toString());
 		List<String> commandList = (List<String>) config.getStringList("Tiers." + tier + ".Properties.Rewards.Commands");
 		List<String> tierList = (List<String>) config.getList("TierList");
-		tierList.add(newTier);
+		tierList.set(tierList.indexOf(tier), newTier);
 		
 		config.set("Tiers." + newTier + ".Properties.Material", material);
 		config.set("Tiers." + newTier + ".Properties.Multiplier", mult);

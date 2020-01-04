@@ -142,6 +142,7 @@ public abstract class AbstractMenu implements Listener, InventoryHolder{
 	protected static ItemStack createGuiItem(Material material, String name, String...lore) {
 	
 		ItemStack item = null;
+		
 		if(material == null) {
 			Chat.sendConsoleMessage("&4" + name + " is not a material. Please fix this in the configuration file!");
 		}else {

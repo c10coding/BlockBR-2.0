@@ -12,9 +12,141 @@ Password: ""
 # All: You can do all the tiers at once
 
 MineType: OneByOne
-TierList: {}
+TierList:
+- grass
+- log
+- stone
+- coal
+- iron
+- redstone
+- lapis
+- gold
+- obsidian
+- diamond
+- emerald
 
-Tiers: {}
+Tiers:
+  grass:
+    Properties:
+      Material: GRASS_BLOCK
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  oak_log:
+    Properties:
+      Material: OAK_LOG
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  stone:
+    Properties:
+      Material: STONE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  coal:
+    Properties:
+      Material: COAL_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  iron:
+    Properties:
+      Material: IRON_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  redstone:
+    Properties:
+      Material: REDSTONE_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  lapis:
+    Properties:
+      Material: LAPIS_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  gold:
+    Properties:
+      Material: GOLD_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  obsidian:
+    Properties:
+      Material: OBSIDIAN
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  diamond:
+    Properties:
+      Material: DIAMOND_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
+  emerald:
+    Properties:
+      Material: EMERALD_ORE
+      Multiplier: 2.0
+      MoneyMultiplier: 2.0
+      Threshold: 500
+      Rewards:
+        Money: 0
+        Crate: false
+        Items: []
+        Commands: []
    
 Help:
 - '/&6bbr tierlist: &rShows you all the tiers'

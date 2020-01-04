@@ -185,7 +185,7 @@ public class Main extends JavaPlugin{
 		/*
 		 * If the config does not have this column, then remove it
 		 * The database should have the same stuff the config does
-		 */
+		*/
 		
 		if(tierList.size() == 0 && columns.size() > 1) {
 			for(String column : columns) {
