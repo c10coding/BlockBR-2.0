@@ -27,5 +27,5 @@ Some of these plugins are **NOT** must-have's. The **bolded** plugin names are t
 
 # How to use the plugin
 
-Please refer to the [wiki](https://github.com/c10coding/BlockBR-2.0/wiki/How-to-use-BlockBR). Have fun!
+Please refer to the [wiki](https://github.com/c10coding/BlockBR-2.0/wiki/How-to-use-BlockBR) or watch my [Youtube video](https://www.youtube.com/watch?v=gxaXCYhGJGw&feature=youtu.be) that teaches you how to use the plugin
    
