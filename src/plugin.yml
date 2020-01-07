@@ -18,4 +18,5 @@ permissions:
   blockbr.use: 
     default: true
     description: "Allows blockbr commands"
-version: 2.1.1
+version: 2.2.1
+#Major update. Minor update. Bug fixes/Patches

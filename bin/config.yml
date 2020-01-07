@@ -11,6 +11,8 @@ Password: ""
 # OneByOne: You can do one tier at a time
 # All: You can do all the tiers at once
 
+Side-Menu: true
+
 MineType: OneByOne
 TierList:
 - grass

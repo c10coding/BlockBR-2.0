@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.listeners.ScoreboardManager;
 import me.caleb.BlockBR.rewards.RewardHandler;
 import me.caleb.BlockBR.sql.DataManager;
 import net.md_5.bungee.api.ChatMessageType;
@@ -295,6 +296,9 @@ public class Checker {
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Chat.chat("&b&lLevel: &l" + level + " &r&l| &0&lTier: &8&l[&5&l" + tier.toUpperCase() + "&8&l] " + "&b&l" + amount + "&b&l/" + threshold)));
 			}
 			
+			if(mineType.equalsIgnoreCase("onebyone")) {
+				ScoreboardManager.setScoreboard(p);
+			}
 			
 			return;
 		}

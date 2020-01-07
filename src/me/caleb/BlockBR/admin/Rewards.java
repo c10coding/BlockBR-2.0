@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import me.caleb.BlockBR.Main;
 import me.caleb.BlockBR.admin.mineType.Group;
+import me.caleb.BlockBR.listeners.ScoreboardManager;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.RewardCommandPrompt;
 
@@ -267,8 +268,14 @@ public class Rewards {
 					if(type.equalsIgnoreCase("Group")) {
 						Group g = new Group(plugin,p);
 						g.formulateConfig("form");
+						ScoreboardManager.removeScoreboard();
 						return;
 					}else {
+						if(!type.equalsIgnoreCase("onebyone")) {
+							ScoreboardManager.removeScoreboard();
+						}else {
+							ScoreboardManager.setScoreboard();
+						}
 						Group g = new Group(plugin,p);
 						g.formulateConfig("remove");
 						return;

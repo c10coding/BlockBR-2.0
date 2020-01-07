@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.caleb.BlockBR.admin.mineType.Group;
 import me.caleb.BlockBR.commands.PlayerCommands;
 import me.caleb.BlockBR.listeners.BlockEvent;
+import me.caleb.BlockBR.listeners.ScoreboardManager;
 import me.caleb.BlockBR.sql.DataManager;
 import me.caleb.BlockBR.utils.Chat;
 import me.caleb.BlockBR.utils.Fireworks;
@@ -62,6 +63,7 @@ public class Main extends JavaPlugin{
 			new BlockEvent(this);
 			new PlayerCommands(this);
 			new Fireworks(this);
+			new ScoreboardManager(this);
 		}
 			
 	}
