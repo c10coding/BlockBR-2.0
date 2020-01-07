@@ -47,8 +47,10 @@ public class ScoreboardManager implements Listener{
 		o.setDisplaySlot(DisplaySlot.SIDEBAR);
 		o.setDisplayName(Chat.chat("&8&l[&6&lBlockBR&r&8&l]&r"));
 		
+		Score level = o.getScore(ChatColor.WHITE + "Level: " + ChatColor.GOLD + dm.getLevel());
 		Score tier = o.getScore(ChatColor.WHITE + "Tier: " + ChatColor.GOLD + dm.getTier().toUpperCase());
 		Score amount = o.getScore(ChatColor.WHITE + "Amount: " + ChatColor.GOLD + dm.getTierAmount(dm.getTier()));
+		level.setScore(3);
 		tier.setScore(2);
 		amount.setScore(1);
 		p.setScoreboard(b);
@@ -58,20 +60,7 @@ public class ScoreboardManager implements Listener{
 	public static void setScoreboard() {
 		
 		for(Player p : Bukkit.getOnlinePlayers()) {
-			
-			DataManager dm = new DataManager(plugin,p);
-			
-			Scoreboard b = Bukkit.getServer().getScoreboardManager().getNewScoreboard();
-			Objective o = b.registerNewObjective("Tier", "");
-			o.setDisplaySlot(DisplaySlot.SIDEBAR);
-			o.setDisplayName(Chat.chat("&8&l[&6&lBlockBR&r&8&l]&r"));
-			
-			Score tier = o.getScore(ChatColor.WHITE + "Tier: " + ChatColor.GOLD + dm.getTier().toUpperCase());
-			Score amount = o.getScore(ChatColor.WHITE + "Amount: " + ChatColor.GOLD + dm.getTierAmount(dm.getTier()));
-			tier.setScore(2);
-			amount.setScore(1);
-			
-			p.setScoreboard(b);
+			setScoreboard(p);
 		}
 		
 	}
